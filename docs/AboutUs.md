@@ -11,9 +11,9 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### Zhu Rong
+### Jane Doe
 
-<img src="images/zhurong818.png" width="200px">
+<img src="images/johndoe.png" width="200px">
 
 [[homepage](http://www.comp.nus.edu.sg/~damithch)]
 [[github](https://github.com/johndoe)]
@@ -21,11 +21,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Project Advisor
 
-### Jane Doe
+### Zhu Rong
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/zhurong818.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/ZhuRong818)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Team Lead
