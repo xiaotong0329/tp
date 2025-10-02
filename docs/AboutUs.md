@@ -61,7 +61,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: UI
 
-### Teck Wee
+### Tong Teck Wee
 
 <img src="images/jooh6969.png" width="200px">
 
