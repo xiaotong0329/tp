@@ -53,9 +53,9 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Cao Yuewei
 
-<img src="images/cyw0416.png" width="200px">
+<img src="images/cyw2004.png" width="200px">
 
-[[github](http://github.com/CYW0416)]
+[[github](http://github.com/CYW2004)]
 [[portfolio](team/johndoe.md)]
 
 
