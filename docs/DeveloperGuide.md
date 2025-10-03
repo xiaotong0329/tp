@@ -272,73 +272,468 @@ _{Explain here how the data archiving feature will be implemented}_
 
 ### Product scope
 
-**Target user profile**:
+## Target User Profile
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+**Primary User:**  
+CCA secretary in NUS, who needs to:
+- Manage 50+ contacts of members with different roles in a structured way.
+- Keep track of members’ preferences and dietary restrictions.
+- Record event attendees and mark attendance.
+- Delegate and track tasks.
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Pain Points:**
+- **Fragmented systems:** Currently uses spreadsheets, group chats, and manual checklists, which are error-prone and time-consuming.
+- **Repetitive tasks:** Re-entering the same member details across multiple files and attendance sheets.
+- **Lack of structure:** Hard to filter/search members quickly (e.g., “all Year 1 members who are vegetarian”).
 
 
-### User stories
+## Value Proposition
+
+A streamlined address book that organises member details, tracks unique preferences, and simplifies event attendance — helping secretaries stay efficient, accurate, and focused on building stronger communities.
+
+
+### User Stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
+|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *`  | secretary           | add a member with name, year, role, student number, phone number, and telegram handle (optional) | keep member details organized                                          |
+| `* * *`  | careful secretary   | record a member’s dietary restrictions                                      | plan meals without mistakes                                            |
+| `* * *`  | forgetful secretary | search for members by role (e.g., Treasurer, President)                     | quickly contact the right person                                       |
+| `* * *`  | secretary           | filter members by year of study                                             | easily find all Year 1 members                                         |
+| `* * *`  | secretary           | update a member’s details                                                   | correct mistakes without re-entering everything                        |
+| `* * *`  | secretary (events)  | create an event with a date and description                                 | prepare an attendance list                                             |
+| `* * *`  | responsible secretary | mark which members attended an event                                      | track participation                                                    |
+| `* * *`  | secretary           | view the attendance list for an event                                       | follow up with absent members                                          |
+| `* * *`  | secretary           | delete an event                                                             | remove outdated or duplicate records                                   |
+| `* * *`  | careless secretary  | undo my last action                                                         | recover from mistakes quickly                                          |
+| `* *`    | secretary           | assign tasks to members                                                     | ensure responsibilities are clear                                      |
+| `* *`    | secretary           | mark tasks as done                                                          | track progress                                                         |
+| `* *`    | secretary           | view all pending tasks                                                      | know what still needs to be done                                       |
+| `* *`    | secretary           | see statistics about attendance (e.g. attendance per member)                | identify active vs inactive members                                    |
+| `* *`    | secretary           | archive past events                                                         | keep my event list uncluttered                                         |
+| `* *`    | secretary           | bulk import/export member details (CSV/Excel)                               | avoid re-entering everything when a new batch joins                    |
+| `*`      | secretary           | filter members' common free time                                            | arrange events efficiently                                             |
+| `*`      | busy secretary      | give access to the contact list to other exco members                       | let them manage contacts if I am not free                              |
 
-*{More to be added}*
 
-### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+# ClubHub Developer Guide
 
-**Use case: Delete a person**
+## **Use Cases**
 
-**MSS**
+For all use cases below, the **System** is `ClubHub` and the **Actor** is the **Secretary**, unless specified otherwise.
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+---
 
-    Use case ends.
+### **Use case: UC01 – Add Member**
 
-**Extensions**
+**System:** ClubHub  
+**Actor:** Secretary
 
-* 2a. The list is empty.
+**MSS (Main Success Scenario):**
+1. Secretary chooses to add a member.
+2. ClubHub requests name, year, role, dietary requirements, student number, phone number(above compulsory) and telegram handle(optional).
+3. Secretary enters the requested details.
+4. ClubHub validates inputs and creates the member record.
+5. ClubHub displays confirmation and the updated member list.  
+   Use case ends.
 
-  Use case ends.
+**Extensions:**
+- 3a. Missing/invalid fields.
+    - 3a1. ClubHub shows specific error and usage hint.
+    - 3a2. Secretary re-enters data.
+    - Use case resumes from step 4.
+- *a. At any time, Secretary cancels.
+    - *a1. ClubHub asks to confirm cancellation.
+    - *a2. Secretary confirms.
+    - Use case ends.
 
-* 3a. The given index is invalid.
+---
 
-    * 3a1. AddressBook shows an error message.
+### **Use case: UC02 – Search Members by Field**
 
-      Use case resumes at step 2.
+**System:** ClubHub  
+**Actor:** Secretary
 
-*{More to be added}*
+**MSS:**
+1. Secretary chooses to search members.
+2. ClubHub requests search criteria (e.g., **field** and **query**).
+3. Secretary enters the field and query (e.g., Field: `Year`, Query: `3`).
+4. ClubHub searches members whose specified field matches the query.
+5. ClubHub displays a list of matching members with key details (e.g., Name, Year, Role, Dietary Restriction).
+6. (Optional) Secretary selects a member to view full details.  
+   Use case ends.
+
+**Extensions:**
+- 2a. Secretary omits field or query.
+    - 2a1. ClubHub prompts for the missing input(s).
+    - Use case resumes from step 3.
+- 3a. Invalid field name provided.
+    - 3a1. ClubHub lists supported fields.
+    - 3a2. Secretary re-enters a valid field.
+    - Use case resumes from step 3.
+- 4a. No members match the criteria.
+    - 4a1. ClubHub displays "No member found." and suggests refining the query.
+    - Use case ends.
+- 5a. Result set is too large.
+    - 5a1. ClubHub paginates results or prompts for filters.
+    - Use case resumes from step 3 or continues browsing.
+- *a. At any time, Secretary cancels.
+    - *a1. ClubHub asks to confirm cancellation.
+    - *a2. Secretary confirms.
+    - Use case ends.
+
+---
+
+### **Use case: UC03 – Create Event**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to create an event.
+2. ClubHub requests event ID, date, and description.
+3. Secretary enters details.
+4. ClubHub validates and creates the event.
+5. ClubHub displays confirmation.  
+   Use case ends.
+
+**Extensions:**
+- 3a. Duplicate/non-conforming EventID or invalid date/description.
+    - 3a1. ClubHub shows validation error(s).
+    - 3a2. Secretary re-enters data.
+    - Use case resumes from step 4.
+
+---
+
+### **Use case: UC04 – Record Event Attendance**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary searches for an event by ID or date.
+2. ClubHub displays the event details.
+3. Secretary chooses to record attendance.
+4. ClubHub displays the list of members.
+5. Secretary marks members as attended.
+6. ClubHub saves the attendance and confirms.  
+   Use case ends.
+
+**Extensions:**
+- 1a. Event not found.
+    - 1a1. ClubHub displays “Event not found.”
+    - Use case ends.
+- 5a. Secretary marks the same member again.
+    - 5a1. ClubHub ignores duplicate and continues.
+
+---
+
+### **Use case: UC05 – Update Member Details**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary searches for the member by name and year.
+2. ClubHub displays the member’s current details.
+3. Secretary chooses to edit details.
+4. ClubHub requests updated information.
+5. Secretary enters new details (e.g., role changed).
+6. ClubHub validates and updates the record.
+7. ClubHub confirms the update.  
+   Use case ends.
+
+**Extensions:**
+- 1a. No member matches the search.
+    - 1a1. ClubHub displays “No member found.”
+    - Use case ends.
+- 6a. Invalid details entered.
+    - 6a1. ClubHub requests correction.
+    - 6a2. Secretary re-enters details.
+    - Use case resumes from step 7.
+
+---
+
+### **Use case: UC06 – Assign and Track Tasks**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary searches for a member.
+2. ClubHub displays the member’s profile.
+3. Secretary chooses to assign a task.
+4. ClubHub requests task details.
+5. Secretary enters task description and deadline.
+6. ClubHub saves the task under the member’s record.
+7. Secretary later views the list of pending tasks.
+8. When task is done, Secretary marks it completed.
+9. ClubHub updates the task status.  
+   Use case ends.
+
+**Extensions:**
+- 1a. Member not found.
+    - 1a1. ClubHub displays “No member found.”
+    - Use case ends.
+- 5a. Task details are missing/invalid.
+    - 5a1. ClubHub prompts for correction.
+    - 5a2. Secretary re-enters details.
+    - Use case resumes from step 6.
+
+---
+
+### **Use case: UC07 – Undo Last Action**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary issues the undo command.
+2. ClubHub restores the system to its state before the last action.
+3. ClubHub displays confirmation.  
+   Use case ends.
+
+**Extensions:**
+- 1a. No action available to undo.
+    - 1a1. ClubHub displays “No action to undo.”
+    - Use case ends.
+
+---
+
+### **Use case: UC08 – View Attendance and Follow-Up**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to view attendance for an event.
+2. ClubHub displays the list of members who attended.
+3. Secretary identifies absentees for follow-up actions (e.g., reminders).  
+   Use case ends.
+
+**Extensions:**
+- 1a. Event not found.
+    - 1a1. ClubHub displays “Event not found.”
+    - Use case ends.
+- 2a. No attendance recorded yet.
+    - 2a1. ClubHub shows “No attendance recorded yet.”
+    - Use case ends.
+
+---
+
+### **Use case: UC09 – Delete Event**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to delete an event.
+2. ClubHub requests event ID and confirmation.
+3. Secretary provides the ID and confirms deletion.
+4. ClubHub deletes the event and shows success message.  
+   Use case ends.
+
+**Extensions:**
+- 2a. Event not found.
+    - 2a1. ClubHub displays “Event not found.”
+    - Use case ends.
+- *a. Secretary cancels at confirmation.
+    - *a1. ClubHub cancels deletion.
+    - Use case ends.
+
+---
+
+### **Use case: UC10 – View Pending Tasks**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to view pending tasks.
+2. ClubHub retrieves and lists all tasks not marked as completed, grouped by member.
+3. Secretary reviews tasks.  
+   Use case ends.
+
+**Extensions:**
+- 2a. No pending tasks.
+    - 2a1. ClubHub displays “No pending tasks.”
+    - Use case ends.
+
+---
+
+### **Use case: UC11 – View Attendance Statistics**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to view attendance statistics.
+2. ClubHub calculates attendance percentage for each member across all events.
+3. ClubHub displays summary statistics (e.g., member name, number of events attended, attendance rate).  
+   Use case ends.
+
+**Extensions:**
+- 2a. No attendance data available.
+    - 2a1. ClubHub displays “No attendance data found.”
+    - Use case ends.
+
+---
+
+### **Use case: UC12 – Archive Past Events**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to archive events.
+2. ClubHub lists past events (e.g., before today’s date).
+3. Secretary selects one or more events to archive.
+4. ClubHub moves the events into the archive section.
+5. ClubHub confirms success.  
+   Use case ends.
+
+**Extensions:**
+- 2a. No past events available.
+    - 2a1. ClubHub displays “No past events to archive.”
+    - Use case ends.
+
+---
+
+### **Use case: UC13 – Filter Members’ Common Free Time**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to check common free time for members.
+2. ClubHub requests the list of members to include in the check.
+3. Secretary selects members (e.g., Exco team).
+4. ClubHub cross-references schedules/free-time data.
+5. ClubHub displays the common available time slots.  
+   Use case ends.
+
+**Extensions:**
+- 2a. No schedules available for some members.
+    - 2a1. ClubHub notifies which members lack schedules.
+    - 2a2. Secretary may continue with available data.
+- 5a. No common free time found.
+    - 5a1. ClubHub suggests splitting into smaller groups.
+    - Use case ends.
+
+---
+
+### **Use case: UC14 – Share Contact List Access**
+
+**System:** ClubHub  
+**Actor:** Secretary, Other Exco Members
+
+**MSS:**
+1. Secretary chooses to share the contact list.
+2. ClubHub requests the role or specific member(s) to grant access.
+3. Secretary specifies the exco members.
+4. ClubHub grants read/write access to those members.
+5. ClubHub confirms access granted.  
+   Use case ends.
+
+**Extensions:**
+- 3a. Member not in exco.
+    - 3a1. ClubHub rejects request.
+    - Use case resumes from step 2.
+- *a. Secretary revokes access later.
+    - *a1. ClubHub updates permissions.
+    - Use case ends.
+
+---
+
+### **Use case: UC15 – Bulk Import/Export Member Details**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to import or export member details.
+2. For import:
+    - ClubHub requests a CSV/Excel file.
+    - Secretary uploads the file.
+    - ClubHub validates the file format and contents.
+    - ClubHub imports member data and shows summary of new/updated records.
+3. For export:
+    - ClubHub generates a CSV/Excel file with current member details.
+    - Secretary downloads the file.  
+      Use case ends.
+
+**Extensions:**
+- 2a. Import file invalid (wrong format, missing fields).
+    - 2a1. ClubHub shows error message with line numbers.
+    - 2a2. Secretary corrects file and retries.
+- 2b. Duplicate entries in import file.
+    - 2b1. ClubHub prompts whether to update or skip.
+    - Use case resumes from step 2.
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+- **Performance**: Actions (add/search/edit) should respond within 1 second for up to 200 members.
+- **Usability**: Must be usable via CLI with clear error messages and undo support.
+- **Portability**: Runs locally on Windows, macOS, and Linux.
+- **Single-user**: Only one secretary per copy of the app.
+- **No remote server**: All data stored locally.
+- **Reliability**: Data should not be lost when the program closes.
+- **Incremental development**: Feature additions should not break previous functionality.
+- **Security**: User data should not be exposed externally.
 
-*{More to be added}*
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+**Actor**  
+An entity (usually a user or external system) that interacts with ClubHub. In most use cases, the actor is the **Secretary**, though other Exco members may also interact with the system.
+
+**Attendance**  
+A record of which members were present at an event. Used to generate statistics and track participation.
+
+**ClubHub**  
+The system being developed to support secretarial duties, including member management, event organisation, task assignment, and record-keeping.
+
+**Dietary Restriction**  
+Any limitation on food or drink that a member cannot consume (e.g., vegetarian, halal, no seafood). Stored in member records to aid event meal planning.
+
+**Event**  
+A scheduled club activity created and tracked in ClubHub. Each event has an ID, date, and description, and may include attendance records.
+
+**Exco (Executive Committee)**  
+The group of members responsible for running the club (e.g., President, Treasurer, Secretary). Exco members may have special access privileges.
+
+**Field**  
+A specific attribute of a member record (e.g., Name, Year, Role, Dietary Restriction) used for searching and filtering.
+
+**Member**  
+A registered individual in ClubHub with stored details such as name, year of study, role, student number, phone number, and optional telegram handle.
+
+**Member Record**  
+The collection of data fields stored for a member in ClubHub.
+
+**Pending Task**  
+A task assigned to a member that has not yet been marked as completed.
+
+**Role**  
+The position a member holds in the club (e.g., President, Treasurer, Secretary, General Member).
+
+**Secretary**  
+The main user of ClubHub. Responsible for managing members, creating events, tracking attendance, assigning tasks, and maintaining records.
+
+**Task**  
+An assigned responsibility given to a member, tracked by ClubHub until marked completed.
+
+**Telegram Handle**  
+An optional contact field that stores a member’s Telegram username for communication purposes.
+
+**Undo**  
+A command that allows the Secretary to reverse the most recent action in ClubHub.
+
+**Year of Study**  
+The academic year of a member (e.g., Year 1, Year 2, etc.). Used for filtering and organising members.
 
 --------------------------------------------------------------------------------------------------------------------
 

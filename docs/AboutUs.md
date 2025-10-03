@@ -12,16 +12,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### Jane Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Project Advisor
-
 ### Zhu Rong
 
 <img src="images/zhurong818.png" width="200px">
@@ -54,9 +44,20 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Cao Yuewei
 
-<img src="images/yuewei0416.png" width="200px">
+<img src="images/cyw2004.png" width="200px">
 
-[[github](http://github.com/CYW0416)]
+[[github](http://github.com/CYW2004)]
+[[portfolio](team/johndoe.md)]
+
+
+* Role: Developer
+* Responsibilities: UI
+
+### Tong Teck Wee
+
+<img src="images/jooh6969.png" width="200px">
+
+[[github](http://github.com/jooh6969)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
