@@ -1,17 +1,17 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.EVENT_ID_DESC_EVENT1;
 import static seedu.address.logic.commands.CommandTestUtil.DATE_DESC_EVENT1;
 import static seedu.address.logic.commands.CommandTestUtil.DESCRIPTION_DESC_EVENT1;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EVENT_ID_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.EVENT_ID_DESC_EVENT1;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_DATE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_DESCRIPTION_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_EVENT_ID_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_ID_EVENT1;
+import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_EVENT1;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_EVENT1;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_ID_EVENT1;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 

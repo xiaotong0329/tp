@@ -3,16 +3,15 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
@@ -21,7 +20,6 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -42,9 +40,12 @@ public class CommandTestUtil {
     public static final String DESCRIPTION_DESC_EVENT1 = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_EVENT1;
     public static final String DESCRIPTION_DESC_EVENT2 = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_EVENT2;
 
-    public static final String INVALID_EVENT_ID_DESC = " " + PREFIX_EVENT_ID + "event@1"; // '@' not allowed in event IDs
+    public static final String INVALID_EVENT_ID_DESC = " " + PREFIX_EVENT_ID + "event@1";
+    // '@' not allowed in event IDs
     public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "2023/12/25"; // wrong date format
-    public static final String INVALID_DESCRIPTION_DESC = " " + PREFIX_DESCRIPTION + "This is a very long description that exceeds the maximum limit of 100 characters allowed for event descriptions and should cause validation to fail";
+    public static final String INVALID_DESCRIPTION_DESC = " " + PREFIX_DESCRIPTION
+            + "This is a very long description that exceeds the maximum limit of 100 characters "
+            + "allowed for event descriptions and should cause validation to fail";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -78,8 +79,10 @@ public class CommandTestUtil {
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
-    public static final String DESC_AMY = NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
-    public static final String DESC_BOB = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB;
+    public static final String DESC_AMY = NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+            + ADDRESS_DESC_AMY;
+    public static final String DESC_BOB = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+            + ADDRESS_DESC_BOB;
 
     /**
      * Executes the given {@code command}, confirms that <br>
@@ -119,7 +122,8 @@ public class CommandTestUtil {
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
         List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
 
-        seedu.address.testutil.Assert.assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
+        seedu.address.testutil.Assert.assertThrows(
+                CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
         assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
     }

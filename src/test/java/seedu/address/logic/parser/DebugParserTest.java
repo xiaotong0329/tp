@@ -1,9 +1,10 @@
 package seedu.address.logic.parser;
 
-import org.junit.jupiter.api.Test;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
+
+import org.junit.jupiter.api.Test;
 
 public class DebugParserTest {
 

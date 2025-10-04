@@ -4,7 +4,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.EVENT_ID_DESC_EVENT1;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EVENT_ID_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
-import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_ID_EVENT1;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -23,12 +22,14 @@ public class DeleteEventCommandParserTest {
         assertParseSuccess(parser, EVENT_ID_DESC_EVENT1, new DeleteEventCommand(new EventId(VALID_EVENT_ID_EVENT1)));
 
         // whitespace
-        assertParseSuccess(parser, " " + EVENT_ID_DESC_EVENT1 + "  ", new DeleteEventCommand(new EventId(VALID_EVENT_ID_EVENT1)));
+        assertParseSuccess(parser, " " + EVENT_ID_DESC_EVENT1 + "  ",
+                new DeleteEventCommand(new EventId(VALID_EVENT_ID_EVENT1)));
     }
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteEventCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "a",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteEventCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -39,6 +40,7 @@ public class DeleteEventCommandParserTest {
     @Test
     public void parse_nonEmptyPreamble_throwsParseException() {
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + VALID_EVENT_ID_EVENT1,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteEventCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        DeleteEventCommand.MESSAGE_USAGE));
     }
 }
