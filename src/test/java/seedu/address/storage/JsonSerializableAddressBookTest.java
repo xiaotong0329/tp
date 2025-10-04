@@ -1,16 +1,23 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.AddressBook;
+import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.testutil.EventBuilder;
+import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalPersons;
 
 public class JsonSerializableAddressBookTest {
@@ -19,6 +26,42 @@ public class JsonSerializableAddressBookTest {
     private static final Path TYPICAL_PERSONS_FILE = TEST_DATA_FOLDER.resolve("typicalPersonsAddressBook.json");
     private static final Path INVALID_PERSON_FILE = TEST_DATA_FOLDER.resolve("invalidPersonAddressBook.json");
     private static final Path DUPLICATE_PERSON_FILE = TEST_DATA_FOLDER.resolve("duplicatePersonAddressBook.json");
+
+    @Test
+    public void constructor_validLists_success() throws Exception {
+        List<JsonAdaptedPerson> persons = new ArrayList<>();
+        List<JsonAdaptedEvent> events = new ArrayList<>();
+
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, events);
+        AddressBook model = addressBook.toModelType();
+        assertEquals(0, model.getPersonList().size());
+        assertEquals(0, model.getEventList().size());
+    }
+
+    @Test
+    public void constructor_nullPersons_throwsNullPointerException() {
+        List<JsonAdaptedEvent> events = new ArrayList<>();
+        assertThrows(NullPointerException.class, () -> new JsonSerializableAddressBook(null, events));
+    }
+
+    @Test
+    public void constructor_nullEvents_success() throws Exception {
+        List<JsonAdaptedPerson> persons = new ArrayList<>();
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, null);
+        AddressBook model = addressBook.toModelType();
+        assertEquals(0, model.getPersonList().size());
+        assertEquals(0, model.getEventList().size());
+    }
+
+    @Test
+    public void constructor_fromReadOnlyAddressBook_success() throws Exception {
+        ReadOnlyAddressBook source = TypicalPersons.getTypicalAddressBook();
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(source);
+
+        AddressBook model = addressBook.toModelType();
+        assertEquals(source.getPersonList().size(), model.getPersonList().size());
+        assertEquals(source.getEventList().size(), model.getEventList().size());
+    }
 
     @Test
     public void toModelType_typicalPersonsFile_success() throws Exception {
@@ -42,6 +85,19 @@ public class JsonSerializableAddressBookTest {
                 JsonSerializableAddressBook.class).get();
         assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_PERSON,
                 dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_withEvents_success() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(new PersonBuilder().build());
+        JsonAdaptedEvent event = new JsonAdaptedEvent(new EventBuilder().build());
+
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(
+            Arrays.asList(person), Arrays.asList(event));
+
+        AddressBook model = addressBook.toModelType();
+        assertEquals(1, model.getPersonList().size());
+        assertEquals(1, model.getEventList().size());
     }
 
 }

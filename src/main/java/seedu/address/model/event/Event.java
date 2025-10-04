@@ -85,7 +85,7 @@ public class Event {
      * Returns true if a given string is a valid description.
      */
     public static boolean isValidDescription(String test) {
-        return test.length() <= MAX_DESCRIPTION_LENGTH;
+        return test != null && !test.isEmpty() && test.length() <= MAX_DESCRIPTION_LENGTH;
     }
 
     @Override

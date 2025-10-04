@@ -19,8 +19,10 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.testutil.EventBuilder;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddressBookTest {
@@ -82,6 +84,86 @@ public class AddressBookTest {
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getPersonList().remove(0));
+    }
+
+    @Test
+    public void hasEvent_nullEvent_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.hasEvent(null));
+    }
+
+    @Test
+    public void hasEvent_eventNotInAddressBook_returnsFalse() {
+        Event event = new EventBuilder().build();
+        assertFalse(addressBook.hasEvent(event));
+    }
+
+    @Test
+    public void hasEvent_eventInAddressBook_returnsTrue() {
+        Event event = new EventBuilder().build();
+        addressBook.addEvent(event);
+        assertTrue(addressBook.hasEvent(event));
+    }
+
+    @Test
+    public void hasEvent_eventWithSameIdentityInAddressBook_returnsTrue() {
+        Event event = new EventBuilder().build();
+        Event sameEvent = new Event(event.getEventId(), event.getDate(), "Different description");
+        addressBook.addEvent(event);
+        assertTrue(addressBook.hasEvent(sameEvent));
+    }
+
+    @Test
+    public void addEvent_validEvent_success() {
+        Event event = new EventBuilder().build();
+        addressBook.addEvent(event);
+        assertTrue(addressBook.hasEvent(event));
+        assertEquals(1, addressBook.getEventList().size());
+    }
+
+    @Test
+    public void setEvent_validEdit_success() {
+        Event event = new EventBuilder().build();
+        Event editedEvent = new Event(event.getEventId(), event.getDate(), "Edited description");
+
+        addressBook.addEvent(event);
+        addressBook.setEvent(event, editedEvent);
+
+        // Both event and editedEvent should have the same event ID, so hasEvent should return true for both
+        assertTrue(addressBook.hasEvent(event));
+        assertTrue(addressBook.hasEvent(editedEvent));
+        assertEquals(1, addressBook.getEventList().size());
+        // The event in the list should be the editedEvent
+        assertEquals(editedEvent, addressBook.getEventList().get(0));
+    }
+
+    @Test
+    public void removeEvent_validEvent_success() {
+        Event event = new EventBuilder().build();
+        addressBook.addEvent(event);
+        addressBook.removeEvent(event);
+
+        assertFalse(addressBook.hasEvent(event));
+        assertEquals(0, addressBook.getEventList().size());
+    }
+
+    @Test
+    public void getEventByEventId_existingEventId_returnsEvent() {
+        Event event = new EventBuilder().withEventId("test_event").build();
+        addressBook.addEvent(event);
+
+        Event foundEvent = addressBook.getEventByEventId(new EventId("test_event"));
+        assertEquals(event, foundEvent);
+    }
+
+    @Test
+    public void getEventByEventId_nonExistingEventId_returnsNull() {
+        Event foundEvent = addressBook.getEventByEventId(new EventId("non_existing"));
+        assertEquals(null, foundEvent);
+    }
+
+    @Test
+    public void getEventList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> addressBook.getEventList().remove(0));
     }
 
     @Test

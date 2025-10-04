@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteEventCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
@@ -106,6 +108,24 @@ public class AddressBookParserTest {
         RemarkCommand command = (RemarkCommand) parser.parseCommand(
                 RemarkCommand.COMMAND_WORD + " 1 " + "r/Some remark");
         assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, new Remark("Some remark")), command);
+    }
+
+    @Test
+    public void parseCommand_addEvent() throws Exception {
+        // Test that AddEventCommand is recognized and parsed
+        String eventCommand = AddEventCommand.COMMAND_WORD + " ev/event1 d/2023-12-25 desc/Christmas Party";
+        AddEventCommand command = (AddEventCommand) parser.parseCommand(eventCommand);
+        // We can't easily test the exact command object without complex setup,
+        // but we can verify it returns an AddEventCommand
+        assertTrue(command instanceof AddEventCommand);
+    }
+
+    @Test
+    public void parseCommand_deleteEvent() throws Exception {
+        // Test that DeleteEventCommand is recognized and parsed
+        String deleteEventCommand = DeleteEventCommand.COMMAND_WORD + " ev/event1";
+        DeleteEventCommand command = (DeleteEventCommand) parser.parseCommand(deleteEventCommand);
+        assertTrue(command instanceof DeleteEventCommand);
     }
 
 }
