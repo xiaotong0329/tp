@@ -13,7 +13,6 @@ public class EventBuilder {
     public static final String DEFAULT_EVENT_ID = "event1";
     public static final String DEFAULT_DATE = "2023-12-25";
     public static final String DEFAULT_DESCRIPTION = "Default Event";
-
     private EventId eventId;
     private LocalDate date;
     private String description;

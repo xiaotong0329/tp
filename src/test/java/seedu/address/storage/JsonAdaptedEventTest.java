@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.event.Event;
-import seedu.address.model.event.EventId;
 import seedu.address.testutil.EventBuilder;
 
 public class JsonAdaptedEventTest {
