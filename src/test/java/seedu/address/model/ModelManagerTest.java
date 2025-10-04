@@ -15,8 +15,10 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.event.Event;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.EventBuilder;
 
 public class ModelManagerTest {
 
@@ -91,6 +93,62 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void hasEvent_nullEvent_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasEvent(null));
+    }
+
+    @Test
+    public void hasEvent_eventNotInAddressBook_returnsFalse() {
+        Event event = new EventBuilder().build();
+        assertFalse(modelManager.hasEvent(event));
+    }
+
+    @Test
+    public void hasEvent_eventInAddressBook_returnsTrue() {
+        Event event = new EventBuilder().build();
+        modelManager.addEvent(event);
+        assertTrue(modelManager.hasEvent(event));
+    }
+
+    @Test
+    public void getFilteredEventList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredEventList().remove(0));
+    }
+
+    @Test
+    public void updateFilteredEventList_validPredicate_setsPredicate() {
+        Event event = new EventBuilder().build();
+        modelManager.addEvent(event);
+
+        // Filter to show only events with specific event ID
+        modelManager.updateFilteredEventList(e -> e.getEventId().equals(event.getEventId()));
+
+        assertEquals(1, modelManager.getFilteredEventList().size());
+        assertEquals(event, modelManager.getFilteredEventList().get(0));
+    }
+
+    @Test
+    public void updateFilteredEventList_nullPredicate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.updateFilteredEventList(null));
+    }
+
+    @Test
+    public void updateFilteredPersonList_validPredicate_setsPredicate() {
+        modelManager.addPerson(ALICE);
+
+        // Filter to show only persons with specific name
+        modelManager.updateFilteredPersonList(p -> p.getName().fullName.contains("Alice"));
+
+        assertEquals(1, modelManager.getFilteredPersonList().size());
+        assertEquals(ALICE, modelManager.getFilteredPersonList().get(0));
+    }
+
+    @Test
+    public void updateFilteredPersonList_nullPredicate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.updateFilteredPersonList(null));
     }
 
     @Test

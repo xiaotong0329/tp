@@ -3,29 +3,54 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
  */
 public class CommandTestUtil {
 
+    public static final String VALID_EVENT_ID_EVENT1 = "event1";
+    public static final String VALID_EVENT_ID_EVENT2 = "event2";
+    public static final String VALID_DATE_EVENT1 = "2023-12-25";
+    public static final String VALID_DATE_EVENT2 = "2024-01-01";
+    public static final String VALID_DESCRIPTION_EVENT1 = "Christmas Event";
+    public static final String VALID_DESCRIPTION_EVENT2 = "New Year Event";
+
+    public static final String EVENT_ID_DESC_EVENT1 = " " + PREFIX_EVENT_ID + VALID_EVENT_ID_EVENT1;
+    public static final String EVENT_ID_DESC_EVENT2 = " " + PREFIX_EVENT_ID + VALID_EVENT_ID_EVENT2;
+    public static final String DATE_DESC_EVENT1 = " " + PREFIX_DATE + VALID_DATE_EVENT1;
+    public static final String DATE_DESC_EVENT2 = " " + PREFIX_DATE + VALID_DATE_EVENT2;
+    public static final String DESCRIPTION_DESC_EVENT1 = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_EVENT1;
+    public static final String DESCRIPTION_DESC_EVENT2 = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_EVENT2;
+
+    public static final String INVALID_EVENT_ID_DESC = " " + PREFIX_EVENT_ID + "event@1";
+    // '@' not allowed in event IDs
+    public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "2023/12/25"; // wrong date format
+    public static final String INVALID_DESCRIPTION_DESC = " " + PREFIX_DESCRIPTION
+            + "This is a very long description that exceeds the maximum limit of 100 characters "
+            + "allowed for event descriptions and should cause validation to fail";
+
+    public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
+    public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
+
+    // Person constants
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
@@ -54,20 +79,10 @@ public class CommandTestUtil {
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
-    public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
-    public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
-
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
-
-    static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-    }
+    public static final String DESC_AMY = NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+            + ADDRESS_DESC_AMY;
+    public static final String DESC_BOB = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+            + ADDRESS_DESC_BOB;
 
     /**
      * Executes the given {@code command}, confirms that <br>
@@ -107,10 +122,12 @@ public class CommandTestUtil {
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
         List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
 
-        assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
+        seedu.address.testutil.Assert.assertThrows(
+                CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
         assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
     }
+
     /**
      * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
      * {@code model}'s address book.
@@ -119,10 +136,24 @@ public class CommandTestUtil {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredPersonList().size());
 
         Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
-        final String[] splitName = person.getName().fullName.split("\\s+");
-        model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        final String phone = person.getPhone().value;
+        model.updateFilteredPersonList(p -> p.getPhone().value.equals(phone));
 
         assertEquals(1, model.getFilteredPersonList().size());
     }
 
+    /**
+     * Updates {@code model}'s filtered list to show only the event at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void showEventAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredEventList().size());
+
+        Event event = model.getFilteredEventList().get(targetIndex.getZeroBased());
+        model.updateFilteredEventList(e -> e.getEventId().equals(event.getEventId()));
+
+        assertEquals(1, model.getFilteredEventList().size());
+    }
 }
+
+

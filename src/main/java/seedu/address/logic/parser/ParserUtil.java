@@ -9,6 +9,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.event.EventId;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -132,5 +133,51 @@ public class ParserUtil {
         requireNonNull(remark);
         String trimmedRemark = remark.trim();
         return new seedu.address.model.person.Remark(trimmedRemark);
+    }
+
+    /**
+     * Parses a {@code String eventId} into an {@code EventId}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code eventId} is invalid.
+     */
+    public static EventId parseEventId(String eventId) throws ParseException {
+        requireNonNull(eventId);
+        String trimmedEventId = eventId.trim();
+        if (!EventId.isValidEventId(trimmedEventId)) {
+            throw new ParseException(EventId.MESSAGE_CONSTRAINTS);
+        }
+        return new EventId(trimmedEventId);
+    }
+
+    /**
+     * Parses a {@code String date} into a {@code LocalDate}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code date} is invalid.
+     */
+    public static java.time.LocalDate parseDate(String date) throws ParseException {
+        requireNonNull(date);
+        String trimmedDate = date.trim();
+        try {
+            return java.time.LocalDate.parse(trimmedDate, java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (java.time.format.DateTimeParseException e) {
+            throw new ParseException("Date should be in YYYY-MM-DD format");
+        }
+    }
+
+    /**
+     * Parses a {@code String description} into a {@code String}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code description} is invalid.
+     */
+    public static String parseDescription(String description) throws ParseException {
+        requireNonNull(description);
+        String trimmedDescription = description.trim();
+        if (trimmedDescription.length() > 100) {
+            throw new ParseException("Description should not exceed 100 characters");
+        }
+        return trimmedDescription;
     }
 }
