@@ -12,10 +12,15 @@ import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_EVENT1;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_EVENT1;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_ID_EVENT1;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.Messages;
 
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.model.event.Event;
@@ -37,17 +42,17 @@ public class AddEventCommandParserTest {
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1
                 + DESCRIPTION_DESC_EVENT1, new AddEventCommand(expectedEvent));
 
-        // multiple event IDs - last one accepted
-        assertParseSuccess(parser, EVENT_ID_DESC_EVENT1 + EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1
-                + DESCRIPTION_DESC_EVENT1, new AddEventCommand(expectedEvent));
+        // multiple event IDs - should fail
+        assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1
+                + DESCRIPTION_DESC_EVENT1, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EVENT_ID));
 
-        // multiple dates - last one accepted
-        assertParseSuccess(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + DATE_DESC_EVENT1
-                + DESCRIPTION_DESC_EVENT1, new AddEventCommand(expectedEvent));
+        // multiple dates - should fail
+        assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + DATE_DESC_EVENT1
+                + DESCRIPTION_DESC_EVENT1, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
 
-        // multiple descriptions - last one accepted
-        assertParseSuccess(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + DESCRIPTION_DESC_EVENT1
-                + DESCRIPTION_DESC_EVENT1, new AddEventCommand(expectedEvent));
+        // multiple descriptions - should fail
+        assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + DESCRIPTION_DESC_EVENT1
+                + DESCRIPTION_DESC_EVENT1, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DESCRIPTION));
     }
 
     @Test
