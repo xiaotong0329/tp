@@ -21,7 +21,6 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
-
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
