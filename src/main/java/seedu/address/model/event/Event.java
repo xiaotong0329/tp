@@ -15,7 +15,8 @@ import seedu.address.commons.util.ToStringBuilder;
  */
 public class Event {
 
-    public static final String MESSAGE_CONSTRAINTS = "Event ID should only contain alphanumeric characters and underscores";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Event ID should only contain alphanumeric characters and underscores";
     public static final String DATE_CONSTRAINTS = "Date should be in YYYY-MM-DD format";
     public static final String DESCRIPTION_CONSTRAINTS = "Description should not exceed 100 characters";
     public static final String VALIDATION_REGEX = "^[a-zA-Z0-9_]+$";

@@ -9,7 +9,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class EventId {
 
-    public static final String MESSAGE_CONSTRAINTS = "Event ID should only contain alphanumeric characters and underscores";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Event ID should only contain alphanumeric characters and underscores";
     public static final String VALIDATION_REGEX = "^[a-zA-Z0-9_]+$";
 
     public final String value;

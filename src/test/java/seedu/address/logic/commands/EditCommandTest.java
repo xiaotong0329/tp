@@ -152,7 +152,6 @@ public class EditCommandTest {
                 .withPhone("11111111").withEmail("amy@example.com").withAddress("Block 312, Amy Street 1").build();
         EditPersonDescriptor descriptorBob = new EditPersonDescriptorBuilder().withName("Bob Choo")
                 .withPhone("22222222").withEmail("bob@example.com").withAddress("Block 123, Bobby Street 3").build();
-        
         final EditCommand standardCommand = new EditCommand(INDEX_FIRST_PERSON, descriptorAmy);
 
         // same values -> returns true

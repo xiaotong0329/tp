@@ -24,7 +24,6 @@ public class EditPersonDescriptorTest {
                 .withPhone("11111111").withEmail("amy@example.com").withAddress("Block 312, Amy Street 1").build();
         EditPersonDescriptor descriptorBob = new EditPersonDescriptorBuilder().withName("Bob Choo")
                 .withPhone("22222222").withEmail("bob@example.com").withAddress("Block 123, Bobby Street 3").build();
-        
         // same values -> returns true
         EditPersonDescriptor descriptorWithSameValues = new EditPersonDescriptor(descriptorAmy);
         assertTrue(descriptorAmy.equals(descriptorWithSameValues));
