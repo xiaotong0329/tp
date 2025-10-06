@@ -3,16 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DIETARY_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENT_NUMBER_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_YEAR_BOB;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -140,7 +130,7 @@ public class AddCommandNewFieldsTest {
     @Test
     public void execute_personWithVariousRoles_success() throws Exception {
         String[] roles = {"President", "Vice President", "Secretary", "Treasurer", "Member", "Committee Member"};
-        
+
         for (int i = 0; i < roles.length; i++) {
             Person person = new PersonBuilder()
                     .withName("Person " + i)
@@ -151,7 +141,7 @@ public class AddCommandNewFieldsTest {
                     .withDietaryRequirements("No restrictions")
                     .withRole(roles[i])
                     .build();
-            
+
             CommandResult result = new AddCommand(person).execute(model);
             assertTrue(result.getFeedbackToUser().contains("New person added"));
         }
@@ -160,10 +150,10 @@ public class AddCommandNewFieldsTest {
     @Test
     public void execute_personWithVariousDietaryRequirements_success() throws Exception {
         String[] dietaryOptions = {
-            "No restrictions", "Vegetarian", "Vegan", "Halal", "Kosher", 
+            "No restrictions", "Vegetarian", "Vegan", "Halal", "Kosher",
             "Gluten-free", "Dairy-free", "Nut allergy", "Seafood allergy"
         };
-        
+
         for (int i = 0; i < dietaryOptions.length; i++) {
             Person person = new PersonBuilder()
                     .withName("Person " + i)
@@ -174,7 +164,7 @@ public class AddCommandNewFieldsTest {
                     .withDietaryRequirements(dietaryOptions[i])
                     .withRole("Member")
                     .build();
-            
+
             CommandResult result = new AddCommand(person).execute(model);
             assertTrue(result.getFeedbackToUser().contains("New person added"));
         }
@@ -203,10 +193,10 @@ public class AddCommandNewFieldsTest {
     @Test
     public void execute_personWithComplexStudentNumber_success() throws Exception {
         String[] studentNumbers = {
-            "A1234567X", "B9876543Y", "C1111111Z", "D9999999A", 
+            "A1234567X", "B9876543Y", "C1111111Z", "D9999999A",
             "E5555555B", "F7777777C", "G3333333D", "H8888888E"
         };
-        
+
         for (int i = 0; i < studentNumbers.length; i++) {
             Person person = new PersonBuilder()
                     .withName("Student " + i)
@@ -217,7 +207,7 @@ public class AddCommandNewFieldsTest {
                     .withDietaryRequirements("No restrictions")
                     .withRole("Member")
                     .build();
-            
+
             CommandResult result = new AddCommand(person).execute(model);
             assertTrue(result.getFeedbackToUser().contains("New person added"));
         }

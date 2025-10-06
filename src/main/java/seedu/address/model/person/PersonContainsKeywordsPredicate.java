@@ -24,7 +24,7 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
             return false;
         }
         return keywords.stream()
-                .allMatch(keyword -> 
+                .allMatch(keyword ->
                     StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)
                     || StringUtil.containsWordIgnoreCase(person.getYear().toString(), keyword)
                     || StringUtil.containsWordIgnoreCase(person.getStudentNumber().value, keyword)
@@ -32,7 +32,7 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
                     || StringUtil.containsWordIgnoreCase(person.getPhone().value, keyword)
                     || StringUtil.containsWordIgnoreCase(person.getDietaryRequirements().value, keyword)
                     || StringUtil.containsWordIgnoreCase(person.getRole().value, keyword)
-                    || person.getTags().stream().anyMatch(tag -> 
+                    || person.getTags().stream().anyMatch(tag ->
                         StringUtil.containsWordIgnoreCase(tag.tagName, keyword))
                     || isYearMatch(keyword, person.getYear().toString())
                 );
@@ -48,13 +48,13 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
         if (keyword.equalsIgnoreCase("year")) {
             return keywords.stream().anyMatch(k -> k.matches("\\d+"));
         }
-        
+
         // If the keyword is numeric, check if there's a "year" keyword in the search
         if (keyword.matches("\\d+")) {
-            return keywords.stream().anyMatch(k -> k.equalsIgnoreCase("year")) 
+            return keywords.stream().anyMatch(k -> k.equalsIgnoreCase("year"))
                    && StringUtil.containsWordIgnoreCase(personYear, keyword);
         }
-        
+
         return false;
     }
 

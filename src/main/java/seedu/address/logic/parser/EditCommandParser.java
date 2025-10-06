@@ -20,10 +20,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.DietaryRequirements;
-import seedu.address.model.person.Role;
-import seedu.address.model.person.StudentNumber;
-import seedu.address.model.person.Year;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -40,8 +36,8 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-            ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER, PREFIX_EMAIL, PREFIX_PHONE,
-                PREFIX_DIETARY, PREFIX_ROLE, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER,
+                        PREFIX_EMAIL, PREFIX_PHONE, PREFIX_DIETARY, PREFIX_ROLE, PREFIX_TAG);
 
         Index index;
 
@@ -51,7 +47,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER, PREFIX_EMAIL, PREFIX_PHONE, PREFIX_DIETARY, PREFIX_ROLE);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER,
+                PREFIX_EMAIL, PREFIX_PHONE, PREFIX_DIETARY, PREFIX_ROLE);
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
 
@@ -62,7 +59,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setYear(ParserUtil.parseYear(argMultimap.getValue(PREFIX_YEAR).get()));
         }
         if (argMultimap.getValue(PREFIX_STUDENT_NUMBER).isPresent()) {
-            editPersonDescriptor.setStudentNumber(ParserUtil.parseStudentNumber(argMultimap.getValue(PREFIX_STUDENT_NUMBER).get()));
+            editPersonDescriptor.setStudentNumber(ParserUtil.parseStudentNumber(
+                    argMultimap.getValue(PREFIX_STUDENT_NUMBER).get()));
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
             editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
@@ -71,7 +69,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
         if (argMultimap.getValue(PREFIX_DIETARY).isPresent()) {
-            editPersonDescriptor.setDietaryRequirements(ParserUtil.parseDietaryRequirements(argMultimap.getValue(PREFIX_DIETARY).get()));
+            editPersonDescriptor.setDietaryRequirements(ParserUtil.parseDietaryRequirements(
+                    argMultimap.getValue(PREFIX_DIETARY).get()));
         }
         if (argMultimap.getValue(PREFIX_ROLE).isPresent()) {
             editPersonDescriptor.setRole(ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get()));

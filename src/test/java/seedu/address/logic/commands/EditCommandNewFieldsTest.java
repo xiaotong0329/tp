@@ -3,6 +3,9 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DIETARY_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -11,9 +14,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENT_NUMBER_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_YEAR_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -298,7 +298,7 @@ public class EditCommandNewFieldsTest {
             expectedModel.setPerson(personInList, editedPerson);
 
             assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-            
+
             // Update the person in list for next iteration
             personInList = editedPerson;
         }
@@ -310,7 +310,7 @@ public class EditCommandNewFieldsTest {
         Person personInList = model.getFilteredPersonList().get(indexFirstPerson.getZeroBased());
 
         String[] roles = {"President", "Vice President", "Secretary", "Treasurer", "Member", "Committee Member", "Event Coordinator"};
-        
+
         for (String role : roles) {
             PersonBuilder personInListBuilder = new PersonBuilder(personInList);
             Person editedPerson = personInListBuilder.withRole(role).build();
@@ -325,7 +325,7 @@ public class EditCommandNewFieldsTest {
             expectedModel.setPerson(personInList, editedPerson);
 
             assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-            
+
             // Update the person in list for next iteration
             personInList = editedPerson;
         }
@@ -337,10 +337,10 @@ public class EditCommandNewFieldsTest {
         Person personInList = model.getFilteredPersonList().get(indexFirstPerson.getZeroBased());
 
         String[] dietaryOptions = {
-            "No restrictions", "Vegetarian", "Vegan", "Halal", "Kosher", 
+            "No restrictions", "Vegetarian", "Vegan", "Halal", "Kosher",
             "Gluten-free", "Dairy-free", "Nut allergy", "Seafood allergy", "Multiple allergies"
         };
-        
+
         for (String dietary : dietaryOptions) {
             PersonBuilder personInListBuilder = new PersonBuilder(personInList);
             Person editedPerson = personInListBuilder.withDietaryRequirements(dietary).build();
@@ -355,7 +355,7 @@ public class EditCommandNewFieldsTest {
             expectedModel.setPerson(personInList, editedPerson);
 
             assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-            
+
             // Update the person in list for next iteration
             personInList = editedPerson;
         }
@@ -367,10 +367,10 @@ public class EditCommandNewFieldsTest {
         Person personInList = model.getFilteredPersonList().get(indexFirstPerson.getZeroBased());
 
         String[] studentNumbers = {
-            "A1234567X", "B9876543Y", "C1111111Z", "D9999999A", 
+            "A1234567X", "B9876543Y", "C1111111Z", "D9999999A",
             "E5555555B", "F7777777C", "G3333333D", "H8888888E"
         };
-        
+
         for (String studentNumber : studentNumbers) {
             PersonBuilder personInListBuilder = new PersonBuilder(personInList);
             Person editedPerson = personInListBuilder.withStudentNumber(studentNumber).build();
@@ -385,7 +385,7 @@ public class EditCommandNewFieldsTest {
             expectedModel.setPerson(personInList, editedPerson);
 
             assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-            
+
             // Update the person in list for next iteration
             personInList = editedPerson;
         }

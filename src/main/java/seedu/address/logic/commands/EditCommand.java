@@ -106,15 +106,17 @@ public class EditCommand extends Command {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Year updatedYear = editPersonDescriptor.getYear().orElse(personToEdit.getYear());
-        StudentNumber updatedStudentNumber = editPersonDescriptor.getStudentNumber().orElse(personToEdit.getStudentNumber());
+        StudentNumber updatedStudentNumber = editPersonDescriptor.getStudentNumber()
+                .orElse(personToEdit.getStudentNumber());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        DietaryRequirements updatedDietaryRequirements = editPersonDescriptor.getDietaryRequirements().orElse(personToEdit.getDietaryRequirements());
+        DietaryRequirements updatedDietaryRequirements = editPersonDescriptor.getDietaryRequirements()
+                .orElse(personToEdit.getDietaryRequirements());
         Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedYear, updatedStudentNumber, updatedEmail, updatedPhone, 
-            updatedDietaryRequirements, updatedRole, updatedTags);
+        return new Person(updatedName, updatedYear, updatedStudentNumber, updatedEmail, updatedPhone,
+                updatedDietaryRequirements, updatedRole, updatedTags);
     }
 
     @Override
@@ -177,7 +179,8 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, year, studentNumber, email, phone, dietaryRequirements, role, tags);
+            return CollectionUtil.isAnyNonNull(name, year, studentNumber, email, phone,
+                    dietaryRequirements, role, tags);
         }
 
         public void setName(Name name) {

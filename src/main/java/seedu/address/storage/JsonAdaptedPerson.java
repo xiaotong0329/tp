@@ -99,7 +99,8 @@ class JsonAdaptedPerson {
         final Year modelYear = new Year(year);
 
         if (studentNumber == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, StudentNumber.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    StudentNumber.class.getSimpleName()));
         }
         if (!StudentNumber.isValidStudentNumber(studentNumber)) {
             throw new IllegalValueException(StudentNumber.MESSAGE_CONSTRAINTS);
@@ -123,7 +124,8 @@ class JsonAdaptedPerson {
         final Phone modelPhone = new Phone(phone);
 
         if (dietaryRequirements == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, DietaryRequirements.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    DietaryRequirements.class.getSimpleName()));
         }
         if (!DietaryRequirements.isValidDietaryRequirements(dietaryRequirements)) {
             throw new IllegalValueException(DietaryRequirements.MESSAGE_CONSTRAINTS);
@@ -139,7 +141,8 @@ class JsonAdaptedPerson {
         final Role modelRole = new Role(role);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelYear, modelStudentNumber, modelEmail, modelPhone, modelDietaryRequirements, modelRole, modelTags);
+        return new Person(modelName, modelYear, modelStudentNumber, modelEmail, modelPhone,
+                modelDietaryRequirements, modelRole, modelTags);
     }
 
 }

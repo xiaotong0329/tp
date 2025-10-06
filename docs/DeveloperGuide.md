@@ -274,7 +274,7 @@ _{Explain here how the data archiving feature will be implemented}_
 
 ## Target User Profile
 
-**Primary User:**  
+**Primary User:**
 CCA secretary in NUS, who needs to:
 - Manage 50+ contacts of members with different roles in a structured way.
 - Keep track of members’ preferences and dietary restrictions.
@@ -329,7 +329,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC01 – Add Member**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS (Main Success Scenario):**
@@ -337,7 +337,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 2. ClubHub requests name, year, role, dietary requirements, student number, phone number(above compulsory) and telegram handle(optional).
 3. Secretary enters the requested details.
 4. ClubHub validates inputs and creates the member record.
-5. ClubHub displays confirmation and the updated member list.  
+5. ClubHub displays confirmation and the updated member list.
    Use case ends.
 
 **Extensions:**
@@ -354,7 +354,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC02 – Search Members by Field**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -363,7 +363,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 3. Secretary enters the field and query (e.g., Field: `Year`, Query: `3`).
 4. ClubHub searches members whose specified field matches the query.
 5. ClubHub displays a list of matching members with key details (e.g., Name, Year, Role, Dietary Restriction).
-6. (Optional) Secretary selects a member to view full details.  
+6. (Optional) Secretary selects a member to view full details.
    Use case ends.
 
 **Extensions:**
@@ -389,7 +389,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC03 – Create Event**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -397,7 +397,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 2. ClubHub requests event ID, date, and description.
 3. Secretary enters details.
 4. ClubHub validates and creates the event.
-5. ClubHub displays confirmation.  
+5. ClubHub displays confirmation.
    Use case ends.
 
 **Extensions:**
@@ -410,7 +410,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC04 – Record Event Attendance**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -419,7 +419,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 3. Secretary chooses to record attendance.
 4. ClubHub displays the list of members.
 5. Secretary marks members as attended.
-6. ClubHub saves the attendance and confirms.  
+6. ClubHub saves the attendance and confirms.
    Use case ends.
 
 **Extensions:**
@@ -433,7 +433,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC05 – Update Member Details**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -443,7 +443,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 4. ClubHub requests updated information.
 5. Secretary enters new details (e.g., role changed).
 6. ClubHub validates and updates the record.
-7. ClubHub confirms the update.  
+7. ClubHub confirms the update.
    Use case ends.
 
 **Extensions:**
@@ -459,7 +459,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC06 – Assign and Track Tasks**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -471,7 +471,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 6. ClubHub saves the task under the member’s record.
 7. Secretary later views the list of pending tasks.
 8. When task is done, Secretary marks it completed.
-9. ClubHub updates the task status.  
+9. ClubHub updates the task status.
    Use case ends.
 
 **Extensions:**
@@ -487,13 +487,13 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC07 – Undo Last Action**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
 1. Secretary issues the undo command.
 2. ClubHub restores the system to its state before the last action.
-3. ClubHub displays confirmation.  
+3. ClubHub displays confirmation.
    Use case ends.
 
 **Extensions:**
@@ -505,13 +505,13 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC08 – View Attendance and Follow-Up**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
 1. Secretary chooses to view attendance for an event.
 2. ClubHub displays the list of members who attended.
-3. Secretary identifies absentees for follow-up actions (e.g., reminders).  
+3. Secretary identifies absentees for follow-up actions (e.g., reminders).
    Use case ends.
 
 **Extensions:**
@@ -526,14 +526,14 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC09 – Delete Event**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
 1. Secretary chooses to delete an event.
 2. ClubHub requests event ID and confirmation.
 3. Secretary provides the ID and confirms deletion.
-4. ClubHub deletes the event and shows success message.  
+4. ClubHub deletes the event and shows success message.
    Use case ends.
 
 **Extensions:**
@@ -548,13 +548,13 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC10 – View Pending Tasks**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
 1. Secretary chooses to view pending tasks.
 2. ClubHub retrieves and lists all tasks not marked as completed, grouped by member.
-3. Secretary reviews tasks.  
+3. Secretary reviews tasks.
    Use case ends.
 
 **Extensions:**
@@ -566,13 +566,13 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC11 – View Attendance Statistics**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
 1. Secretary chooses to view attendance statistics.
 2. ClubHub calculates attendance percentage for each member across all events.
-3. ClubHub displays summary statistics (e.g., member name, number of events attended, attendance rate).  
+3. ClubHub displays summary statistics (e.g., member name, number of events attended, attendance rate).
    Use case ends.
 
 **Extensions:**
@@ -584,7 +584,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC12 – Archive Past Events**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -592,7 +592,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 2. ClubHub lists past events (e.g., before today’s date).
 3. Secretary selects one or more events to archive.
 4. ClubHub moves the events into the archive section.
-5. ClubHub confirms success.  
+5. ClubHub confirms success.
    Use case ends.
 
 **Extensions:**
@@ -604,7 +604,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC13 – Filter Members’ Common Free Time**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -612,7 +612,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 2. ClubHub requests the list of members to include in the check.
 3. Secretary selects members (e.g., Exco team).
 4. ClubHub cross-references schedules/free-time data.
-5. ClubHub displays the common available time slots.  
+5. ClubHub displays the common available time slots.
    Use case ends.
 
 **Extensions:**
@@ -627,7 +627,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC14 – Share Contact List Access**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary, Other Exco Members
 
 **MSS:**
@@ -635,7 +635,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 2. ClubHub requests the role or specific member(s) to grant access.
 3. Secretary specifies the exco members.
 4. ClubHub grants read/write access to those members.
-5. ClubHub confirms access granted.  
+5. ClubHub confirms access granted.
    Use case ends.
 
 **Extensions:**
@@ -650,7 +650,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC15 – Bulk Import/Export Member Details**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -662,7 +662,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
     - ClubHub imports member data and shows summary of new/updated records.
 3. For export:
     - ClubHub generates a CSV/Excel file with current member details.
-    - Secretary downloads the file.  
+    - Secretary downloads the file.
       Use case ends.
 
 **Extensions:**
@@ -687,52 +687,52 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### Glossary
 
-**Actor**  
+**Actor**
 An entity (usually a user or external system) that interacts with ClubHub. In most use cases, the actor is the **Secretary**, though other Exco members may also interact with the system.
 
-**Attendance**  
+**Attendance**
 A record of which members were present at an event. Used to generate statistics and track participation.
 
-**ClubHub**  
+**ClubHub**
 The system being developed to support secretarial duties, including member management, event organisation, task assignment, and record-keeping.
 
-**Dietary Restriction**  
+**Dietary Restriction**
 Any limitation on food or drink that a member cannot consume (e.g., vegetarian, halal, no seafood). Stored in member records to aid event meal planning.
 
-**Event**  
+**Event**
 A scheduled club activity created and tracked in ClubHub. Each event has an ID, date, and description, and may include attendance records.
 
-**Exco (Executive Committee)**  
+**Exco (Executive Committee)**
 The group of members responsible for running the club (e.g., President, Treasurer, Secretary). Exco members may have special access privileges.
 
-**Field**  
+**Field**
 A specific attribute of a member record (e.g., Name, Year, Role, Dietary Restriction) used for searching and filtering.
 
-**Member**  
+**Member**
 A registered individual in ClubHub with stored details such as name, year of study, role, student number, phone number, and optional telegram handle.
 
-**Member Record**  
+**Member Record**
 The collection of data fields stored for a member in ClubHub.
 
-**Pending Task**  
+**Pending Task**
 A task assigned to a member that has not yet been marked as completed.
 
-**Role**  
+**Role**
 The position a member holds in the club (e.g., President, Treasurer, Secretary, General Member).
 
-**Secretary**  
+**Secretary**
 The main user of ClubHub. Responsible for managing members, creating events, tracking attendance, assigning tasks, and maintaining records.
 
-**Task**  
+**Task**
 An assigned responsibility given to a member, tracked by ClubHub until marked completed.
 
-**Telegram Handle**  
+**Telegram Handle**
 An optional contact field that stores a member’s Telegram username for communication purposes.
 
-**Undo**  
+**Undo**
 A command that allows the Secretary to reverse the most recent action in ClubHub.
 
-**Year of Study**  
+**Year of Study**
 The academic year of a member (e.g., Year 1, Year 2, etc.). Used for filtering and organising members.
 
 --------------------------------------------------------------------------------------------------------------------

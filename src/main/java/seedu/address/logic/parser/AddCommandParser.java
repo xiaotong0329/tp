@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DIETARY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -39,22 +38,26 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-            args, PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER, PREFIX_EMAIL, PREFIX_PHONE, 
-            PREFIX_DIETARY, PREFIX_ROLE, PREFIX_REMARK, PREFIX_TAG);
+                args, PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER, PREFIX_EMAIL, PREFIX_PHONE,
+                PREFIX_DIETARY, PREFIX_ROLE, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER, PREFIX_EMAIL, PREFIX_PHONE, PREFIX_DIETARY, PREFIX_ROLE)
-            || !argMultimap.getPreamble().isEmpty()) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER,
+                PREFIX_EMAIL, PREFIX_PHONE, PREFIX_DIETARY, PREFIX_ROLE)
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER, PREFIX_EMAIL, PREFIX_PHONE, PREFIX_DIETARY, PREFIX_ROLE, PREFIX_REMARK);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_YEAR, PREFIX_STUDENT_NUMBER,
+                PREFIX_EMAIL, PREFIX_PHONE, PREFIX_DIETARY, PREFIX_ROLE);
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Year year = ParserUtil.parseYear(argMultimap.getValue(PREFIX_YEAR).get());
-        StudentNumber studentNumber = ParserUtil.parseStudentNumber(argMultimap.getValue(PREFIX_STUDENT_NUMBER).get());
+        StudentNumber studentNumber = ParserUtil.parseStudentNumber(
+                argMultimap.getValue(PREFIX_STUDENT_NUMBER).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        DietaryRequirements dietaryRequirements = ParserUtil.parseDietaryRequirements(argMultimap.getValue(PREFIX_DIETARY).get());
+        DietaryRequirements dietaryRequirements = ParserUtil.parseDietaryRequirements(
+                argMultimap.getValue(PREFIX_DIETARY).get());
         Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
