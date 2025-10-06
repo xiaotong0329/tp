@@ -56,9 +56,12 @@ public class RemarkCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = new Person(
                 personToEdit.getName(),
-                personToEdit.getPhone(),
+                personToEdit.getYear(),
+                personToEdit.getStudentNumber(),
                 personToEdit.getEmail(),
-                personToEdit.getAddress(),
+                personToEdit.getPhone(),
+                personToEdit.getDietaryRequirements(),
+                personToEdit.getRole(),
                 remark,
                 personToEdit.getTags()
         );

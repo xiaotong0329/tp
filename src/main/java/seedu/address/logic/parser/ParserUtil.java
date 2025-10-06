@@ -11,10 +11,14 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.DietaryRequirements;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Remark;
+import seedu.address.model.person.Role;
+import seedu.address.model.person.StudentNumber;
+import seedu.address.model.person.Year;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -179,5 +183,65 @@ public class ParserUtil {
             throw new ParseException("Description should not exceed 100 characters");
         }
         return trimmedDescription;
+    }
+
+    /**
+     * Parses a {@code String year} into a {@code Year}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code year} is invalid.
+     */
+    public static Year parseYear(String year) throws ParseException {
+        requireNonNull(year);
+        String trimmedYear = year.trim();
+        if (!Year.isValidYear(trimmedYear)) {
+            throw new ParseException(Year.MESSAGE_CONSTRAINTS);
+        }
+        return new Year(trimmedYear);
+    }
+
+    /**
+     * Parses a {@code String studentNumber} into a {@code StudentNumber}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code studentNumber} is invalid.
+     */
+    public static StudentNumber parseStudentNumber(String studentNumber) throws ParseException {
+        requireNonNull(studentNumber);
+        String trimmedStudentNumber = studentNumber.trim();
+        if (!StudentNumber.isValidStudentNumber(trimmedStudentNumber)) {
+            throw new ParseException(StudentNumber.MESSAGE_CONSTRAINTS);
+        }
+        return new StudentNumber(trimmedStudentNumber);
+    }
+
+    /**
+     * Parses a {@code String dietaryRequirements} into a {@code DietaryRequirements}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code dietaryRequirements} is invalid.
+     */
+    public static DietaryRequirements parseDietaryRequirements(String dietaryRequirements) throws ParseException {
+        requireNonNull(dietaryRequirements);
+        String trimmedDietaryRequirements = dietaryRequirements.trim();
+        if (!DietaryRequirements.isValidDietaryRequirements(trimmedDietaryRequirements)) {
+            throw new ParseException(DietaryRequirements.MESSAGE_CONSTRAINTS);
+        }
+        return new DietaryRequirements(trimmedDietaryRequirements);
+    }
+
+    /**
+     * Parses a {@code String role} into a {@code Role}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code role} is invalid.
+     */
+    public static Role parseRole(String role) throws ParseException {
+        requireNonNull(role);
+        String trimmedRole = role.trim();
+        if (!Role.isValidRole(trimmedRole)) {
+            throw new ParseException(Role.MESSAGE_CONSTRAINTS);
+        }
+        return new Role(trimmedRole);
     }
 }
