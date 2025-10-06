@@ -10,12 +10,10 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.event.EventId;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.DietaryRequirements;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.StudentNumber;
 import seedu.address.model.person.Year;
@@ -71,20 +69,6 @@ public class ParserUtil {
         return new Phone(trimmedPhone);
     }
 
-    /**
-     * Parses a {@code String address} into an {@code Address}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code address} is invalid.
-     */
-    public static Address parseAddress(String address) throws ParseException {
-        requireNonNull(address);
-        String trimmedAddress = address.trim();
-        if (!Address.isValidAddress(trimmedAddress)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
-        }
-        return new Address(trimmedAddress);
-    }
 
     /**
      * Parses a {@code String email} into an {@code Email}.
@@ -128,16 +112,6 @@ public class ParserUtil {
         return tagSet;
     }
 
-    /**
-     * Parses a {@code String remark} into a {@code Remark}.
-     * Leading and trailing whitespaces will be trimmed.
-     * An empty string is allowed (represents no remark).
-     */
-    public static Remark parseRemark(String remark) {
-        requireNonNull(remark);
-        String trimmedRemark = remark.trim();
-        return new seedu.address.model.person.Remark(trimmedRemark);
-    }
 
     /**
      * Parses a {@code String eventId} into an {@code EventId}.

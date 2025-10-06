@@ -27,14 +27,13 @@ public class Person {
     private final DietaryRequirements dietaryRequirements;
     private final Role role;
     private final Set<Tag> tags = new HashSet<>();
-    private final Remark remark;
 
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Year year, StudentNumber studentNumber, Email email, Phone phone,
-                  DietaryRequirements dietaryRequirements, Role role, Remark remark, Set<Tag> tags) {
-        requireAllNonNull(name, year, studentNumber, email, phone, dietaryRequirements, role, remark, tags);
+                  DietaryRequirements dietaryRequirements, Role role, Set<Tag> tags) {
+        requireAllNonNull(name, year, studentNumber, email, phone, dietaryRequirements, role, tags);
         this.name = name;
         this.year = year;
         this.studentNumber = studentNumber;
@@ -42,7 +41,6 @@ public class Person {
         this.phone = phone;
         this.dietaryRequirements = dietaryRequirements;
         this.role = role;
-        this.remark = remark;
         this.tags.addAll(tags);
     }
 
@@ -72,10 +70,6 @@ public class Person {
 
     public Role getRole() {
         return role;
-    }
-
-    public Remark getRemark() {
-        return remark;
     }
 
     // Legacy method for backward compatibility - returns dietary requirements as address
@@ -127,14 +121,13 @@ public class Person {
                 && phone.equals(otherPerson.phone)
                 && dietaryRequirements.equals(otherPerson.dietaryRequirements)
                 && role.equals(otherPerson.role)
-                && remark.equals(otherPerson.remark)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, year, studentNumber, email, phone, dietaryRequirements, role, remark, tags);
+        return Objects.hash(name, year, studentNumber, email, phone, dietaryRequirements, role, tags);
     }
 
     @Override
@@ -147,7 +140,6 @@ public class Person {
                 .add("phone", phone)
                 .add("dietaryRequirements", dietaryRequirements)
                 .add("role", role)
-                .add("remark", remark)
                 .add("tags", tags)
                 .toString();
     }

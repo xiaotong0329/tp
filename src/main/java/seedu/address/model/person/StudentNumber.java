@@ -10,13 +10,13 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class StudentNumber {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Student number should be alphanumeric and not blank";
+            "Student number should be 9 characters long: letter + 7 alphanumeric + letter";
 
     /*
      * The first character of the student number must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum}]*";
+    public static final String VALIDATION_REGEX = "[A-Za-z][A-Za-z0-9]{7}[A-Za-z]";
 
     public final String value;
 

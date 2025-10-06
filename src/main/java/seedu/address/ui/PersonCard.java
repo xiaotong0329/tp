@@ -46,8 +46,6 @@ public class PersonCard extends UiPart<Region> {
     private Label role;
     @FXML
     private FlowPane tags;
-    @FXML
-    private Label remark;
 
 
     /**
@@ -64,7 +62,6 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         dietaryRequirements.setText("Dietary: " + person.getDietaryRequirements().value);
         role.setText("Role: " + person.getRole().value);
-        remark.setText(person.getRemark().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

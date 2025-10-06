@@ -27,8 +27,9 @@ public class DietaryRequirements {
      */
     public DietaryRequirements(String dietaryRequirements) {
         requireNonNull(dietaryRequirements);
-        checkArgument(isValidDietaryRequirements(dietaryRequirements), MESSAGE_CONSTRAINTS);
-        value = dietaryRequirements;
+        String trimmedDietaryRequirements = dietaryRequirements.trim();
+        checkArgument(isValidDietaryRequirements(trimmedDietaryRequirements), MESSAGE_CONSTRAINTS);
+        value = trimmedDietaryRequirements;
     }
 
     /**

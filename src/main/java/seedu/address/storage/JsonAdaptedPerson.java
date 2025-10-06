@@ -14,7 +14,6 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.StudentNumber;
 import seedu.address.model.person.Year;
@@ -34,7 +33,6 @@ class JsonAdaptedPerson {
     private final String phone;
     private final String dietaryRequirements;
     private final String role;
-    private final String remark;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -44,8 +42,7 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("year") String year,
             @JsonProperty("studentNumber") String studentNumber, @JsonProperty("email") String email,
             @JsonProperty("phone") String phone, @JsonProperty("dietaryRequirements") String dietaryRequirements,
-            @JsonProperty("role") String role, @JsonProperty("remark") String remark,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("role") String role, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.year = year;
         this.studentNumber = studentNumber;
@@ -53,7 +50,6 @@ class JsonAdaptedPerson {
         this.phone = phone;
         this.dietaryRequirements = dietaryRequirements;
         this.role = role;
-        this.remark = remark;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -70,7 +66,6 @@ class JsonAdaptedPerson {
         phone = source.getPhone().value;
         dietaryRequirements = source.getDietaryRequirements().value;
         role = source.getRole().value;
-        remark = source.getRemark().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -143,10 +138,8 @@ class JsonAdaptedPerson {
         }
         final Role modelRole = new Role(role);
 
-        final Remark modelRemark = new Remark(remark == null ? "" : remark);
-
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelYear, modelStudentNumber, modelEmail, modelPhone, modelDietaryRequirements, modelRole, modelRemark, modelTags);
+        return new Person(modelName, modelYear, modelStudentNumber, modelEmail, modelPhone, modelDietaryRequirements, modelRole, modelTags);
     }
 
 }

@@ -16,7 +16,7 @@ public class Role {
      * The first character of the role must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String VALIDATION_REGEX = "[^\\s].*";
 
     public final String value;
 
@@ -27,8 +27,9 @@ public class Role {
      */
     public Role(String role) {
         requireNonNull(role);
-        checkArgument(isValidRole(role), MESSAGE_CONSTRAINTS);
-        value = role;
+        String trimmedRole = role.trim();
+        checkArgument(isValidRole(trimmedRole), MESSAGE_CONSTRAINTS);
+        value = trimmedRole;
     }
 
     /**
