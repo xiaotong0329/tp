@@ -127,4 +127,39 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredEventList(Predicate<Event> predicate);
+
+    //=========== Undo/Redo Operations ========================================================================
+
+    /**
+     * Saves the current state of the address book for undo functionality.
+     */
+    void commit();
+
+    /**
+     * Undoes the last change by restoring the previous state.
+     * @return true if undo was successful, false if there are no states to undo
+     */
+    boolean undo();
+
+    /**
+     * Redoes the last undone change.
+     * @return true if redo was successful, false if there are no states to redo
+     */
+    boolean redo();
+
+    /**
+     * Returns true if there are states available to undo.
+     */
+    boolean canUndo();
+
+    /**
+     * Returns true if there are states available to redo.
+     */
+    boolean canRedo();
+
+    /**
+     * Removes the last committed state from the history.
+     * This is used when a command fails after commit.
+     */
+    void rollbackLastCommit();
 }

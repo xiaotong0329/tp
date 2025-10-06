@@ -186,6 +186,36 @@ public class AddEventCommandTest {
         public void updateFilteredEventList(java.util.function.Predicate<Event> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void commit() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean undo() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean redo() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canUndo() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canRedo() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void rollbackLastCommit() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

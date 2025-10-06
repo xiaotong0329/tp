@@ -49,17 +49,49 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
-        commandResult = command.execute(model);
-
-        try {
-            storage.saveAddressBook(model.getAddressBook());
-        } catch (AccessDeniedException e) {
-            throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
-        } catch (IOException ioe) {
-            throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
+        
+        // Save state before executing commands that modify the address book
+        boolean shouldCommit = shouldSaveState(command);
+        if (shouldCommit) {
+            model.commit();
         }
+        
+        try {
+            commandResult = command.execute(model);
 
-        return commandResult;
+            try {
+                storage.saveAddressBook(model.getAddressBook());
+            } catch (AccessDeniedException e) {
+                throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
+            } catch (IOException ioe) {
+                throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
+            }
+
+            return commandResult;
+        } catch (CommandException e) {
+            // If command execution fails and we committed state, we need to rollback the commit
+            if (shouldCommit) {
+                model.rollbackLastCommit();
+            }
+            throw e;
+        }
+    }
+
+    /**
+     * Returns true if the command should save state before execution for undo functionality.
+     * Commands that modify the address book data should save state.
+     */
+    private boolean shouldSaveState(Command command) {
+        String commandWord = command.getClass().getSimpleName();
+        
+        // Commands that modify the address book and should be undoable
+        return commandWord.equals("AddCommand")
+                || commandWord.equals("EditCommand")
+                || commandWord.equals("DeleteCommand")
+                || commandWord.equals("ClearCommand")
+                || commandWord.equals("RemarkCommand")
+                || commandWord.equals("AddEventCommand")
+                || commandWord.equals("DeleteEventCommand");
     }
 
     @Override
