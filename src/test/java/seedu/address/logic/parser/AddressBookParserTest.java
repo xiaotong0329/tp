@@ -24,11 +24,9 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Remark;
+import seedu.address.model.person.PersonContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -77,7 +75,7 @@ public class AddressBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+        assertEquals(new FindCommand(new PersonContainsKeywordsPredicate(keywords)), command);
     }
 
     @Test
@@ -103,29 +101,17 @@ public class AddressBookParserTest {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
 
-    @Test
-    public void parseCommand_remark() throws Exception {
-        RemarkCommand command = (RemarkCommand) parser.parseCommand(
-                RemarkCommand.COMMAND_WORD + " 1 " + "r/Some remark");
-        assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, new Remark("Some remark")), command);
-    }
 
     @Test
     public void parseCommand_addEvent() throws Exception {
-        // Test that AddEventCommand is recognized and parsed
-        String eventCommand = AddEventCommand.COMMAND_WORD + " ev/event1 d/2023-12-25 desc/Christmas Party";
-        AddEventCommand command = (AddEventCommand) parser.parseCommand(eventCommand);
-        // We can't easily test the exact command object without complex setup,
-        // but we can verify it returns an AddEventCommand
-        assertTrue(command instanceof AddEventCommand);
+        String eventCommand = AddEventCommand.COMMAND_WORD + " ev/event1 dt/2023-12-25 desc/Christmas Party";
+        assertTrue(parser.parseCommand(eventCommand) instanceof AddEventCommand);
     }
 
     @Test
     public void parseCommand_deleteEvent() throws Exception {
-        // Test that DeleteEventCommand is recognized and parsed
         String deleteEventCommand = DeleteEventCommand.COMMAND_WORD + " ev/event1";
-        DeleteEventCommand command = (DeleteEventCommand) parser.parseCommand(deleteEventCommand);
-        assertTrue(command instanceof DeleteEventCommand);
+        assertTrue(parser.parseCommand(deleteEventCommand) instanceof DeleteEventCommand);
     }
 
 }

@@ -18,25 +18,29 @@ public class Person {
 
     // Identity fields
     private final Name name;
-    private final Phone phone;
+    private final Year year;
+    private final StudentNumber studentNumber;
     private final Email email;
+    private final Phone phone;
 
     // Data fields
-    private final Address address;
+    private final DietaryRequirements dietaryRequirements;
+    private final Role role;
     private final Set<Tag> tags = new HashSet<>();
-    private final Remark remark;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Remark remark,
-        Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, remark, tags);
+    public Person(Name name, Year year, StudentNumber studentNumber, Email email, Phone phone,
+                  DietaryRequirements dietaryRequirements, Role role, Set<Tag> tags) {
+        requireAllNonNull(name, year, studentNumber, email, phone, dietaryRequirements, role, tags);
         this.name = name;
-        this.phone = phone;
+        this.year = year;
+        this.studentNumber = studentNumber;
         this.email = email;
-        this.address = address;
-        this.remark = remark;
+        this.phone = phone;
+        this.dietaryRequirements = dietaryRequirements;
+        this.role = role;
         this.tags.addAll(tags);
     }
 
@@ -44,20 +48,33 @@ public class Person {
         return name;
     }
 
-    public Phone getPhone() {
-        return phone;
+    public Year getYear() {
+        return year;
+    }
+
+    public StudentNumber getStudentNumber() {
+        return studentNumber;
     }
 
     public Email getEmail() {
         return email;
     }
 
-    public Address getAddress() {
-        return address;
+    public Phone getPhone() {
+        return phone;
     }
 
-    public Remark getRemark() {
-        return remark;
+    public DietaryRequirements getDietaryRequirements() {
+        return dietaryRequirements;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    // Legacy method for backward compatibility - returns dietary requirements as address
+    public DietaryRequirements getAddress() {
+        return dietaryRequirements;
     }
 
     /**
@@ -98,27 +115,31 @@ public class Person {
 
         Person otherPerson = (Person) other;
         return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
+                && year.equals(otherPerson.year)
+                && studentNumber.equals(otherPerson.studentNumber)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && remark.equals(otherPerson.remark)
+                && phone.equals(otherPerson.phone)
+                && dietaryRequirements.equals(otherPerson.dietaryRequirements)
+                && role.equals(otherPerson.role)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, remark, tags);
+        return Objects.hash(name, year, studentNumber, email, phone, dietaryRequirements, role, tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", name)
-                .add("phone", phone)
+                .add("year", year)
+                .add("studentNumber", studentNumber)
                 .add("email", email)
-                .add("address", address)
-                .add("remark", remark)
+                .add("phone", phone)
+                .add("dietaryRequirements", dietaryRequirements)
+                .add("role", role)
                 .add("tags", tags)
                 .toString();
     }

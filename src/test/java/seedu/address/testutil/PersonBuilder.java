@@ -3,12 +3,14 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.person.Address;
+import seedu.address.model.person.DietaryRequirements;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Remark;
+import seedu.address.model.person.Role;
+import seedu.address.model.person.StudentNumber;
+import seedu.address.model.person.Year;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -18,27 +20,33 @@ import seedu.address.model.util.SampleDataUtil;
 public class PersonBuilder {
 
     public static final String DEFAULT_NAME = "Amy Bee";
-    public static final String DEFAULT_PHONE = "85355255";
+    public static final String DEFAULT_YEAR = "2";
+    public static final String DEFAULT_STUDENT_NUMBER = "A1234567X";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    public static final String DEFAULT_REMARK = "";
+    public static final String DEFAULT_PHONE = "85355255";
+    public static final String DEFAULT_DIETARY = "No allergies";
+    public static final String DEFAULT_ROLE = "Member";
 
     private Name name;
-    private Phone phone;
+    private Year year;
+    private StudentNumber studentNumber;
     private Email email;
-    private Address address;
+    private Phone phone;
+    private DietaryRequirements dietaryRequirements;
+    private Role role;
     private Set<Tag> tags;
-    private Remark remark;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
-        phone = new Phone(DEFAULT_PHONE);
+        year = new Year(DEFAULT_YEAR);
+        studentNumber = new StudentNumber(DEFAULT_STUDENT_NUMBER);
         email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
-        remark = new Remark(DEFAULT_REMARK);
+        phone = new Phone(DEFAULT_PHONE);
+        dietaryRequirements = new DietaryRequirements(DEFAULT_DIETARY);
+        role = new Role(DEFAULT_ROLE);
         tags = new HashSet<>();
     }
 
@@ -47,10 +55,12 @@ public class PersonBuilder {
      */
     public PersonBuilder(Person personToCopy) {
         name = personToCopy.getName();
-        phone = personToCopy.getPhone();
+        year = personToCopy.getYear();
+        studentNumber = personToCopy.getStudentNumber();
         email = personToCopy.getEmail();
-        address = personToCopy.getAddress();
-        remark = personToCopy.getRemark();
+        phone = personToCopy.getPhone();
+        dietaryRequirements = personToCopy.getDietaryRequirements();
+        role = personToCopy.getRole();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -63,26 +73,18 @@ public class PersonBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and sets it to the {@code Person} that we are building.
+     * Sets the {@code Year} of the {@code Person} that we are building.
      */
-    public PersonBuilder withTags(String... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
+    public PersonBuilder withYear(String year) {
+        this.year = new Year(year);
         return this;
     }
 
     /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
+     * Sets the {@code StudentNumber} of the {@code Person} that we are building.
      */
-    public PersonBuilder withAddress(String address) {
-        this.address = new Address(address);
-        return this;
-    }
-
-    /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
-     */
-    public PersonBuilder withPhone(String phone) {
-        this.phone = new Phone(phone);
+    public PersonBuilder withStudentNumber(String studentNumber) {
+        this.studentNumber = new StudentNumber(studentNumber);
         return this;
     }
 
@@ -95,10 +97,44 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code Remark} of the {@code Person} that we are building.
+     * Sets the {@code Phone} of the {@code Person} that we are building.
      */
-    public PersonBuilder withRemark(String remark) {
-        this.remark = new Remark(remark);
+    public PersonBuilder withPhone(String phone) {
+        this.phone = new Phone(phone);
+        return this;
+    }
+
+    /**
+     * Sets the {@code DietaryRequirements} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withDietaryRequirements(String dietaryRequirements) {
+        this.dietaryRequirements = new DietaryRequirements(dietaryRequirements);
+        return this;
+    }
+
+    /**
+     * Sets the {@code DietaryRequirements} of the {@code Person} that we are building.
+     * This is a legacy method for backward compatibility with address field.
+     */
+    public PersonBuilder withAddress(String address) {
+        this.dietaryRequirements = new DietaryRequirements(address);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Role} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRole(String role) {
+        this.role = new Role(role);
+        return this;
+    }
+
+
+    /**
+     * Parses the {@code tags} into a {@code Set<Tag>} and sets it to the {@code Person} that we are building.
+     */
+    public PersonBuilder withTags(String... tags) {
+        this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
@@ -106,7 +142,8 @@ public class PersonBuilder {
      * Builds and returns the {@code Person}.
      */
     public Person build() {
-        return new Person(name, phone, email, address, remark, tags);
+        return new Person(name, year, studentNumber, email, phone, dietaryRequirements, role, tags);
     }
 }
+
 
