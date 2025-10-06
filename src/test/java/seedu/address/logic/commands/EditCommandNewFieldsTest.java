@@ -3,9 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DIETARY_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -14,6 +11,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENT_NUMBER_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_YEAR_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -292,7 +292,8 @@ public class EditCommandNewFieldsTest {
                     .withYear(String.valueOf(year)).build();
             EditCommand editCommand = new EditCommand(indexFirstPerson, descriptor);
 
-            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                    Messages.format(editedPerson));
 
             Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
             expectedModel.setPerson(personInList, editedPerson);
@@ -309,7 +310,8 @@ public class EditCommandNewFieldsTest {
         Index indexFirstPerson = INDEX_FIRST_PERSON;
         Person personInList = model.getFilteredPersonList().get(indexFirstPerson.getZeroBased());
 
-        String[] roles = {"President", "Vice President", "Secretary", "Treasurer", "Member", "Committee Member", "Event Coordinator"};
+        String[] roles = {"President", "Vice President", "Secretary", "Treasurer", "Member",
+            "Committee Member", "Event Coordinator"};
 
         for (String role : roles) {
             PersonBuilder personInListBuilder = new PersonBuilder(personInList);
@@ -319,7 +321,8 @@ public class EditCommandNewFieldsTest {
                     .withRole(role).build();
             EditCommand editCommand = new EditCommand(indexFirstPerson, descriptor);
 
-            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                    Messages.format(editedPerson));
 
             Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
             expectedModel.setPerson(personInList, editedPerson);
@@ -349,7 +352,8 @@ public class EditCommandNewFieldsTest {
                     .withDietaryRequirements(dietary).build();
             EditCommand editCommand = new EditCommand(indexFirstPerson, descriptor);
 
-            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                    Messages.format(editedPerson));
 
             Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
             expectedModel.setPerson(personInList, editedPerson);
@@ -379,7 +383,8 @@ public class EditCommandNewFieldsTest {
                     .withStudentNumber(studentNumber).build();
             EditCommand editCommand = new EditCommand(indexFirstPerson, descriptor);
 
-            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+            String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                    Messages.format(editedPerson));
 
             Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
             expectedModel.setPerson(personInList, editedPerson);

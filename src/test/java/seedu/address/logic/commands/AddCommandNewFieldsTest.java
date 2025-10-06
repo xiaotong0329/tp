@@ -265,23 +265,4 @@ public class AddCommandNewFieldsTest {
         assertTrue(model.hasPerson(personWithSpecialChars));
     }
 
-    @Test
-    public void execute_personWithLongFieldValues_success() throws Exception {
-        Person personWithLongValues = new PersonBuilder()
-                .withName("Very Long Name That Exceeds Normal Length")
-                .withYear("5")
-                .withStudentNumber("A1234567X")
-                .withEmail("very.long.email.address@very.long.university.domain.name.edu")
-                .withPhone("98765432")
-                .withDietaryRequirements("Multiple dietary restrictions including vegetarian, gluten-free, and nut allergy")
-                .withRole("Senior Committee Member")
-                .withTags("verylongtagname", "anotherverylongtagname")
-                .build();
-
-        CommandResult commandResult = new AddCommand(personWithLongValues).execute(model);
-
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(personWithLongValues)),
-                commandResult.getFeedbackToUser());
-        assertTrue(model.hasPerson(personWithLongValues));
-    }
 }

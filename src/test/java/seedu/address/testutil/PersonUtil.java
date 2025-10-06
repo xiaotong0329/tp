@@ -41,9 +41,10 @@ public class PersonUtil {
         sb.append(PREFIX_STUDENT_NUMBER + person.getStudentNumber().value + " ");
         sb.append(PREFIX_DIETARY + person.getDietaryRequirements().value + " ");
         sb.append(PREFIX_ROLE + person.getRole().value + " ");
-        person.getTags().stream().forEach(
-            s -> sb.append(PREFIX_TAG + s.tagName + " ")
-        );
+        person.getTags().stream()
+            .forEach(s -> sb.append(PREFIX_TAG)
+                .append(s.tagName)
+                .append(" "));
         return sb.toString();
     }
 
@@ -52,20 +53,36 @@ public class PersonUtil {
      */
     public static String getEditPersonDescriptorDetails(EditPersonDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
-        descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
-        descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
-        descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
-        descriptor.getYear().ifPresent(year -> sb.append(PREFIX_YEAR).append(year.year).append(" "));
-        descriptor.getStudentNumber().ifPresent(studentNumber -> sb.append(PREFIX_STUDENT_NUMBER).append(studentNumber.value).append(" "));
-        descriptor.getDietaryRequirements().ifPresent(dietary -> sb.append(PREFIX_DIETARY).append(dietary.value).append(" "));
-        descriptor.getRole().ifPresent(role -> sb.append(PREFIX_ROLE).append(role.value).append(" "));
+        descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME)
+                .append(name.fullName)
+                .append(" "));
+        descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE)
+                .append(phone.value)
+                .append(" "));
+        descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL)
+                .append(email.value)
+                .append(" "));
+        descriptor.getYear().ifPresent(year -> sb.append(PREFIX_YEAR)
+                .append(year.year)
+                .append(" "));
+        descriptor.getStudentNumber().ifPresent(studentNumber -> sb.append(PREFIX_STUDENT_NUMBER)
+                .append(studentNumber.value)
+                .append(" "));
+        descriptor.getDietaryRequirements().ifPresent(dietary -> sb.append(PREFIX_DIETARY)
+                .append(dietary.value)
+                .append(" "));
+        descriptor.getRole().ifPresent(role -> sb.append(PREFIX_ROLE)
+                .append(role.value)
+                .append(" "));
 
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {
                 sb.append(PREFIX_TAG);
             } else {
-                tags.forEach(s -> sb.append(PREFIX_TAG).append(s.tagName).append(" "));
+                tags.forEach(s -> sb.append(PREFIX_TAG)
+                        .append(s.tagName)
+                        .append(" "));
             }
         }
         return sb.toString();

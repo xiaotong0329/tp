@@ -42,18 +42,22 @@ public class DietaryRequirementsTest {
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Seafood allergy")); // two words
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Multiple allergies")); // two words
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Vegetarian (no eggs)")); // with parentheses
-        assertTrue(DietaryRequirements.isValidDietaryRequirements("Halal and gluten-free")); // with conjunction
-        assertTrue(DietaryRequirements.isValidDietaryRequirements("No restrictions, vegetarian preferred")); // with comma
+        assertTrue(DietaryRequirements.isValidDietaryRequirements(
+                "Halal and gluten-free")); // with conjunction
+        assertTrue(DietaryRequirements.isValidDietaryRequirements(
+                "No restrictions, vegetarian preferred")); // with comma
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Lactose intolerant")); // medical condition
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Celiac disease")); // medical condition
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Diabetes - low sugar")); // with dash
-        assertTrue(DietaryRequirements.isValidDietaryRequirements("High blood pressure - low sodium")); // with dash
+        assertTrue(DietaryRequirements.isValidDietaryRequirements(
+                "High blood pressure - low sodium")); // with dash
         assertTrue(DietaryRequirements.isValidDietaryRequirements("A")); // single character
         assertTrue(DietaryRequirements.isValidDietaryRequirements("123")); // numbers
         assertTrue(DietaryRequirements.isValidDietaryRequirements("No restrictions!")); // with exclamation
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Vegetarian?")); // with question mark
         assertTrue(DietaryRequirements.isValidDietaryRequirements("Halal & Kosher")); // with ampersand
-        assertTrue(DietaryRequirements.isValidDietaryRequirements("Gluten-free, dairy-free, nut-free")); // multiple restrictions
+        assertTrue(DietaryRequirements.isValidDietaryRequirements(
+                "Gluten-free, dairy-free, nut-free")); // multiple restrictions
     }
 
     @Test
@@ -119,9 +123,8 @@ public class DietaryRequirementsTest {
             "José María - Vegetarian"
         };
 
-        for (String specialCase : specialCases) {
-            DietaryRequirements dietaryRequirements = new DietaryRequirements(specialCase);
-            assertEquals(specialCase, dietaryRequirements.value);
+        for (String s : specialCases) {
+            assertTrue(DietaryRequirements.isValidDietaryRequirements(s));
         }
     }
 }

@@ -90,7 +90,8 @@ public class CommandTestUtil {
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_YEAR_DESC = " " + PREFIX_YEAR + "11"; // year must be 1-10
-    public static final String INVALID_STUDENT_NUMBER_DESC = " " + PREFIX_STUDENT_NUMBER + ""; // empty string not allowed
+    public static final String INVALID_STUDENT_NUMBER_DESC =
+            " " + PREFIX_STUDENT_NUMBER + ""; // empty string not allowed
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_DIETARY_DESC = " " + PREFIX_DIETARY + ""; // empty string not allowed
