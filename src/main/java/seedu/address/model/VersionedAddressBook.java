@@ -62,11 +62,11 @@ public class VersionedAddressBook extends AddressBook {
 
         // Save current state to redo history
         addressBookRedoHistory.push(new AddressBook(this));
-        
+
         // Restore previous state
         ReadOnlyAddressBook previousState = addressBookStateHistory.pop();
         resetData(previousState);
-        
+
         return true;
     }
 
@@ -81,11 +81,11 @@ public class VersionedAddressBook extends AddressBook {
 
         // Save current state to undo history
         addressBookStateHistory.push(new AddressBook(this));
-        
+
         // Restore next state
         ReadOnlyAddressBook nextState = addressBookRedoHistory.pop();
         resetData(nextState);
-        
+
         return true;
     }
 

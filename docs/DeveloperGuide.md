@@ -274,7 +274,7 @@ _{Explain here how the data archiving feature will be implemented}_
 
 ## Target User Profile
 
-**Primary User:**  
+**Primary User:**
 CCA secretary in NUS, who needs to:
 - Manage 50+ contacts of members with different roles in a structured way.
 - Keep track of members’ preferences and dietary restrictions.
@@ -329,7 +329,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC01 – Add Member**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS (Main Success Scenario):**

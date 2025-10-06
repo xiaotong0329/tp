@@ -24,15 +24,15 @@ public class UndoCommandTest {
     public void execute_undoAfterAddCommand_success() {
         // Create a new model with empty address book
         Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
-        
+
         // Add a person first
         emptyModel.addPerson(ALICE);
         emptyModel.commit(); // This would normally be done by LogicManager
-        
+
         // Now undo should work
         UndoCommand undoCommand = new UndoCommand();
         String expectedMessage = UndoCommand.MESSAGE_SUCCESS;
-        
+
         assertCommandSuccess(undoCommand, emptyModel, expectedMessage, emptyModel);
     }
 
@@ -40,7 +40,7 @@ public class UndoCommandTest {
     public void execute_undoWithNoHistory_throwsCommandException() {
         UndoCommand undoCommand = new UndoCommand();
         String expectedMessage = UndoCommand.MESSAGE_NO_UNDO;
-        
+
         assertCommandFailure(undoCommand, model, expectedMessage);
     }
 
@@ -48,19 +48,19 @@ public class UndoCommandTest {
     public void execute_multipleUndos_success() {
         // Create a new model with empty address book
         Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
-        
+
         // Add two persons
         emptyModel.addPerson(ALICE);
         emptyModel.commit();
         emptyModel.addPerson(BOB);
         emptyModel.commit();
-        
+
         // First undo should work
         UndoCommand undoCommand = new UndoCommand();
         String expectedMessage = UndoCommand.MESSAGE_SUCCESS;
-        
+
         assertCommandSuccess(undoCommand, emptyModel, expectedMessage, emptyModel);
-        
+
         // Second undo should also work
         assertCommandSuccess(undoCommand, emptyModel, expectedMessage, emptyModel);
     }

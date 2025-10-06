@@ -24,18 +24,18 @@ public class RedoCommandTest {
     public void execute_redoAfterUndo_success() {
         // Create a new model with empty address book
         Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
-        
+
         // Add a person first
         emptyModel.addPerson(ALICE);
         emptyModel.commit();
-        
+
         // Undo the add
         emptyModel.undo();
-        
+
         // Now redo should work
         RedoCommand redoCommand = new RedoCommand();
         String expectedMessage = RedoCommand.MESSAGE_SUCCESS;
-        
+
         assertCommandSuccess(redoCommand, emptyModel, expectedMessage, emptyModel);
     }
 
@@ -43,7 +43,7 @@ public class RedoCommandTest {
     public void execute_redoWithNoRedoHistory_throwsCommandException() {
         RedoCommand redoCommand = new RedoCommand();
         String expectedMessage = RedoCommand.MESSAGE_NO_REDO;
-        
+
         assertCommandFailure(redoCommand, model, expectedMessage);
     }
 
@@ -51,23 +51,23 @@ public class RedoCommandTest {
     public void execute_multipleRedos_success() {
         // Create a new model with empty address book
         Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
-        
+
         // Add two persons
         emptyModel.addPerson(ALICE);
         emptyModel.commit();
         emptyModel.addPerson(BOB);
         emptyModel.commit();
-        
+
         // Undo twice
         emptyModel.undo();
         emptyModel.undo();
-        
+
         // First redo should work
         RedoCommand redoCommand = new RedoCommand();
         String expectedMessage = RedoCommand.MESSAGE_SUCCESS;
-        
+
         assertCommandSuccess(redoCommand, emptyModel, expectedMessage, emptyModel);
-        
+
         // Second redo should also work
         assertCommandSuccess(redoCommand, emptyModel, expectedMessage, emptyModel);
     }
@@ -76,22 +76,22 @@ public class RedoCommandTest {
     public void execute_redoAfterNewCommand_throwsCommandException() {
         // Create a new model with empty address book
         Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
-        
+
         // Add a person
         emptyModel.addPerson(ALICE);
         emptyModel.commit();
-        
+
         // Undo
         emptyModel.undo();
-        
+
         // Add another person (this should clear redo history)
         emptyModel.addPerson(BOB);
         emptyModel.commit();
-        
+
         // Redo should fail because redo history was cleared
         RedoCommand redoCommand = new RedoCommand();
         String expectedMessage = RedoCommand.MESSAGE_NO_REDO;
-        
+
         assertCommandFailure(redoCommand, emptyModel, expectedMessage);
     }
 

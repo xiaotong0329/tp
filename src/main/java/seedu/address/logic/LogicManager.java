@@ -49,13 +49,13 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
-        
+
         // Save state before executing commands that modify the address book
         boolean shouldCommit = shouldSaveState(command);
         if (shouldCommit) {
             model.commit();
         }
-        
+
         try {
             commandResult = command.execute(model);
 
@@ -83,7 +83,7 @@ public class LogicManager implements Logic {
      */
     private boolean shouldSaveState(Command command) {
         String commandWord = command.getClass().getSimpleName();
-        
+
         // Commands that modify the address book and should be undoable
         return commandWord.equals("AddCommand")
                 || commandWord.equals("EditCommand")
