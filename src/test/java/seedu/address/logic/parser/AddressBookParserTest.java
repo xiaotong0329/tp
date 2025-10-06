@@ -104,20 +104,14 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_addEvent() throws Exception {
-        // Test that AddEventCommand is recognized and parsed
-        String eventCommand = AddEventCommand.COMMAND_WORD + " ev/event1 d/2023-12-25 desc/Christmas Party";
-        AddEventCommand command = (AddEventCommand) parser.parseCommand(eventCommand);
-        // We can't easily test the exact command object without complex setup,
-        // but we can verify it returns an AddEventCommand
-        assertTrue(command instanceof AddEventCommand);
+        String eventCommand = AddEventCommand.COMMAND_WORD + " ev/event1 dt/2023-12-25 desc/Christmas Party";
+        assertTrue(parser.parseCommand(eventCommand) instanceof AddEventCommand);
     }
 
     @Test
     public void parseCommand_deleteEvent() throws Exception {
-        // Test that DeleteEventCommand is recognized and parsed
         String deleteEventCommand = DeleteEventCommand.COMMAND_WORD + " ev/event1";
-        DeleteEventCommand command = (DeleteEventCommand) parser.parseCommand(deleteEventCommand);
-        assertTrue(command instanceof DeleteEventCommand);
+        assertTrue(parser.parseCommand(deleteEventCommand) instanceof DeleteEventCommand);
     }
 
 }
