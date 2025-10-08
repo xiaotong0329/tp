@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -101,17 +104,26 @@ public class AddressBookParserTest {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
 
-
     @Test
     public void parseCommand_addEvent() throws Exception {
-        String eventCommand = AddEventCommand.COMMAND_WORD + " ev/event1 dt/2023-12-25 desc/Christmas Party";
-        assertTrue(parser.parseCommand(eventCommand) instanceof AddEventCommand);
+        // Build the argument string using CliSyntax prefixes so the test matches the parser’s expected tokens.
+        String args = " "
+                + PREFIX_EVENT_ID.getPrefix() + "event1 "
+                + PREFIX_DATE.getPrefix() + "2023-12-25 "
+                + PREFIX_DESCRIPTION.getPrefix() + "Christmas Party";
+
+        String cmd = AddEventCommand.COMMAND_WORD + args;
+        assertTrue(parser.parseCommand(cmd) instanceof AddEventCommand);
+
+
     }
 
     @Test
     public void parseCommand_deleteEvent() throws Exception {
-        String deleteEventCommand = DeleteEventCommand.COMMAND_WORD + " ev/event1";
-        assertTrue(parser.parseCommand(deleteEventCommand) instanceof DeleteEventCommand);
-    }
+        String args = " " + PREFIX_EVENT_ID.getPrefix() + "event1";
+        String cmd = DeleteEventCommand.COMMAND_WORD + args;
+        assertTrue(parser.parseCommand(cmd) instanceof DeleteEventCommand);
 
+
+    }
 }

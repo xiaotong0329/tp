@@ -217,6 +217,16 @@ public class DeleteEventCommandTest {
         public void rollbackLastCommit() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public boolean hasAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -237,6 +247,16 @@ public class DeleteEventCommandTest {
         @Override
         public void deleteEvent(Event target) {
             // Simulate deletion
+        }
+
+        @Override
+        public boolean hasAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
         }
     }
 }

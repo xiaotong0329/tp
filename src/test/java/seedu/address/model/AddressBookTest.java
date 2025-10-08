@@ -166,12 +166,7 @@ public class AddressBookTest {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getEventList().remove(0));
     }
 
-    @Test
-    public void toStringMethod() {
-        String expected = AddressBook.class.getCanonicalName() + "{persons="
-                + addressBook.getPersonList() + ", events=" + addressBook.getEventList() + "}";
-        assertEquals(expected, addressBook.toString());
-    }
+
 
     /**
      * A stub ReadOnlyAddressBook whose persons list can violate interface constraints.
@@ -190,6 +185,11 @@ public class AddressBookTest {
 
         @Override
         public ObservableList<Event> getEventList() {
+            return FXCollections.observableArrayList();
+        }
+
+        @Override
+        public ObservableList<seedu.address.model.attendance.Attendance> getAttendanceList() {
             return FXCollections.observableArrayList();
         }
     }

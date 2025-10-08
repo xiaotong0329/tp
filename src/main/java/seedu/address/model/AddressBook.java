@@ -7,6 +7,8 @@ import java.util.Objects;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.attendance.Attendance;
+import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.UniqueEventList;
 import seedu.address.model.person.Person;
@@ -20,6 +22,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueEventList events;
+    private final UniqueAttendanceList attendances;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -31,6 +34,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         events = new UniqueEventList();
+        attendances = new UniqueAttendanceList();
     }
 
     public AddressBook() {}
@@ -69,6 +73,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         setPersons(newData.getPersonList());
         setEvents(newData.getEventList());
+        setAttendances(newData.getAttendanceList());
     }
 
     //// person-level operations
@@ -156,6 +161,40 @@ public class AddressBook implements ReadOnlyAddressBook {
                 .orElse(null);
     }
 
+    //// attendance-level operations
+
+    /**
+     * Replaces the contents of the attendance list with {@code attendances}.
+     * {@code attendances} must not contain duplicate attendance records.
+     */
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances.setAttendances(attendances);
+    }
+
+    /**
+     * Returns true if an attendance record with the same identity as {@code attendance} exists in the address book.
+     */
+    public boolean hasAttendance(Attendance attendance) {
+        requireNonNull(attendance);
+        return attendances.contains(attendance);
+    }
+
+    /**
+     * Adds an attendance record to the address book.
+     * The attendance record must not already exist in the address book.
+     */
+    public void addAttendance(Attendance attendance) {
+        attendances.add(attendance);
+    }
+
+    /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeAttendance(Attendance key) {
+        attendances.remove(key);
+    }
+
     //// util methods
 
     @Override
@@ -163,6 +202,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return new ToStringBuilder(this)
                 .add("persons", persons)
                 .add("events", events)
+                .add("attendances", attendances)
                 .toString();
     }
 
@@ -174,6 +214,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Event> getEventList() {
         return events.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Attendance> getAttendanceList() {
+        return attendances.asUnmodifiableObservableList();
     }
 
     @Override
@@ -189,11 +234,12 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         AddressBook otherAddressBook = (AddressBook) other;
         return persons.equals(otherAddressBook.persons)
-                && events.equals(otherAddressBook.events);
+                && events.equals(otherAddressBook.events)
+                && attendances.equals(otherAddressBook.attendances);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(persons, events);
+        return Objects.hash(persons, events, attendances);
     }
 }
