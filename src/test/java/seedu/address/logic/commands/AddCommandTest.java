@@ -223,6 +223,16 @@ public class AddCommandTest {
         public void rollbackLastCommit() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public boolean hasAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -264,6 +274,16 @@ public class AddCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public boolean hasAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
         }
     }
 

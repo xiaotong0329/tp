@@ -192,6 +192,11 @@ public class AddressBookTest {
         public ObservableList<Event> getEventList() {
             return FXCollections.observableArrayList();
         }
+
+        @Override
+        public ObservableList<seedu.address.model.attendance.Attendance> getAttendanceList() {
+            return FXCollections.observableArrayList();
+        }
     }
 
 }
