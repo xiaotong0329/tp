@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
@@ -107,6 +108,17 @@ public interface Model {
      * Returns the event with the specified event ID, or null if not found.
      */
     Event getEventByEventId(EventId eventId);
+
+    /**
+     * Returns true if an attendance record with the same identity as {@code attendance} exists in the address book.
+     */
+    boolean hasAttendance(Attendance attendance);
+
+    /**
+     * Adds the given attendance record.
+     * {@code attendance} must not already exist in the address book.
+     */
+    void addAttendance(Attendance attendance);
 
     /**
      * Returns an unmodifiable view of the filtered event list

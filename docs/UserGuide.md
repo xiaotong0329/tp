@@ -158,6 +158,33 @@ Exits the program.
 
 Format: `exit`
 
+### Marking attendance : `markattendance`
+
+Marks a member as attended for an event.
+
+Format: `markattendance e/EVENTID m/MEMBERNAME`
+
+* Marks the specified member as attended for the specified event.
+* If the member is already marked as attended, the command will ignore the duplicate and continue.
+* Both the event and member must exist in the system.
+
+Examples:
+* `markattendance e/Orientation2023 m/John Doe` - Marks John Doe as attended for Orientation2023
+* `markattendance e/Meeting2023 m/Jane Smith` - Marks Jane Smith as attended for Meeting2023
+
+### Viewing attendance : `viewattendance`
+
+Views the list of members who attended a specific event.
+
+Format: `viewattendance e/EVENTID`
+
+* Shows all members marked as attended for the specified event.
+* If no attendance has been recorded for the event, shows "No attendance recorded yet."
+
+Examples:
+* `viewattendance e/Orientation2023` - Shows all members who attended Orientation2023
+* `viewattendance e/Meeting2023` - Shows all members who attended Meeting2023
+
 ### Saving the data
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
@@ -203,4 +230,6 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
+**Mark Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> e.g., `markattendance e/Orientation2023 m/John Doe`
+**View Attendance** | `viewattendance e/EVENTID`<br> e.g., `viewattendance e/Orientation2023`
 **Help**   | `help`
