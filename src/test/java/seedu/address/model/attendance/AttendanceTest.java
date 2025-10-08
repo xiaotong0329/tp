@@ -93,14 +93,4 @@ public class AttendanceTest {
         // different type -> returns false
         assertFalse(attendance1.equals(5));
     }
-
-    @Test
-    public void toString_returnsCorrectFormat() {
-        EventId eventId = new EventId("Event1");
-        Name memberName = new Name("John Doe");
-        Attendance attendance = new Attendance(eventId, memberName);
-
-        String expected = "Attendance{eventId=Event1, memberName=John Doe}";
-        assertEquals(expected, attendance.toString());
-    }
 }

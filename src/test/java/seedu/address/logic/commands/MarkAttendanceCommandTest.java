@@ -33,7 +33,7 @@ public class MarkAttendanceCommandTest {
                 .withDescription("Test Event")
                 .build();
         model.addEvent(event);
-        
+
         EventId eventId = event.getEventId();
         Name memberName = ALICE.getName();
 
@@ -68,7 +68,7 @@ public class MarkAttendanceCommandTest {
                 .withDescription("Test Event")
                 .build();
         model.addEvent(event);
-        
+
         EventId eventId = event.getEventId();
         Name nonExistentMemberName = new Name("Non Existent Member");
 
@@ -87,7 +87,7 @@ public class MarkAttendanceCommandTest {
                 .withDescription("Test Event")
                 .build();
         model.addEvent(event);
-        
+
         EventId eventId = event.getEventId();
         Name memberName = ALICE.getName();
 
