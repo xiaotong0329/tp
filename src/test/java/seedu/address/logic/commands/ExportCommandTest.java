@@ -33,7 +33,7 @@ public class ExportCommandTest {
 
     @Test
     public void execute_ioError_throwsCommandException() {
-        ExportCommand command = new ExportCommand("/invalid/??/path.csv");
+        ExportCommand command = new ExportCommand("Z:/this/does/not/exist/path.csv");
         assertThrows(CommandException.class, () -> command.execute(model));
     }
 }
