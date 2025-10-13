@@ -15,6 +15,7 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -26,6 +27,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Event> filteredEvents;
+    private final FilteredList<Task> filteredTasks;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -39,6 +41,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredEvents = new FilteredList<>(this.addressBook.getEventList());
+        filteredTasks = new FilteredList<>(this.addressBook.getTaskList());
     }
 
     public ModelManager() {
@@ -146,6 +149,32 @@ public class ModelManager implements Model {
         return addressBook.getEventByEventId(eventId);
     }
 
+    //=========== Task Management ==================================================================================
+
+    @Override
+    public boolean hasTask(Task task) {
+        requireNonNull(task);
+        return addressBook.hasTask(task);
+    }
+
+    @Override
+    public void deleteTask(Task target) {
+        addressBook.removeTask(target);
+    }
+
+    @Override
+    public void addTask(Task task) {
+        addressBook.addTask(task);
+        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+    }
+
+    @Override
+    public void setTask(Task target, Task editedTask) {
+        requireAllNonNull(target, editedTask);
+
+        addressBook.setTask(target, editedTask);
+    }
+
     @Override
     public boolean hasAttendance(Attendance attendance) {
         requireNonNull(attendance);
@@ -191,6 +220,23 @@ public class ModelManager implements Model {
         filteredEvents.setPredicate(predicate);
     }
 
+    //=========== Filtered Task List Accessors =============================================================
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Task} backed by the internal list of
+     * {@code addressBook}
+     */
+    @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return filteredTasks;
+    }
+
+    @Override
+    public void updateFilteredTaskList(Predicate<Task> predicate) {
+        requireNonNull(predicate);
+        filteredTasks.setPredicate(predicate);
+    }
+
     //=========== Undo/Redo Operations ========================================================================
 
     @Override
@@ -205,6 +251,7 @@ public class ModelManager implements Model {
             // Update filtered lists to reflect the restored state
             updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+            updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         }
         return result;
     }
@@ -216,6 +263,7 @@ public class ModelManager implements Model {
             // Update filtered lists to reflect the restored state
             updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+            updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         }
         return result;
     }

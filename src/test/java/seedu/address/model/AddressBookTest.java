@@ -22,6 +22,7 @@ import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.task.Task;
 import seedu.address.testutil.EventBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -185,6 +186,11 @@ public class AddressBookTest {
 
         @Override
         public ObservableList<Event> getEventList() {
+            return FXCollections.observableArrayList();
+        }
+
+        @Override
+        public ObservableList<Task> getTaskList() {
             return FXCollections.observableArrayList();
         }
 

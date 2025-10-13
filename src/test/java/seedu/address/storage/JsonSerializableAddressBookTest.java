@@ -31,7 +31,7 @@ public class JsonSerializableAddressBookTest {
         List<JsonAdaptedPerson> persons = new ArrayList<>();
         List<JsonAdaptedEvent> events = new ArrayList<>();
 
-        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, events);
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, events, new ArrayList<>());
         AddressBook model = addressBook.toModelType();
         assertEquals(0, model.getPersonList().size());
         assertEquals(0, model.getEventList().size());
@@ -40,13 +40,14 @@ public class JsonSerializableAddressBookTest {
     @Test
     public void constructor_nullPersons_throwsNullPointerException() {
         List<JsonAdaptedEvent> events = new ArrayList<>();
-        assertThrows(NullPointerException.class, () -> new JsonSerializableAddressBook(null, events));
+        assertThrows(NullPointerException.class, () -> new JsonSerializableAddressBook(null, events,
+                new ArrayList<>()));
     }
 
     @Test
     public void constructor_nullEvents_success() throws Exception {
         List<JsonAdaptedPerson> persons = new ArrayList<>();
-        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, null);
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, null, new ArrayList<>());
         AddressBook model = addressBook.toModelType();
         assertEquals(0, model.getPersonList().size());
         assertEquals(0, model.getEventList().size());
@@ -96,7 +97,7 @@ public class JsonSerializableAddressBookTest {
         JsonAdaptedEvent event = new JsonAdaptedEvent(new EventBuilder().build());
 
         JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(
-            Arrays.asList(person), Arrays.asList(event));
+            Arrays.asList(person), Arrays.asList(event), new ArrayList<>());
 
         AddressBook model = addressBook.toModelType();
         assertEquals(1, model.getPersonList().size());
