@@ -49,7 +49,7 @@ public class UnmarkTaskCommand extends Command {
 
         Task unmarkedTask = taskToUnmark.toggleDone();
         model.setTask(taskToUnmark, unmarkedTask);
-        return new CommandResult(String.format(MESSAGE_UNMARK_TASK_SUCCESS, Messages.format(unmarkedTask)));
+        return new CommandResult(String.format(MESSAGE_UNMARK_TASK_SUCCESS, Messages.format(taskToUnmark)));
     }
 
     @Override

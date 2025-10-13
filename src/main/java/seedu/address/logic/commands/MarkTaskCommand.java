@@ -49,7 +49,7 @@ public class MarkTaskCommand extends Command {
 
         Task markedTask = taskToMark.toggleDone();
         model.setTask(taskToMark, markedTask);
-        return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, Messages.format(markedTask)));
+        return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, Messages.format(taskToMark)));
     }
 
     @Override

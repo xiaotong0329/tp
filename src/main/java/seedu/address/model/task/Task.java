@@ -33,6 +33,9 @@ public class Task {
      */
     public Task(String title, LocalDateTime deadline) {
         requireAllNonNull(title);
+        if (!isValidTitle(title)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
+        }
         this.title = title;
         this.deadline = deadline;
         this.isDone = false;
@@ -43,6 +46,9 @@ public class Task {
      */
     public Task(String title, LocalDateTime deadline, boolean isDone) {
         requireAllNonNull(title);
+        if (!isValidTitle(title)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
+        }
         this.title = title;
         this.deadline = deadline;
         this.isDone = isDone;
@@ -84,7 +90,7 @@ public class Task {
      * Returns true if a given string is a valid task title.
      */
     public static boolean isValidTitle(String test) {
-        return test != null && test.matches(VALIDATION_REGEX);
+        return test != null && !test.trim().isEmpty() && test.matches(VALIDATION_REGEX);
     }
 
     /**
