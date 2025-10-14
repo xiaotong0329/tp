@@ -30,27 +30,34 @@ public class JsonSerializableAddressBookTest {
     public void constructor_validLists_success() throws Exception {
         List<JsonAdaptedPerson> persons = new ArrayList<>();
         List<JsonAdaptedEvent> events = new ArrayList<>();
+        List<JsonAdaptedAttendance> attendances = new ArrayList<>();
 
-        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, events, new ArrayList<>());
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(
+                persons, events, new ArrayList<>(), attendances);
         AddressBook model = addressBook.toModelType();
         assertEquals(0, model.getPersonList().size());
         assertEquals(0, model.getEventList().size());
+        assertEquals(0, model.getAttendanceList().size());
     }
 
     @Test
     public void constructor_nullPersons_throwsNullPointerException() {
         List<JsonAdaptedEvent> events = new ArrayList<>();
+        List<JsonAdaptedAttendance> attendances = new ArrayList<>();
         assertThrows(NullPointerException.class, () -> new JsonSerializableAddressBook(null, events,
-                new ArrayList<>()));
+                new ArrayList<>(), attendances));
     }
 
     @Test
     public void constructor_nullEvents_success() throws Exception {
         List<JsonAdaptedPerson> persons = new ArrayList<>();
-        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, null, new ArrayList<>());
+        List<JsonAdaptedAttendance> attendances = new ArrayList<>();
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(persons, null,
+                new ArrayList<>(), attendances);
         AddressBook model = addressBook.toModelType();
         assertEquals(0, model.getPersonList().size());
         assertEquals(0, model.getEventList().size());
+        assertEquals(0, model.getAttendanceList().size());
     }
 
     @Test
@@ -96,12 +103,30 @@ public class JsonSerializableAddressBookTest {
         JsonAdaptedPerson person = new JsonAdaptedPerson(new PersonBuilder().build());
         JsonAdaptedEvent event = new JsonAdaptedEvent(new EventBuilder().build());
 
+        JsonAdaptedAttendance attendance = new JsonAdaptedAttendance(
+                new seedu.address.model.attendance.Attendance(new seedu.address.model.event.EventId("EventA"),
+                new seedu.address.model.person.Name("Alice Pauline")));
+
         JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(
-            Arrays.asList(person), Arrays.asList(event), new ArrayList<>());
+            Arrays.asList(person), Arrays.asList(event), new ArrayList<>(), Arrays.asList(attendance));
 
         AddressBook model = addressBook.toModelType();
         assertEquals(1, model.getPersonList().size());
         assertEquals(1, model.getEventList().size());
+        assertEquals(1, model.getAttendanceList().size());
+    }
+
+    @Test
+    public void toModelType_duplicateAttendances_throwsIllegalValueException() {
+        JsonAdaptedAttendance attendance = new JsonAdaptedAttendance(
+                new seedu.address.model.attendance.Attendance(new seedu.address.model.event.EventId("EventA"),
+                new seedu.address.model.person.Name("Alice Pauline")));
+
+        JsonSerializableAddressBook addressBook = new JsonSerializableAddressBook(
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+                Arrays.asList(attendance, attendance));
+
+        assertThrows(IllegalValueException.class, addressBook::toModelType);
     }
 
 }

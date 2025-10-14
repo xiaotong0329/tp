@@ -2,6 +2,13 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -9,35 +16,33 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 
 /**
- * Marks a member as attended for an event.
+ * Marks members as attended for an event.
  */
 public class MarkAttendanceCommand extends Command {
 
     public static final String COMMAND_WORD = "markattendance";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks a member as attended for an event. "
-            + "Parameters: e/EVENTID m/MEMBERNAME\n"
-            + "Example: " + COMMAND_WORD + " e/Orientation2023 m/John Doe";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks members as attended for an event. "
+            + "Parameters: e/EVENTID m/MEMBER[/MEMBER]...\n"
+            + "Example: " + COMMAND_WORD + " e/Orientation2023 m/John Doe/Jane Smith";
 
-    public static final String MESSAGE_SUCCESS = "Marked %1$s as attended for %2$s.";
+    public static final String MESSAGE_SUCCESS = "Attendance for %1$s marked.";
     public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found";
-    public static final String MESSAGE_MEMBER_NOT_FOUND = "Member not found";
-    public static final String MESSAGE_ALREADY_ATTENDED = "Member is already marked as attended for this event";
+    public static final String MESSAGE_MEMBER_NOT_FOUND = "Member not found in attendance list: %1$s";
 
     private final EventId eventId;
-    private final Name memberName;
+    private final List<Name> memberNames;
 
     /**
-     * Creates a MarkAttendanceCommand to mark the specified member as attended for the specified event.
+     * Creates a MarkAttendanceCommand to mark the specified members as attended for the specified event.
      */
-    public MarkAttendanceCommand(EventId eventId, Name memberName) {
+    public MarkAttendanceCommand(EventId eventId, List<Name> memberNames) {
         requireNonNull(eventId);
-        requireNonNull(memberName);
+        requireNonNull(memberNames);
         this.eventId = eventId;
-        this.memberName = memberName;
+        this.memberNames = List.copyOf(memberNames);
     }
 
     @Override
@@ -50,35 +55,32 @@ public class MarkAttendanceCommand extends Command {
             throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
         }
 
-        // Find the member by name
-        Person member = findMemberByName(model, memberName);
-        if (member == null) {
-            throw new CommandException(MESSAGE_MEMBER_NOT_FOUND);
+        Map<Name, Attendance> attendanceByName = collectAttendance(model);
+
+        List<Name> targetNames = new ArrayList<>(new LinkedHashSet<>(memberNames));
+
+        List<Name> newlyMarked = new ArrayList<>();
+        List<Name> alreadyMarked = new ArrayList<>();
+
+        for (Name name : targetNames) {
+            Attendance attendance = attendanceByName.get(name);
+            if (attendance == null) {
+                throw new CommandException(String.format(MESSAGE_MEMBER_NOT_FOUND, name));
+            }
+
+            if (attendance.hasAttended()) {
+                alreadyMarked.add(name);
+                continue;
+            }
+
+            Attendance updatedAttendance = attendance.markAttended();
+            model.setAttendance(attendance, updatedAttendance);
+            newlyMarked.add(name);
         }
 
-        // Create attendance record
-        Attendance attendance = new Attendance(eventId, memberName);
-
-        // Check if already attended (duplicate handling)
-        if (model.hasAttendance(attendance)) {
-            // Ignore duplicate as per requirements
-            return new CommandResult(String.format(MESSAGE_SUCCESS, memberName, event.getDescription()));
-        }
-
-        // Add attendance record
-        model.addAttendance(attendance);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, memberName, event.getDescription()));
-    }
-
-    /**
-     * Finds a member by name in the address book.
-     * Returns null if not found.
-     */
-    private Person findMemberByName(Model model, Name name) {
-        return model.getFilteredPersonList().stream()
-                .filter(person -> person.getName().equals(name))
-                .findFirst()
-                .orElse(null);
+        String markedText = formatNames(newlyMarked);
+        String alreadyMarkedText = formatNames(alreadyMarked);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getDescription(), markedText, alreadyMarkedText));
     }
 
     @Override
@@ -94,14 +96,29 @@ public class MarkAttendanceCommand extends Command {
 
         MarkAttendanceCommand otherMarkAttendanceCommand = (MarkAttendanceCommand) other;
         return eventId.equals(otherMarkAttendanceCommand.eventId)
-                && memberName.equals(otherMarkAttendanceCommand.memberName);
+                && memberNames.equals(otherMarkAttendanceCommand.memberNames);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("eventId", eventId)
-                .add("memberName", memberName)
+                .add("memberNames", memberNames)
                 .toString();
+    }
+
+    private Map<Name, Attendance> collectAttendance(Model model) {
+        Map<Name, Attendance> result = new LinkedHashMap<>();
+        model.getAddressBook().getAttendanceList().stream()
+                .filter(attendance -> attendance.getEventId().equals(eventId))
+                .forEach(attendance -> result.put(attendance.getMemberName(), attendance));
+        return result;
+    }
+
+    private String formatNames(List<Name> names) {
+        if (names.isEmpty()) {
+            return "None";
+        }
+        return names.stream().map(Name::toString).collect(Collectors.joining(", "));
     }
 }

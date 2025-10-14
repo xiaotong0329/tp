@@ -186,6 +186,12 @@ public class ModelManager implements Model {
         addressBook.addAttendance(attendance);
     }
 
+    @Override
+    public void setAttendance(Attendance target, Attendance editedAttendance) {
+        requireAllNonNull(target, editedAttendance);
+        addressBook.setAttendance(target, editedAttendance);
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**

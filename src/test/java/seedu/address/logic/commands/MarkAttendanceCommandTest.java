@@ -7,6 +7,8 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.Model;
@@ -36,14 +38,17 @@ public class MarkAttendanceCommandTest {
 
         EventId eventId = event.getEventId();
         Name memberName = ALICE.getName();
+        Attendance initialAttendance = new Attendance(eventId, memberName);
+        model.addAttendance(initialAttendance);
 
-        MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(eventId, memberName);
+        MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(eventId, List.of(memberName));
 
-        String expectedMessage = String.format(MarkAttendanceCommand.MESSAGE_SUCCESS, memberName,
-                event.getDescription());
+        String expectedMessage = String.format(MarkAttendanceCommand.MESSAGE_SUCCESS,
+                event.getDescription(), memberName, "None");
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.addAttendance(new Attendance(eventId, memberName));
+        expectedModel.setAttendance(new Attendance(eventId, memberName),
+                new Attendance(eventId, memberName, true));
 
         assertCommandSuccess(markAttendanceCommand, model, expectedMessage, expectedModel);
     }
@@ -54,7 +59,7 @@ public class MarkAttendanceCommandTest {
         Name memberName = ALICE.getName();
 
         MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(nonExistentEventId,
-                memberName);
+                List.of(memberName));
 
         assertCommandFailure(markAttendanceCommand, model, MarkAttendanceCommand.MESSAGE_EVENT_NOT_FOUND);
     }
@@ -73,9 +78,10 @@ public class MarkAttendanceCommandTest {
         Name nonExistentMemberName = new Name("Non Existent Member");
 
         MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(eventId,
-                nonExistentMemberName);
+                List.of(nonExistentMemberName));
 
-        assertCommandFailure(markAttendanceCommand, model, MarkAttendanceCommand.MESSAGE_MEMBER_NOT_FOUND);
+        assertCommandFailure(markAttendanceCommand, model,
+                String.format(MarkAttendanceCommand.MESSAGE_MEMBER_NOT_FOUND, nonExistentMemberName));
     }
 
     @Test
@@ -92,12 +98,12 @@ public class MarkAttendanceCommandTest {
         Name memberName = ALICE.getName();
 
         // First attendance
-        MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(eventId, memberName);
-        model.addAttendance(new Attendance(eventId, memberName));
+        MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(eventId, List.of(memberName));
+        model.addAttendance(new Attendance(eventId, memberName, true));
 
         // Second attendance (duplicate)
-        String expectedMessage = String.format(MarkAttendanceCommand.MESSAGE_SUCCESS, memberName,
-                event.getDescription());
+        String expectedMessage = String.format(MarkAttendanceCommand.MESSAGE_SUCCESS,
+                event.getDescription(), "None", memberName);
 
         assertCommandSuccess(markAttendanceCommand, model, expectedMessage, model);
     }
@@ -109,10 +115,10 @@ public class MarkAttendanceCommandTest {
         Name memberName1 = new Name("Member1");
         Name memberName2 = new Name("Member2");
 
-        MarkAttendanceCommand markAttendanceCommand1 = new MarkAttendanceCommand(eventId1, memberName1);
-        MarkAttendanceCommand markAttendanceCommand2 = new MarkAttendanceCommand(eventId1, memberName1);
-        MarkAttendanceCommand markAttendanceCommand3 = new MarkAttendanceCommand(eventId2, memberName1);
-        MarkAttendanceCommand markAttendanceCommand4 = new MarkAttendanceCommand(eventId1, memberName2);
+        MarkAttendanceCommand markAttendanceCommand1 = new MarkAttendanceCommand(eventId1, List.of(memberName1));
+        MarkAttendanceCommand markAttendanceCommand2 = new MarkAttendanceCommand(eventId1, List.of(memberName1));
+        MarkAttendanceCommand markAttendanceCommand3 = new MarkAttendanceCommand(eventId2, List.of(memberName1));
+        MarkAttendanceCommand markAttendanceCommand4 = new MarkAttendanceCommand(eventId1, List.of(memberName2));
 
         // same object -> returns true
         assertTrue(markAttendanceCommand1.equals(markAttendanceCommand1));
