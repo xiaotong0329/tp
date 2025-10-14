@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DEADLINE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DIETARY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -23,6 +24,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 
 /**
  * Contains helper methods for testing commands.
@@ -49,6 +51,17 @@ public class CommandTestUtil {
     public static final String INVALID_DESCRIPTION_DESC = " " + PREFIX_DESCRIPTION
             + "This is a very long description that exceeds the maximum limit of 100 characters "
             + "allowed for event descriptions and should cause validation to fail";
+
+    // Task-related constants
+    public static final String VALID_TASK_TITLE_ALICE = "Complete Alice's project";
+    public static final String VALID_TASK_TITLE_BOB = "Review Bob's code";
+    public static final String VALID_DEADLINE_ALICE = " " + PREFIX_DEADLINE + "2024-12-15 18:00";
+    public static final String VALID_DEADLINE_BOB = " " + PREFIX_DEADLINE + "2024-12-20 12:00";
+
+    public static final String TASK_TITLE_DESC_ALICE = " " + VALID_TASK_TITLE_ALICE;
+    public static final String TASK_TITLE_DESC_BOB = " " + VALID_TASK_TITLE_BOB;
+
+    public static final String INVALID_DEADLINE_DESC = " " + PREFIX_DEADLINE + "invalid-date";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -179,6 +192,19 @@ public class CommandTestUtil {
         model.updateFilteredEventList(e -> e.getEventId().equals(event.getEventId()));
 
         assertEquals(1, model.getFilteredEventList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the task at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void showTaskAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredTaskList().size());
+
+        Task task = model.getFilteredTaskList().get(targetIndex.getZeroBased());
+        model.updateFilteredTaskList(t -> t.isSameTask(task));
+
+        assertEquals(1, model.getFilteredTaskList().size());
     }
 }
 

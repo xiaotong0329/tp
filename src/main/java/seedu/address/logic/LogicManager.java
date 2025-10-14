@@ -17,6 +17,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 import seedu.address.storage.Storage;
 
 /**
@@ -91,7 +92,11 @@ public class LogicManager implements Logic {
                 || commandWord.equals("ClearCommand")
                 || commandWord.equals("RemarkCommand")
                 || commandWord.equals("AddEventCommand")
-                || commandWord.equals("DeleteEventCommand");
+                || commandWord.equals("DeleteEventCommand")
+                || commandWord.equals("AddTaskCommand")
+                || commandWord.equals("DeleteTaskCommand")
+                || commandWord.equals("MarkTaskCommand")
+                || commandWord.equals("UnmarkTaskCommand");
     }
 
     @Override
@@ -107,6 +112,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Event> getFilteredEventList() {
         return model.getFilteredEventList();
+    }
+
+    @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return model.getFilteredTaskList();
     }
 
     @Override

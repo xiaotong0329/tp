@@ -1,83 +1,103 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalEvents.getTypicalAddressBook;
+import static seedu.address.testutil.Assert.assertThrows;
+
+import java.time.LocalDateTime;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
+import seedu.address.testutil.TaskBuilder;
 
-public class DeleteEventCommandTest {
-
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+public class AddTaskCommandTest {
 
     @Test
-    public void execute_validEventId_success() {
-        Event eventToDelete = model.getAddressBook().getEventList().get(0);
-        DeleteEventCommand deleteEventCommand = new DeleteEventCommand(eventToDelete.getEventId());
-
-        String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS,
-                eventToDelete.getEventId().value);
-
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deleteEvent(eventToDelete);
-
-        assertCommandSuccess(deleteEventCommand, model, expectedMessage, expectedModel);
+    public void constructor_nullTask_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddTaskCommand(null));
     }
 
     @Test
-    public void execute_invalidEventId_throwsCommandException() {
-        EventId invalidEventId = new EventId("invalid_id");
-        DeleteEventCommand deleteEventCommand = new DeleteEventCommand(invalidEventId);
+    public void execute_taskAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingTaskAdded modelStub = new ModelStubAcceptingTaskAdded();
+        Task validTask = new TaskBuilder().build();
 
-        assertCommandFailure(deleteEventCommand, model, String.format(DeleteEventCommand.MESSAGE_EVENT_NOT_FOUND,
-                invalidEventId.value));
+        CommandResult commandResult = new AddTaskCommand(validTask).execute(modelStub);
+
+        assertEquals(String.format(AddTaskCommand.MESSAGE_SUCCESS, Messages.format(validTask)),
+                commandResult.getFeedbackToUser());
+        assertEquals(validTask, modelStub.tasksAdded.get(0));
+    }
+
+    @Test
+    public void execute_duplicateTask_throwsCommandException() {
+        Task validTask = new TaskBuilder().build();
+        AddTaskCommand addTaskCommand = new AddTaskCommand(validTask);
+        ModelStub modelStub = new ModelStubWithTask(validTask);
+
+        assertThrows(CommandException.class, AddTaskCommand.MESSAGE_DUPLICATE_TASK, () ->
+                addTaskCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_taskWithDeadline_addSuccessful() throws Exception {
+        ModelStubAcceptingTaskAdded modelStub = new ModelStubAcceptingTaskAdded();
+        LocalDateTime deadline = LocalDateTime.of(2024, 12, 31, 23, 59);
+        Task taskWithDeadline = new TaskBuilder().withDeadline(deadline).build();
+
+        CommandResult commandResult = new AddTaskCommand(taskWithDeadline).execute(modelStub);
+
+        assertEquals(String.format(AddTaskCommand.MESSAGE_SUCCESS, Messages.format(taskWithDeadline)),
+                commandResult.getFeedbackToUser());
+        assertEquals(taskWithDeadline, modelStub.tasksAdded.get(0));
     }
 
     @Test
     public void equals() {
-        EventId eventId1 = new EventId("event1");
-        EventId eventId2 = new EventId("event2");
-        DeleteEventCommand deleteEvent1Command = new DeleteEventCommand(eventId1);
-        DeleteEventCommand deleteEvent2Command = new DeleteEventCommand(eventId2);
+        Task alice = new TaskBuilder().withTitle("Alice").build();
+        Task bob = new TaskBuilder().withTitle("Bob").build();
+        AddTaskCommand addAliceCommand = new AddTaskCommand(alice);
+        AddTaskCommand addBobCommand = new AddTaskCommand(bob);
 
         // same object -> returns true
-        assertTrue(deleteEvent1Command.equals(deleteEvent1Command));
+        assertTrue(addAliceCommand.equals(addAliceCommand));
 
         // same values -> returns true
-        DeleteEventCommand deleteEvent1CommandCopy = new DeleteEventCommand(eventId1);
-        assertTrue(deleteEvent1Command.equals(deleteEvent1CommandCopy));
+        AddTaskCommand addAliceCommandCopy = new AddTaskCommand(alice);
+        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(deleteEvent1Command.equals(1));
+        assertFalse(addAliceCommand.equals(1));
 
         // null -> returns false
-        assertFalse(deleteEvent1Command.equals(null));
+        assertFalse(addAliceCommand.equals(null));
 
-        // different event -> returns false
-        assertFalse(deleteEvent1Command.equals(deleteEvent2Command));
+        // different task -> returns false
+        assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
     @Test
     public void toStringMethod() {
-        EventId targetEventId = new EventId("event1");
-        DeleteEventCommand deleteEventCommand = new DeleteEventCommand(targetEventId);
-        String expected = DeleteEventCommand.class.getCanonicalName() + "{targetEventId=" + targetEventId + "}";
-        assertEquals(expected, deleteEventCommand.toString());
+        Task task = new TaskBuilder().withTitle("Test Task").build();
+        AddTaskCommand addTaskCommand = new AddTaskCommand(task);
+        String expected = AddTaskCommand.class.getCanonicalName() + "{toAdd=" + task + "}";
+        assertEquals(expected, addTaskCommand.toString());
     }
 
     /**
@@ -150,7 +170,7 @@ public class DeleteEventCommandTest {
         }
 
         @Override
-        public void updateFilteredPersonList(java.util.function.Predicate<Person> predicate) {
+        public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -180,16 +200,6 @@ public class DeleteEventCommandTest {
         }
 
         @Override
-        public ObservableList<Event> getFilteredEventList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredEventList(java.util.function.Predicate<Event> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public boolean hasTask(Task task) {
             throw new AssertionError("This method should not be called.");
         }
@@ -215,7 +225,27 @@ public class DeleteEventCommandTest {
         }
 
         @Override
-        public void updateFilteredTaskList(java.util.function.Predicate<Task> predicate) {
+        public void updateFilteredTaskList(Predicate<Task> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAttendance(Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAttendance(Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Event> getFilteredEventList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredEventList(Predicate<Event> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -248,46 +278,47 @@ public class DeleteEventCommandTest {
         public void rollbackLastCommit() {
             throw new AssertionError("This method should not be called.");
         }
+    }
 
-        @Override
-        public boolean hasAttendance(seedu.address.model.attendance.Attendance attendance) {
-            throw new AssertionError("This method should not be called.");
+    /**
+     * A Model stub that contains a single task.
+     */
+    private class ModelStubWithTask extends ModelStub {
+        private final Task task;
+
+        ModelStubWithTask(Task task) {
+            requireNonNull(task);
+            this.task = task;
         }
 
         @Override
-        public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
-            throw new AssertionError("This method should not be called.");
+        public boolean hasTask(Task task) {
+            requireNonNull(task);
+            return this.task.isSameTask(task);
         }
     }
 
     /**
-     * A Model stub that contains a single event.
+     * A Model stub that always accept the task being added.
      */
-    private class ModelStubWithEvent extends ModelStub {
-        private final Event event;
+    private class ModelStubAcceptingTaskAdded extends ModelStub {
+        final java.util.ArrayList<Task> tasksAdded = new java.util.ArrayList<>();
 
-        ModelStubWithEvent(Event event) {
-            this.event = event;
+        @Override
+        public boolean hasTask(Task task) {
+            requireNonNull(task);
+            return tasksAdded.stream().anyMatch(task::isSameTask);
         }
 
         @Override
-        public Event getEventByEventId(EventId eventId) {
-            return this.event.getEventId().equals(eventId) ? this.event : null;
+        public void addTask(Task task) {
+            requireNonNull(task);
+            tasksAdded.add(task);
         }
 
         @Override
-        public void deleteEvent(Event target) {
-            // Simulate deletion
-        }
-
-        @Override
-        public boolean hasAttendance(seedu.address.model.attendance.Attendance attendance) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
-            throw new AssertionError("This method should not be called.");
+        public ReadOnlyAddressBook getAddressBook() {
+            return new AddressBook();
         }
     }
 }

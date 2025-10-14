@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.DIETARY_DESC_AMY;
@@ -76,6 +77,20 @@ public class LogicManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void execute_addTaskCommand_success() throws Exception {
+        String addTaskCommand = "addtask Test Task";
+
+        // Execute the command
+        CommandResult result = logic.execute(addTaskCommand);
+
+        // Verify task was added
+        assertEquals(1, model.getFilteredTaskList().size());
+
+        // Verify success message
+        assertTrue(result.getFeedbackToUser().contains("New task added"));
     }
 
     /**

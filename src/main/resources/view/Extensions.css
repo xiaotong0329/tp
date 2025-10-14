@@ -18,3 +18,13 @@
 .tooltip-text {
     -fx-text-fill: white;
 }
+
+.task-done {
+    -fx-text-fill: #4CAF50; /* Green color for done tasks */
+    -fx-font-weight: bold;
+}
+
+.task-not-done {
+    -fx-text-fill: #FF9800; /* Orange color for not done tasks */
+    -fx-font-weight: bold;
+}
