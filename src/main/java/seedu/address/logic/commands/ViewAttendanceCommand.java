@@ -56,9 +56,12 @@ public class ViewAttendanceCommand extends Command {
             return new CommandResult(MESSAGE_NO_ATTENDANCE);
         }
 
-        // Format the attendance list
+        // Format the attendance list with their status
         String attendanceList = eventAttendances.stream()
-                .map(attendance -> "• " + attendance.getMemberName())
+                .map(attendance -> {
+                    String status = attendance.hasAttended() ? "Attended" : "Absent";
+                    return "• " + attendance.getMemberName() + " (" + status + ")";
+                })
                 .collect(Collectors.joining("\n"));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, event.getDescription(), attendanceList));

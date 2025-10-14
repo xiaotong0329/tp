@@ -7,53 +7,49 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBER;
 import java.util.ArrayList;
 import java.util.List;
 
-import seedu.address.logic.commands.MarkAttendanceCommand;
+import seedu.address.logic.commands.AddAttendanceCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Name;
 
 /**
- * Parses input arguments and creates a new MarkAttendanceCommand object.
+ * Parses input arguments and creates a new AddAttendanceCommand object.
  */
-public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand> {
+public class AddAttendanceCommandParser implements Parser<AddAttendanceCommand> {
 
     @Override
-    public MarkAttendanceCommand parse(String args) throws ParseException {
+    public AddAttendanceCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EVENT_ID, PREFIX_MEMBER);
 
-        // Must have no preamble and both prefixes present
         if (!arePrefixesPresent(argMultimap, PREFIX_EVENT_ID, PREFIX_MEMBER)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    MarkAttendanceCommand.MESSAGE_USAGE));
+                    AddAttendanceCommand.MESSAGE_USAGE));
         }
 
-        // Each prefix must appear exactly once
         if (hasNotExactlyOneValue(argMultimap, PREFIX_EVENT_ID)
                 || hasNotExactlyOneValue(argMultimap, PREFIX_MEMBER)) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
-        // Values must be non-blank after trimming
         String rawEventId = argMultimap.getValue(PREFIX_EVENT_ID).get().trim();
-        String rawMember = argMultimap.getValue(PREFIX_MEMBER).get().trim();
-        if (rawEventId.isEmpty() || rawMember.isEmpty()) {
+        String rawMembers = argMultimap.getValue(PREFIX_MEMBER).get().trim();
+
+        if (rawEventId.isEmpty() || rawMembers.isEmpty()) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
-        // Parse into domain types
         try {
             EventId eventId = ParserUtil.parseEventId(rawEventId);
-            List<Name> memberNames = parseMemberNames(rawMember);
-            return new MarkAttendanceCommand(eventId, memberNames);
+            List<Name> memberNames = parseMemberNames(rawMembers);
+            return new AddAttendanceCommand(eventId, memberNames);
         } catch (ParseException pe) {
-            // Tests expect a generic invalid-format message on invalid input
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
     }
 
-    private List<Name> parseMemberNames(String rawMember) throws ParseException {
-        String[] parts = rawMember.split("/");
+    private List<Name> parseMemberNames(String rawMembers) throws ParseException {
+        String[] parts = rawMembers.split("/");
         List<Name> result = new ArrayList<>();
 
         for (String part : parts) {
@@ -67,9 +63,6 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
         return result;
     }
 
-    /**
-     * Returns true if all the given prefixes are present in the argument multimap.
-     */
     private static boolean arePrefixesPresent(ArgumentMultimap am, Prefix... prefixes) {
         for (Prefix prefix : prefixes) {
             if (am.getValue(prefix).isEmpty()) {
@@ -79,11 +72,9 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
         return true;
     }
 
-    /**
-     * Returns true if the given prefix does not have exactly one value.
-     */
     private static boolean hasNotExactlyOneValue(ArgumentMultimap am, Prefix prefix) {
         List<String> values = am.getAllValues(prefix);
         return values.size() != 1;
     }
 }
+

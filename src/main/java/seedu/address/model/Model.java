@@ -149,6 +149,11 @@ public interface Model {
     void addAttendance(Attendance attendance);
 
     /**
+     * Replaces the given attendance record {@code target} with {@code editedAttendance}.
+     */
+    void setAttendance(Attendance target, Attendance editedAttendance);
+
+    /**
      * Returns an unmodifiable view of the filtered event list
      */
     ObservableList<Event> getFilteredEventList();

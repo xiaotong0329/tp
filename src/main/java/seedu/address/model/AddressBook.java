@@ -201,6 +201,15 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the given attendance record {@code target} with {@code editedAttendance}.
+     * {@code target} must exist in the address book.
+     */
+    public void setAttendance(Attendance target, Attendance editedAttendance) {
+        requireNonNull(editedAttendance);
+        attendances.setAttendance(target, editedAttendance);
+    }
+
+    /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
