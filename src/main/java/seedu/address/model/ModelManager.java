@@ -4,6 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -11,6 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.budget.Budget;
+import seedu.address.model.common.Money;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
@@ -28,6 +34,7 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Event> filteredEvents;
     private final FilteredList<Task> filteredTasks;
+    private Budget budget; // nullable
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -42,6 +49,7 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredEvents = new FilteredList<>(this.addressBook.getEventList());
         filteredTasks = new FilteredList<>(this.addressBook.getTaskList());
+        this.budget = addressBook.getBudget().orElse(null);
     }
 
     public ModelManager() {
@@ -88,6 +96,7 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
+        this.budget = addressBook.getBudget().orElse(null);
     }
 
     @Override
@@ -287,6 +296,50 @@ public class ModelManager implements Model {
     @Override
     public void rollbackLastCommit() {
         addressBook.rollbackLastCommit();
+    }
+
+    //=========== Budget Operations ========================================================================
+
+    @Override
+    public Optional<Budget> getBudget() {
+        return Optional.ofNullable(budget);
+    }
+
+    @Override
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+        // AddressBook persists budget for storage roundtrip
+        this.addressBook.setBudget(budget);
+    }
+
+    @Override
+    public void clearBudget() {
+        this.budget = null;
+        this.addressBook.clearBudget();
+    }
+
+    @Override
+    public Money computeTotalExpensesWithin(LocalDate start, LocalDate end) {
+        Money total = Money.zero();
+        for (Event e : addressBook.getEventList()) {
+            LocalDate d = e.getDate();
+            if ((d.isEqual(start) || d.isAfter(start)) && (d.isEqual(end) || d.isBefore(end))) {
+                total = total.plus(e.getExpense());
+            }
+        }
+        return total;
+    }
+
+    @Override
+    public List<Event> getEventsWithin(LocalDate start, LocalDate end) {
+        List<Event> result = new ArrayList<>();
+        for (Event e : addressBook.getEventList()) {
+            LocalDate d = e.getDate();
+            if ((d.isEqual(start) || d.isAfter(start)) && (d.isEqual(end) || d.isBefore(end))) {
+                result.add(e);
+            }
+        }
+        return result;
     }
 
     @Override

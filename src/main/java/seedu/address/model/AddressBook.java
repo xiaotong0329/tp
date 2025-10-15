@@ -9,12 +9,14 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.UniqueAttendanceList;
+import seedu.address.model.budget.Budget;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.UniqueEventList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
+import java.util.Optional;
 
 /**
  * Wraps all data at the address-book level
@@ -26,6 +28,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     private final UniqueEventList events;
     private final UniqueAttendanceList attendances;
     private final UniqueTaskList tasks;
+    private Budget budget; // nullable
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -87,6 +90,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         setEvents(newData.getEventList());
         setAttendances(newData.getAttendanceList());
         setTasks(newData.getTaskList());
+        this.budget = newData.getBudget().orElse(null);
     }
 
     //// person-level operations
@@ -263,6 +267,7 @@ public class AddressBook implements ReadOnlyAddressBook {
                 .add("events", events)
                 .add("attendances", attendances)
                 .add("tasks", tasks)
+                .add("budget", budget)
                 .toString();
     }
 
@@ -287,6 +292,19 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
+    public Optional<Budget> getBudget() {
+        return Optional.ofNullable(budget);
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
+    public void clearBudget() {
+        this.budget = null;
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -306,6 +324,6 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     @Override
     public int hashCode() {
-        return Objects.hash(persons, events, attendances, tasks);
+        return Objects.hash(persons, events, attendances, tasks, budget);
     }
 }

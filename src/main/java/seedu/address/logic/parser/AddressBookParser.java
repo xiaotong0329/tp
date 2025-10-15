@@ -22,6 +22,10 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.BudgetSetCommand;
+import seedu.address.logic.commands.BudgetResetCommand;
+import seedu.address.logic.commands.BudgetReportCommand;
+import seedu.address.logic.commands.SetExpenseCommand;
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MarkAttendanceCommand;
@@ -91,6 +95,12 @@ public class AddressBookParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
+
+        case "budget":
+            return new BudgetCommandParser().parse(arguments);
+
+        case SetExpenseCommand.COMMAND_WORD:
+            return new SetExpenseCommandParser().parse(arguments);
 
 
         case AddEventCommand.COMMAND_WORD:

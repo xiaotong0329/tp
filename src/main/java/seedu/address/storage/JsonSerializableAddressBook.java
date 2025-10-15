@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.budget.Budget;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
@@ -30,6 +31,7 @@ class JsonSerializableAddressBook {
     private final List<JsonAdaptedEvent> events = new ArrayList<>();
     private final List<JsonAdaptedTask> tasks = new ArrayList<>();
     private final List<JsonAdaptedAttendance> attendances = new ArrayList<>();
+    private final JsonAdaptedBudget budget; // optional
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons, events, and tasks.
@@ -38,7 +40,8 @@ class JsonSerializableAddressBook {
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
             @JsonProperty("events") List<JsonAdaptedEvent> events,
             @JsonProperty("tasks") List<JsonAdaptedTask> tasks,
-            @JsonProperty("attendances") List<JsonAdaptedAttendance> attendances) {
+            @JsonProperty("attendances") List<JsonAdaptedAttendance> attendances,
+            @JsonProperty("budget") JsonAdaptedBudget budget) {
         this.persons.addAll(persons);
         if (events != null) {
             this.events.addAll(events);
@@ -49,6 +52,7 @@ class JsonSerializableAddressBook {
         if (attendances != null) {
             this.attendances.addAll(attendances);
         }
+        this.budget = budget; // may be null
     }
 
     /**
@@ -63,6 +67,9 @@ class JsonSerializableAddressBook {
         attendances.addAll(source.getAttendanceList().stream()
                 .map(JsonAdaptedAttendance::new)
                 .collect(Collectors.toList()));
+        // ReadOnlyAddressBook now exposes getBudget()
+        Budget b = source.getBudget().orElse(null);
+        this.budget = (b == null) ? null : new JsonAdaptedBudget(b);
     }
 
     /**
@@ -99,6 +106,9 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_ATTENDANCE);
             }
             addressBook.addAttendance(attendance);
+        }
+        if (budget != null) {
+            addressBook.setBudget(budget.toModelType());
         }
         return addressBook;
     }

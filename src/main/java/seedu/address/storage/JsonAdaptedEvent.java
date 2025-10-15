@@ -3,6 +3,7 @@ package seedu.address.storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.common.Money;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 
@@ -16,16 +17,19 @@ class JsonAdaptedEvent {
     private final String eventId;
     private final String date;
     private final String description;
+    private final String expense;
 
     /**
      * Constructs a {@code JsonAdaptedEvent} with the given event details.
      */
     @JsonCreator
     public JsonAdaptedEvent(@JsonProperty("eventId") String eventId, @JsonProperty("date") String date,
-            @JsonProperty("description") String description) {
+            @JsonProperty("description") String description,
+            @JsonProperty("expense") String expense) {
         this.eventId = eventId;
         this.date = date;
         this.description = description;
+        this.expense = expense; // may be null for backward compatibility
     }
 
     /**
@@ -35,6 +39,7 @@ class JsonAdaptedEvent {
         eventId = source.getEventId().value;
         date = source.getDate().toString();
         description = source.getDescription();
+        expense = source.getExpense().toString();
     }
 
     /**
@@ -66,8 +71,9 @@ class JsonAdaptedEvent {
             throw new IllegalValueException(Event.DESCRIPTION_CONSTRAINTS);
         }
         final String modelDescription = description;
+        final Money modelExpense = (expense == null) ? Money.zero() : Money.parse(expense);
 
-        return new Event(modelEventId, modelDate, modelDescription);
+        return new Event(modelEventId, modelDate, modelDescription, modelExpense);
     }
 
 }

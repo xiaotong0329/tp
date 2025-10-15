@@ -8,6 +8,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.common.Money;
 
 /**
  * Represents an Event in the address book.
@@ -26,6 +27,7 @@ public class Event {
     private final EventId eventId;
     private final LocalDate date;
     private final String description;
+    private final Money expense;
 
     /**
      * Every field must be present and not null.
@@ -35,6 +37,18 @@ public class Event {
         this.eventId = eventId;
         this.date = date;
         this.description = description;
+        this.expense = Money.zero();
+    }
+
+    /**
+     * Full constructor used when specifying expense.
+     */
+    public Event(EventId eventId, LocalDate date, String description, Money expense) {
+        requireAllNonNull(eventId, date, description, expense);
+        this.eventId = eventId;
+        this.date = date;
+        this.description = description;
+        this.expense = expense;
     }
 
     public EventId getEventId() {
@@ -47,6 +61,10 @@ public class Event {
 
     public String getDescription() {
         return description;
+    }
+
+    public Money getExpense() {
+        return expense;
     }
 
     /**
@@ -102,12 +120,13 @@ public class Event {
         Event otherEvent = (Event) other;
         return eventId.equals(otherEvent.eventId)
                 && date.equals(otherEvent.date)
-                && description.equals(otherEvent.description);
+                && description.equals(otherEvent.description)
+                && expense.equals(otherEvent.expense);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventId, date, description);
+        return Objects.hash(eventId, date, description, expense);
     }
 
     @Override
@@ -116,6 +135,7 @@ public class Event {
                 .add("eventId", eventId)
                 .add("date", date)
                 .add("description", description)
+                .add("expense", expense)
                 .toString();
     }
 }
