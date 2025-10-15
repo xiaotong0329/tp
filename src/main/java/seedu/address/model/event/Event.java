@@ -135,7 +135,6 @@ public class Event {
                 .add("eventId", eventId)
                 .add("date", date)
                 .add("description", description)
-                .add("expense", expense)
                 .toString();
     }
 }

@@ -22,6 +22,12 @@ public class BudgetSetCommand extends Command {
     private final LocalDate start;
     private final LocalDate end;
 
+    /**
+     * Constructs a command to set a global budget with amount and inclusive date range.
+     * @param amount non-negative SGD amount with two decimals
+     * @param start inclusive start date (yyyy-MM-dd)
+     * @param end inclusive end date (yyyy-MM-dd), must be on/after start
+     */
     public BudgetSetCommand(Money amount, LocalDate start, LocalDate end) {
         requireNonNull(amount);
         requireNonNull(start);
@@ -31,6 +37,10 @@ public class BudgetSetCommand extends Command {
         this.end = end;
     }
 
+    /**
+     * Applies the new budget to the model.
+     * @return a CommandResult describing the outcome
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         Budget budget = new Budget(amount, start, end);

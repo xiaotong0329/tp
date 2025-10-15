@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.budget.Budget;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.budget.Budget;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
@@ -53,6 +53,14 @@ class JsonSerializableAddressBook {
             this.attendances.addAll(attendances);
         }
         this.budget = budget; // may be null
+    }
+
+    // Backward-compatible ctor without budget field
+    public JsonSerializableAddressBook(List<JsonAdaptedPerson> persons,
+            List<JsonAdaptedEvent> events,
+            List<JsonAdaptedTask> tasks,
+            List<JsonAdaptedAttendance> attendances) {
+        this(persons, events, tasks, attendances, null);
     }
 
     /**

@@ -1,12 +1,13 @@
 package seedu.address.model;
 
+import java.util.Optional;
+
 import javafx.collections.ObservableList;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.budget.Budget;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
-import java.util.Optional;
 
 /**
  * Unmodifiable view of an address book
@@ -40,6 +41,6 @@ public interface ReadOnlyAddressBook {
     /**
      * Returns the optional global budget.
      */
-    Optional<Budget> getBudget();
+    default Optional<Budget> getBudget() { return Optional.empty(); }
 
 }

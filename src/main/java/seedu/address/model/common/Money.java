@@ -23,10 +23,12 @@ public final class Money implements Comparable<Money> {
         this.amount = amount.setScale(SCALE, RoundingMode.UNNECESSARY);
     }
 
+    /** Creates a Money from a BigDecimal, rounding to 2 dp (HALF_UP). */
     public static Money of(BigDecimal amount) {
         return new Money(amount.setScale(SCALE, RoundingMode.HALF_UP));
     }
 
+    /** Parses a decimal string into Money (2 dp, HALF_UP). */
     public static Money parse(String value) {
         try {
             BigDecimal bd = new BigDecimal(value).setScale(SCALE, RoundingMode.HALF_UP);
@@ -36,19 +38,23 @@ public final class Money implements Comparable<Money> {
         }
     }
 
+    /** Returns a zero-valued Money. */
     public static Money zero() {
         return of(BigDecimal.ZERO);
     }
 
+    /** Returns the underlying BigDecimal amount. */
     public BigDecimal toBigDecimal() {
         return amount;
     }
 
+    /** Returns a new Money that is the sum of this and other. */
     public Money plus(Money other) {
         requireNonNull(other);
         return of(this.amount.add(other.amount));
     }
 
+    /** Returns a new Money that is this minus other; throws if negative. */
     public Money minus(Money other) {
         requireNonNull(other);
         BigDecimal result = this.amount.subtract(other.amount);

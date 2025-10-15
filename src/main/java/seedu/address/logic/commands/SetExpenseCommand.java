@@ -20,11 +20,20 @@ public class SetExpenseCommand extends Command {
     private final Index targetIndex;
     private final Money amount;
 
+    /**
+     * Constructs a command to set an event's expense.
+     * @param targetIndex index of the event in the current event list (1-based)
+     * @param amount non-negative SGD amount with two decimals
+     */
     public SetExpenseCommand(Index targetIndex, Money amount) {
         this.targetIndex = targetIndex;
         this.amount = amount;
     }
 
+    /**
+     * Updates the target event with the new expense.
+     * @return a CommandResult describing the outcome
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

@@ -8,9 +8,9 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.budget.Budget;
 import seedu.address.model.common.Money;
-import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
@@ -226,13 +226,13 @@ public interface Model {
 
     //=========== Budget Operations ========================================================================
 
-    Optional<Budget> getBudget();
+    default Optional<Budget> getBudget() { return Optional.empty(); }
 
-    void setBudget(Budget budget);
+    default void setBudget(Budget budget) { }
 
-    void clearBudget();
+    default void clearBudget() { }
 
-    Money computeTotalExpensesWithin(LocalDate start, LocalDate end);
+    default Money computeTotalExpensesWithin(LocalDate start, LocalDate end) { return Money.zero(); }
 
-    List<Event> getEventsWithin(LocalDate start, LocalDate end);
+    default List<Event> getEventsWithin(LocalDate start, LocalDate end) { return java.util.Collections.emptyList(); }
 }

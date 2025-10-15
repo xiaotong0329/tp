@@ -33,6 +33,13 @@ class JsonAdaptedEvent {
     }
 
     /**
+     * Backward-compatible constructor without expense field.
+     */
+    public JsonAdaptedEvent(String eventId, String date, String description) {
+        this(eventId, date, description, null);
+    }
+
+    /**
      * Converts a given {@code Event} into this class for Jackson use.
      */
     public JsonAdaptedEvent(Event source) {
