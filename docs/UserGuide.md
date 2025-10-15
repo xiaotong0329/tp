@@ -31,9 +31,9 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President t/leadership` : Adds a club member.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * `addevent ev/Orientation2025 dt/2025-08-15 desc/NUS Freshmen Orientation` : Adds an event.
 
    * `clear` : Deletes all contacts.
 
@@ -80,7 +80,7 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME y/YEAR s/STUDENT_NUMBER e/EMAIL p/PHONE d/DIETARY_REQUIREMENTS r/ROLE [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -88,8 +88,8 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 </box>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President`
+* `add n/Betsy Crowe y/2 s/A7654321A e/betsycrowe@example.com p/1234567 d/Halal r/Member t/cricket`
 
 ### Listing all persons : `list`
 
@@ -101,7 +101,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [y/YEAR] [s/STUDENT_NUMBER] [d/DIETARY] [r/ROLE] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -158,6 +158,36 @@ Exits the program.
 
 Format: `exit`
 
+### Importing members : `import`
+
+Imports member details from a CSV file into the address book.
+
+Format: `import /from FILEPATH`
+
+Examples:
+* `import /from members.csv`
+
+### Exporting members : `export`
+
+Exports all members in the address book to a CSV file.
+
+Format: `export /to FILEPATH`
+
+Examples:
+* `export /to members.csv`
+
+### Events : `addevent`, `deleteevent`
+
+Manages events in the address book.
+
+Formats:
+* `addevent ev/EVENTID dt/DATE desc/DESCRIPTION`
+* `deleteevent e/EVENTID`
+
+Examples:
+* `addevent ev/Orientation2025 dt/2025-08-15 desc/NUS Freshmen Orientation`
+* `deleteevent e/Orientation2025`
+
 ### Marking attendance : `markattendance`
 
 Marks a member as attended for an event.
@@ -184,6 +214,56 @@ Format: `viewattendance e/EVENTID`
 Examples:
 * `viewattendance e/Orientation2023` - Shows all members who attended Orientation2023
 * `viewattendance e/Meeting2023` - Shows all members who attended Meeting2023
+
+### Tasks : `addtask`, `deletetask`, `marktask`, `unmarktask`
+
+Manages simple tasks for the club.
+
+Formats:
+* `addtask TITLE [dl/DEADLINE]`
+* `deletetask INDEX`
+* `marktask INDEX`
+* `unmarktask INDEX`
+
+Examples:
+* `addtask Submit budget dl/2025-11-01 23:59`
+* `marktask 1`
+
+### Undo/Redo : `undo`, `redo`
+
+Reverts or reapplies the most recent changes.
+
+Formats:
+* `undo`
+* `redo`
+
+### Budget tracker : `budget`, `setexpense`
+
+Tracks a global budget in SGD with an inclusive date range, and per-event expenses.
+
+Formats:
+* `budget set a/AMOUNT from/YYYY-MM-DD to/YYYY-MM-DD`
+* `budget reset`
+* `budget report`
+* `setexpense INDEX a/AMOUNT`
+
+Notes:
+* Currency is SGD with two decimals; negative amounts are not allowed.
+* The report lists only events whose date is within the budget duration (inclusive).
+* The report format is:
+
+```
+Budget Report
+
+Total budget: 123.45$
+Duration: 2025-11-01 to 2025-11-30
+
+EventA: 10.00$
+EventB: 25.50$
+EventC: 0.00$
+
+Budget remaining: 87.95$
+```
 
 ### Saving the data
 
@@ -213,23 +293,21 @@ _Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Known issues
-
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
---------------------------------------------------------------------------------------------------------------------
-
 ## Command summary
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add**    | `add n/NAME y/YEAR s/STUDENT_NUMBER e/EMAIL p/PHONE d/DIETARY r/ROLE [t/TAG]…​` <br> e.g., `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [y/YEAR] [s/STUDENT_NUMBER] [d/DIETARY] [r/ROLE] [t/TAG]…​`<br> e.g.,`edit 2 n/Betsy Crower t/`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
-**Mark Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> e.g., `markattendance e/Orientation2023 m/John Doe`
-**View Attendance** | `viewattendance e/EVENTID`<br> e.g., `viewattendance e/Orientation2023`
+**Import** | `import /from FILEPATH`<br> e.g., `import /from members.csv`
+**Export** | `export /to FILEPATH`<br> e.g., `export /to members.csv`
+**Events** | `addevent ev/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
+**Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> `viewattendance e/EVENTID`
+**Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
+**Undo/Redo** | `undo`, `redo`
+**Budget** | `budget set a/AMOUNT from/START to/END`, `budget reset`, `budget report`, `setexpense INDEX a/AMOUNT`
 **Help**   | `help`
