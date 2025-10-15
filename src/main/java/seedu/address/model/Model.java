@@ -1,11 +1,16 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.budget.Budget;
+import seedu.address.model.common.Money;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
@@ -218,4 +223,16 @@ public interface Model {
      * This is used when a command fails after commit.
      */
     void rollbackLastCommit();
+
+    //=========== Budget Operations ========================================================================
+
+    default Optional<Budget> getBudget() { return Optional.empty(); }
+
+    default void setBudget(Budget budget) { }
+
+    default void clearBudget() { }
+
+    default Money computeTotalExpensesWithin(LocalDate start, LocalDate end) { return Money.zero(); }
+
+    default List<Event> getEventsWithin(LocalDate start, LocalDate end) { return java.util.Collections.emptyList(); }
 }
