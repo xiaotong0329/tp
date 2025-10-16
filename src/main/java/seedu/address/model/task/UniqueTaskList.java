@@ -136,14 +136,16 @@ public class UniqueTaskList implements Iterable<Task> {
 
     /**
      * Returns true if {@code tasks} contains only unique tasks.
+     * Uses a HashSet for O(n) time complexity instead of O(n²).
      */
     private boolean tasksAreUnique(List<Task> tasks) {
-        for (int i = 0; i < tasks.size() - 1; i++) {
-            for (int j = i + 1; j < tasks.size(); j++) {
-                if (tasks.get(i).isSameTask(tasks.get(j))) {
-                    return false;
-                }
+        java.util.Set<String> seenTitles = new java.util.HashSet<>();
+        for (Task task : tasks) {
+            String title = task.getTitle();
+            if (seenTitles.contains(title)) {
+                return false;
             }
+            seenTitles.add(title);
         }
         return true;
     }
