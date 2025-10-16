@@ -29,7 +29,12 @@ public class Task {
     private final boolean isDone;
 
     /**
-     * Every field must be present and not null.
+     * Constructs a new Task with the specified title and deadline.
+     * The task is created with an initial completion status of not done.
+     *
+     * @param title The title of the task (must not be null, empty, or exceed 100 characters)
+     * @param deadline The deadline for the task (can be null for tasks without deadlines)
+     * @throws IllegalArgumentException if the title is invalid
      */
     public Task(String title, LocalDateTime deadline) {
         requireAllNonNull(title);
@@ -42,7 +47,13 @@ public class Task {
     }
 
     /**
-     * Constructor for creating a task with all fields (used for loading from storage).
+     * Constructs a Task with all fields specified.
+     * This constructor is primarily used for loading tasks from storage or creating task copies.
+     *
+     * @param title The title of the task (must not be null, empty, or exceed 100 characters)
+     * @param deadline The deadline for the task (can be null for tasks without deadlines)
+     * @param isDone The completion status of the task
+     * @throws IllegalArgumentException if the title is invalid
      */
     public Task(String title, LocalDateTime deadline, boolean isDone) {
         requireAllNonNull(title);
@@ -67,7 +78,10 @@ public class Task {
     }
 
     /**
-     * Returns a new Task with the done status toggled.
+     * Returns a new Task with the completion status toggled.
+     * If the task is currently done, returns a copy marked as not done, and vice versa.
+     *
+     * @return A new Task object with the opposite completion status
      */
     public Task toggleDone() {
         return new Task(this.title, this.deadline, !this.isDone);
@@ -75,7 +89,12 @@ public class Task {
 
     /**
      * Returns true if both tasks have the same title.
-     * This defines a weaker notion of equality between two tasks.
+     * This defines a weaker notion of equality between two tasks, used to identify
+     * duplicate tasks in the task list. Two tasks with the same title are considered
+     * the same task, regardless of their deadline or completion status.
+     *
+     * @param otherTask The other task to compare with
+     * @return true if both tasks have the same title, false otherwise
      */
     public boolean isSameTask(Task otherTask) {
         if (otherTask == this) {
@@ -88,6 +107,10 @@ public class Task {
 
     /**
      * Returns true if a given string is a valid task title.
+     * A valid title must not be null, not empty when trimmed, and not exceed 100 characters.
+     *
+     * @param test The title string to validate
+     * @return true if the title is valid, false otherwise
      */
     public static boolean isValidTitle(String test) {
         return test != null && !test.trim().isEmpty() && test.matches(VALIDATION_REGEX);
@@ -95,6 +118,10 @@ public class Task {
 
     /**
      * Returns true if a given string is a valid deadline format.
+     * Accepts formats: "YYYY-MM-DD HH:mm" or "YYYY-MM-DD"
+     *
+     * @param test The deadline string to validate
+     * @return true if the deadline is valid or empty (optional), false otherwise
      */
     public static boolean isValidDeadline(String test) {
         if (test == null || test.trim().isEmpty()) {
@@ -102,44 +129,42 @@ public class Task {
         }
 
         try {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-
-            // Try parsing as date-time first, then as date only
-            try {
-                LocalDateTime.parse(test.trim(), dateTimeFormatter);
-                return true;
-            } catch (DateTimeParseException e1) {
-                try {
-                    LocalDateTime.parse(test.trim() + " 23:59", dateTimeFormatter);
-                    return true;
-                } catch (DateTimeParseException e2) {
-                    return false;
-                }
-            }
-        } catch (Exception e) {
+            parseDeadline(test);
+            return true;
+        } catch (IllegalArgumentException e) {
             return false;
         }
     }
 
     /**
      * Parses a deadline string into LocalDateTime.
-     * If only date is provided, sets time to 23:59.
+     * Accepts two formats:
+     * 1. "YYYY-MM-DD HH:mm" - Full date and time
+     * 2. "YYYY-MM-DD" - Date only (time defaults to 23:59)
+     *
+     * @param deadlineString The deadline string to parse
+     * @return LocalDateTime object, or null if the input is empty
+     * @throws IllegalArgumentException if the deadline format is invalid
      */
     public static LocalDateTime parseDeadline(String deadlineString) {
         if (deadlineString == null || deadlineString.trim().isEmpty()) {
             return null;
         }
 
+        String trimmed = deadlineString.trim();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
+
         try {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
-            return LocalDateTime.parse(deadlineString.trim(), dateTimeFormatter);
+            // Try parsing as full date-time first
+            return LocalDateTime.parse(trimmed, dateTimeFormatter);
         } catch (DateTimeParseException e1) {
+            // If that fails, try parsing as date only and append default time
             try {
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
-                return LocalDateTime.parse(deadlineString.trim() + " 23:59", dateTimeFormatter);
+                return LocalDateTime.parse(trimmed + " 23:59", dateTimeFormatter);
             } catch (DateTimeParseException e2) {
-                throw new IllegalArgumentException("Invalid deadline format: " + deadlineString);
+                throw new IllegalArgumentException(
+                        String.format("Invalid deadline format: '%s'. Expected format: %s or %s",
+                                trimmed, DATE_TIME_FORMAT, DATE_FORMAT));
             }
         }
     }
