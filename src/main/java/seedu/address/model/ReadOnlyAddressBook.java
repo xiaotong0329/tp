@@ -41,6 +41,8 @@ public interface ReadOnlyAddressBook {
     /**
      * Returns the optional global budget.
      */
-    default Optional<Budget> getBudget() { return Optional.empty(); }
+    default Optional<Budget> getBudget() {
+        return Optional.empty();
+    }
 
 }
