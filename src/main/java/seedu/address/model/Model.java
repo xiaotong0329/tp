@@ -226,13 +226,19 @@ public interface Model {
 
     //=========== Budget Operations ========================================================================
 
-    default Optional<Budget> getBudget() { return Optional.empty(); }
+    default Optional<Budget> getBudget() {
+        return Optional.empty();
+    }
 
-    default void setBudget(Budget budget) { }
+    default void setBudget(Budget budget) {}
 
-    default void clearBudget() { }
+    default void clearBudget() {}
 
-    default Money computeTotalExpensesWithin(LocalDate start, LocalDate end) { return Money.zero(); }
+    default Money computeTotalExpensesWithin(LocalDate start, LocalDate end) {
+        return Money.zero();
+    }
 
-    default List<Event> getEventsWithin(LocalDate start, LocalDate end) { return java.util.Collections.emptyList(); }
+    default List<Event> getEventsWithin(LocalDate start, LocalDate end) {
+        return java.util.Collections.emptyList();
+    }
 }
