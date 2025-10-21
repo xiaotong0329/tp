@@ -185,7 +185,7 @@ Formats:
 * `deleteevent e/EVENTID`
 
 Examples:
-* `addevent ev/Orientation2025 dt/2025-08-15 desc/NUS Freshmen Orientation`
+* `addevent e/Orientation2023 dt/2023-08-15 desc/NUS Freshmen Orientation`
 * `deleteevent e/Orientation2025`
 
 ### Marking attendance : `markattendance`
@@ -202,6 +202,20 @@ Examples:
 * `markattendance e/Orientation2023 m/John Doe` - Marks John Doe as attended for Orientation2023
 * `markattendance e/Meeting2023 m/Jane Smith` - Marks Jane Smith as attended for Meeting2023
 
+### Adding attendance : `addattendance`
+
+Adds the member to the attendance list. 
+
+Format: `addattendance e/EVENTID m/MEMBER[/MEMBER]...`
+
+* Adds the member who is supposed to attend the event to the attendance list.
+* If the member has already been added the attendance list, the command will ignore the duplicate and continue.
+* Both the member and event must exist in the system.
+
+Examples:
+* `addattendance e/Orientation2023 m/John Doe` - Adds John Doe to the attending list of Orientation2023
+* `addattendance e/Meeting2023 m/Jane Smith` - Adds Jane Smith to the attending list of Meeting2023
+
 ### Viewing attendance : `viewattendance`
 
 Views the list of members who attended a specific event.
@@ -214,6 +228,20 @@ Format: `viewattendance e/EVENTID`
 Examples:
 * `viewattendance e/Orientation2023` - Shows all members who attended Orientation2023
 * `viewattendance e/Meeting2023` - Shows all members who attended Meeting2023
+
+### Showing attendance summary : `showattendance`
+
+Displays a summary of attendance for an event, including counts of attended and absent members.
+
+Format: `showattendance e/EVENTID`
+
+* Shows a summary with separate lists of members who attended and were absent.
+* Displays the count for each category.
+* The event must exist in the system.
+
+Examples:
+* `showattendance e/Orientation2023` - Shows attendance summary for Orientation2023
+* `showattendance e/Meeting2023` - Shows attendance summary for Meeting2023
 
 ### Tasks : `addtask`, `deletetask`, `marktask`, `unmarktask`
 
@@ -306,7 +334,7 @@ Action     | Format, Examples
 **Import** | `import /from FILEPATH`<br> e.g., `import /from members.csv`
 **Export** | `export /to FILEPATH`<br> e.g., `export /to members.csv`
 **Events** | `addevent ev/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
-**Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> `viewattendance e/EVENTID`
+**Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendance e/EVENTID`<br> `showattendance e/EVENTID`
 **Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
 **Undo/Redo** | `undo`, `redo`
 **Budget** | `budget set a/AMOUNT from/START to/END`, `budget reset`, `budget report`, `setexpense INDEX a/AMOUNT`
