@@ -3,21 +3,37 @@
 skinparam ArrowFontStyle plain
 
 box Model MODEL_COLOR_T1
-participant ":Model" as Model MODEL_COLOR
+participant ":ModelManager" as ModelManager MODEL_COLOR
 participant ":VersionedAddressBook" as VersionedAddressBook MODEL_COLOR
+participant ":FilteredList<Person>" as FilteredPersons MODEL_COLOR_T1
+participant ":FilteredList<Event>" as FilteredEvents MODEL_COLOR_T1
+participant ":FilteredList<Task>" as FilteredTasks MODEL_COLOR_T1
 end box
 
-[-> Model : undoAddressBook()
-activate Model
+[-> ModelManager : undo()
+activate ModelManager
 
-Model -> VersionedAddressBook : undo()
+ModelManager -> VersionedAddressBook : undo()
 activate VersionedAddressBook
 
-VersionedAddressBook -> VersionedAddressBook :resetData(ReadOnlyAddressBook)
-VersionedAddressBook --> Model :
+alt addressBookStateHistory is not empty
+    VersionedAddressBook -> VersionedAddressBook : save current state to redo history
+    VersionedAddressBook -> VersionedAddressBook : pop previous state from undo history
+    VersionedAddressBook -> VersionedAddressBook : resetData(previousState)
+    VersionedAddressBook --> ModelManager : true
+else addressBookStateHistory is empty
+    VersionedAddressBook --> ModelManager : false
+end
 deactivate VersionedAddressBook
 
-[<-- Model
-deactivate Model
+alt undo was successful
+    ModelManager -> FilteredPersons : updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)
+    ModelManager -> FilteredEvents : updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS)
+    ModelManager -> FilteredTasks : updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS)
+end
+
+ModelManager --> [ : boolean result
+deactivate ModelManager
 
 @enduml
+
