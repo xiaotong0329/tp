@@ -1,13 +1,10 @@
 package seedu.address.model.task;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Iterator;
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import seedu.address.model.UniqueList;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
 
@@ -22,31 +19,7 @@ import seedu.address.model.task.exceptions.TaskNotFoundException;
  *
  * @see Task#isSameTask(Task)
  */
-public class UniqueTaskList implements Iterable<Task> {
-
-    private final ObservableList<Task> internalList = FXCollections.observableArrayList();
-    private final ObservableList<Task> internalUnmodifiableList =
-            FXCollections.unmodifiableObservableList(internalList);
-
-    /**
-     * Returns true if the list contains an equivalent task as the given argument.
-     */
-    public boolean contains(Task toCheck) {
-        requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::isSameTask);
-    }
-
-    /**
-     * Adds a task to the list.
-     * The task must not already exist in the list.
-     */
-    public void add(Task toAdd) {
-        requireNonNull(toAdd);
-        if (contains(toAdd)) {
-            throw new DuplicateTaskException();
-        }
-        internalList.add(toAdd);
-    }
+public class UniqueTaskList extends UniqueList<Task> {
 
     /**
      * Replaces the task {@code target} in the list with {@code editedTask}.
@@ -54,34 +27,7 @@ public class UniqueTaskList implements Iterable<Task> {
      * The task identity of {@code editedTask} must not be the same as another existing task in the list.
      */
     public void setTask(Task target, Task editedTask) {
-        requireAllNonNull(target, editedTask);
-
-        int index = internalList.indexOf(target);
-        if (index == -1) {
-            throw new TaskNotFoundException();
-        }
-
-        if (!target.isSameTask(editedTask) && contains(editedTask)) {
-            throw new DuplicateTaskException();
-        }
-
-        internalList.set(index, editedTask);
-    }
-
-    /**
-     * Removes the equivalent task from the list.
-     * The task must exist in the list.
-     */
-    public void remove(Task toRemove) {
-        requireNonNull(toRemove);
-        if (!internalList.remove(toRemove)) {
-            throw new TaskNotFoundException();
-        }
-    }
-
-    public void setTasks(UniqueTaskList replacement) {
-        requireNonNull(replacement);
-        internalList.setAll(replacement.internalList);
+        setElement(target, editedTask);
     }
 
     /**
@@ -89,64 +35,26 @@ public class UniqueTaskList implements Iterable<Task> {
      * {@code tasks} must not contain duplicate tasks.
      */
     public void setTasks(List<Task> tasks) {
-        requireAllNonNull(tasks);
-        if (!tasksAreUnique(tasks)) {
-            throw new DuplicateTaskException();
-        }
-
-        internalList.setAll(tasks);
+        setElements(tasks);
     }
 
-    /**
-     * Returns the backing list as an unmodifiable {@code ObservableList}.
-     */
-    public ObservableList<Task> asUnmodifiableObservableList() {
-        return internalUnmodifiableList;
+    public void setTasks(UniqueTaskList replacement) {
+        requireNonNull(replacement);
+        setAllFromOther(replacement);
     }
 
     @Override
-    public Iterator<Task> iterator() {
-        return internalList.iterator();
+    protected boolean isSameElement(Task task1, Task task2) {
+        return task1.isSameTask(task2);
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof UniqueTaskList)) {
-            return false;
-        }
-
-        UniqueTaskList otherUniqueTaskList = (UniqueTaskList) other;
-        return internalList.equals(otherUniqueTaskList.internalList);
+    protected RuntimeException createDuplicateException() {
+        return new DuplicateTaskException();
     }
 
     @Override
-    public int hashCode() {
-        return internalList.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return internalList.toString();
-    }
-
-    /**
-     * Returns true if {@code tasks} contains only unique tasks.
-     * Uses a HashSet for O(n) time complexity instead of O(n²).
-     */
-    private boolean tasksAreUnique(List<Task> tasks) {
-        java.util.Set<String> seenTitles = new java.util.HashSet<>();
-        for (Task task : tasks) {
-            String title = task.getTitle();
-            if (seenTitles.contains(title)) {
-                return false;
-            }
-            seenTitles.add(title);
-        }
-        return true;
+    protected RuntimeException createNotFoundException() {
+        return new TaskNotFoundException();
     }
 }
