@@ -6,7 +6,7 @@
 
 # ClubHub User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+ClubHub is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -172,18 +172,18 @@ Examples:
 * `markattendance e/Orientation2023 m/John Doe` - Marks John Doe as attended for Orientation2023
 * `markattendance e/Meeting2023 m/Jane Smith` - Marks Jane Smith as attended for Meeting2023
 
-### Viewing attendance : `viewattendance`
+### Viewing attendees : `viewattendees`
 
 Views the list of members who attended a specific event.
 
-Format: `viewattendance e/EVENTID`
+Format: `viewattendees e/EVENTID`
 
 * Shows all members marked as attended for the specified event.
 * If no attendance has been recorded for the event, shows "No attendance recorded yet."
 
 Examples:
-* `viewattendance e/Orientation2023` - Shows all members who attended Orientation2023
-* `viewattendance e/Meeting2023` - Shows all members who attended Meeting2023
+* `viewattendees e/Orientation2023` - Shows all members who attended Orientation2023
+* `viewattendees e/Meeting2023` - Shows all members who attended Meeting2023
 
 ### Saving the data
 
@@ -231,5 +231,5 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Mark Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> e.g., `markattendance e/Orientation2023 m/John Doe`
-**View Attendance** | `viewattendance e/EVENTID`<br> e.g., `viewattendance e/Orientation2023`
+**View Attendees** | `viewattendees e/EVENTID`<br> e.g., `viewattendees e/Orientation2023`
 **Help**   | `help`
