@@ -181,7 +181,7 @@ Examples:
 Manages events in the address book.
 
 Formats:
-* `addevent ev/EVENTID dt/DATE desc/DESCRIPTION`
+* `addevent e/EVENTID dt/DATE desc/DESCRIPTION`
 * `deleteevent e/EVENTID`
 
 Examples:
