@@ -38,11 +38,14 @@ public class UiManager implements Ui {
 
         //Set the application icon.
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
+        logger.fine("Application icon applied.");
 
         try {
+            logger.fine("Creating MainWindow.");
             mainWindow = new MainWindow(primaryStage, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
+            logger.fine("MainWindow initialised successfully.");
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
