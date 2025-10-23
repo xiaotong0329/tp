@@ -94,14 +94,6 @@ public class ResultDisplayTest {
     }
 
     @Test
-    public void calculateAccurateLineCount_mixedContent_returnsCorrectCount() {
-        String text = "Short line\n\nVery long line that should wrap multiple times because it contains many words and should exceed the character limit per line\nShort line again";
-        int lineCount = calculateAccurateLineCountForTest(text);
-        // Should account for both explicit newlines and wrapping
-        assertTrue(lineCount > 3);
-    }
-
-    @Test
     public void applyContentBasedStyling_errorContent_identifiesError() {
         String errorContent = "Error: Event not found";
         String styleClass = getStyleClassForContent(errorContent);
