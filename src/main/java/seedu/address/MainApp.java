@@ -91,21 +91,17 @@ public class MainApp extends Application {
         }
 
         ModelManager modelManager = new ModelManager(initialData, userPrefs);
-        
         // Log successful model initialization
         logger.info("ModelManager initialized successfully");
         logger.info("AddressBook contains " + modelManager.getAddressBook().getPersonList().size() + " persons");
-        
         // Assertion: Ensure model is properly initialized with non-null components
         assert modelManager != null : "ModelManager should not be null after initialization";
         assert modelManager.getAddressBook() != null : "AddressBook should not be null in ModelManager";
         assert modelManager.getUserPrefs() != null : "UserPrefs should not be null in ModelManager";
         
         logger.info("Model validation completed - all components are properly initialized");
-        
         return modelManager;
     }
-
     private void initLogging(Config config) {
         LogsCenter.init(config);
     }
