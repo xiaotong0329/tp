@@ -6,7 +6,7 @@
 
 # ClubHub User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+ClubHub is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -216,18 +216,18 @@ Examples:
 * `addattendance e/Orientation2023 m/John Doe` - Adds John Doe to the attending list of Orientation2023
 * `addattendance e/Meeting2023 m/Jane Smith` - Adds Jane Smith to the attending list of Meeting2023
 
-### Viewing attendance : `viewattendance`
+### Viewing attendees : `viewattendees`
 
 Views the list of members who attended a specific event.
 
-Format: `viewattendance e/EVENTID`
+Format: `viewattendees e/EVENTID`
 
 * Shows all members marked as attended for the specified event.
 * If no attendance has been recorded for the event, shows "No attendance recorded yet."
 
 Examples:
-* `viewattendance e/Orientation2023` - Shows all members who attended Orientation2023
-* `viewattendance e/Meeting2023` - Shows all members who attended Meeting2023
+* `viewattendees e/Orientation2023` - Shows all members who attended Orientation2023
+* `viewattendees e/Meeting2023` - Shows all members who attended Meeting2023
 
 ### Showing attendance summary : `showattendance`
 
@@ -334,7 +334,7 @@ Action     | Format, Examples
 **Import** | `import /from FILEPATH`<br> e.g., `import /from members.csv`
 **Export** | `export /to FILEPATH`<br> e.g., `export /to members.csv`
 **Events** | `addevent ev/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
-**Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendance e/EVENTID`<br> `showattendance e/EVENTID`
+**Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendees e/EVENTID`<br> `showattendance e/EVENTID`
 **Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
 **Undo/Redo** | `undo`, `redo`
 **Budget** | `budget set a/AMOUNT from/START to/END`, `budget reset`, `budget report`, `setexpense INDEX a/AMOUNT`
