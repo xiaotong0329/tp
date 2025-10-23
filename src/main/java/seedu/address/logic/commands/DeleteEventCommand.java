@@ -17,8 +17,8 @@ public class DeleteEventCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the event identified by the event ID.\n"
-            + "Parameters: ev/EVENTID\n"
-            + "Example: " + COMMAND_WORD + " ev/Orientation";
+            + "Parameters: e/EVENTID\n"
+            + "Example: " + COMMAND_WORD + " e/Orientation";
 
     public static final String MESSAGE_DELETE_EVENT_SUCCESS = "Event %1$s deleted successfully.";
     public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found: %1$s.";
