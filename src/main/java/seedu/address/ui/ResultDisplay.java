@@ -39,12 +39,12 @@ public class ResultDisplay extends UiPart<Region> {
         resultDisplay.setWrapText(true);
         resultDisplay.setEditable(false);
         resultDisplay.setPrefRowCount(1);
-        
+
         // Listen to text changes to adjust height
         resultDisplay.textProperty().addListener((observable, oldValue, newValue) -> {
             Platform.runLater(() -> adjustHeightToContent());
         });
-        
+
         // Also listen to layout changes
         resultDisplay.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
             Platform.runLater(() -> adjustHeightToContent());
@@ -73,27 +73,27 @@ public class ResultDisplay extends UiPart<Region> {
 
         // Calculate the number of lines needed more accurately
         int lineCount = calculateAccurateLineCount(text);
-        
+
         // Calculate required height
         int requiredHeight = (lineCount * LINE_HEIGHT) + PADDING;
-        
+
         // Clamp between min and max height
         int finalHeight = Math.max(MIN_HEIGHT, Math.min(MAX_HEIGHT, requiredHeight));
-        
+
         // Set the height on both the root and the TextArea
         getRoot().setPrefHeight(finalHeight);
         getRoot().setMinHeight(finalHeight);
         getRoot().setMaxHeight(finalHeight);
-        
+
         // Also set the TextArea's preferred row count
         resultDisplay.setPrefRowCount(lineCount);
-        
+
         // Log for debugging
-        logger.info("Adjusting height: text length=" + text.length() + 
-                   ", lineCount=" + lineCount + 
-                   ", requiredHeight=" + requiredHeight + 
+        logger.info("Adjusting height: text length=" + text.length() +
+                   ", lineCount=" + lineCount +
+                   ", requiredHeight=" + requiredHeight +
                    ", finalHeight=" + finalHeight);
-        
+
         // Force a layout pass
         getRoot().requestLayout();
     }
@@ -110,11 +110,11 @@ public class ResultDisplay extends UiPart<Region> {
         // Count explicit newlines
         String[] lines = text.split("\n", -1);
         int totalLines = 0;
-        
+
         // Estimate characters per line based on the TextArea width
         // Assuming average character width of 8 pixels and TextArea width of ~800px
         int estimatedCharsPerLine = 100; // Conservative estimate
-        
+
         for (String line : lines) {
             if (line.isEmpty()) {
                 totalLines += 1; // Empty line still takes one line
@@ -124,7 +124,7 @@ public class ResultDisplay extends UiPart<Region> {
                 totalLines += Math.max(1, wrappedLines);
             }
         }
-        
+
         return Math.max(1, totalLines);
     }
 
@@ -135,13 +135,13 @@ public class ResultDisplay extends UiPart<Region> {
     private void applyContentBasedStyling(String content) {
         // Clear existing style classes
         getRoot().getStyleClass().removeAll("success", "error", "long-list", "info");
-        
+
         if (content == null || content.isEmpty()) {
             return;
         }
-        
+
         // Check for error indicators
-        if (content.toLowerCase().contains("error") || 
+        if (content.toLowerCase().contains("error") ||
             content.toLowerCase().contains("invalid") ||
             content.toLowerCase().contains("not found") ||
             content.toLowerCase().contains("failed")) {
@@ -155,7 +155,7 @@ public class ResultDisplay extends UiPart<Region> {
             getRoot().getStyleClass().add("success");
         }
         // Check for long list content (like viewAttendance)
-        else if (content.contains("•") || 
+        else if (content.contains("•") ||
                  content.contains("\n") && content.split("\n").length > 3 ||
                  content.toLowerCase().contains("attendance") ||
                  content.toLowerCase().contains("list")) {
