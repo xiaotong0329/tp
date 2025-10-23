@@ -67,7 +67,7 @@ public class ShowAttendanceCommand extends Command {
         String attendedText = formatNames(attendedNames);
         String absentText = formatNames(absentNames);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getDescription(),
+        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getEventId(),
                 attendedNames.size(), attendedText, absentNames.size(), absentText));
     }
 

@@ -92,6 +92,9 @@
     -fx-font-size: 13px;
     -fx-font-family: "Segoe UI", "Roboto", "Arial";
     -fx-padding: 8;
+    -fx-line-spacing: 2px;
+    -fx-wrap-text: true;
+    -fx-focus-traversable: false;
 }
 
 /* Success Message Styling */
@@ -112,6 +115,29 @@
 
 .result-display.error #resultDisplay {
     -fx-text-fill: #ef5350;
+}
+
+/* Long List Display Styling */
+.result-display.long-list {
+    -fx-border-color: #2196f3;
+    -fx-effect: dropshadow(gaussian, rgba(33, 150, 243, 0.3), 10, 0, 0, 0);
+    -fx-background-color: #1a1a1a;
+}
+
+.result-display.long-list #resultDisplay {
+    -fx-text-fill: #90caf9;
+    -fx-font-size: 12px;
+    -fx-line-spacing: 1px;
+}
+
+/* Info Message Styling */
+.result-display.info {
+    -fx-border-color: #ff9800;
+    -fx-effect: dropshadow(gaussian, rgba(255, 152, 0, 0.3), 10, 0, 0, 0);
+}
+
+.result-display.info #resultDisplay {
+    -fx-text-fill: #ffb74d;
 }
 
 /* Enhanced Menu Bar Styling */

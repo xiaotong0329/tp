@@ -6,27 +6,27 @@ import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.ViewAttendanceCommand;
+import seedu.address.logic.commands.ViewAttendeesCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Contains tests for {@code ViewAttendanceCommandParser}.
+ * Contains tests for {@code ViewAttendeesCommandParser}.
  */
-public class ViewAttendanceCommandParserTest {
+public class ViewAttendeesCommandParserTest {
 
-    private final ViewAttendanceCommandParser parser = new ViewAttendanceCommandParser();
+    private final ViewAttendeesCommandParser parser = new ViewAttendeesCommandParser();
 
     @Test
-    public void parse_validArgs_returnsViewAttendanceCommand() throws Exception {
+    public void parse_validArgs_returnsViewAttendeesCommand() throws Exception {
         String userInput = " " + CliSyntax.PREFIX_EVENT_ID.getPrefix() + "testEvent";
-        assertTrue(parser.parse(userInput) instanceof ViewAttendanceCommand);
+        assertTrue(parser.parse(userInput) instanceof ViewAttendeesCommand);
     }
 
 
     @Test
     public void parse_invalidValue_failure() {
         String expectedMessage = String.format(
-                MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendanceCommand.MESSAGE_USAGE);
+            MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendeesCommand.MESSAGE_USAGE);
 
         // Missing prefix
         assertThrows(ParseException.class, expectedMessage, () -> parser.parse("event1"));

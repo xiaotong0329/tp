@@ -13,26 +13,24 @@ import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 
 /**
- * Views attendance for an event.
+ * Views attendees for an event.
  */
-public class ViewAttendanceCommand extends Command {
+public class ViewAttendeesCommand extends Command {
 
-    public static final String COMMAND_WORD = "viewattendance";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views attendance for an event. "
+    public static final String COMMAND_WORD = "viewattendees";
+    public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found";
+    public static final String MESSAGE_SUCCESS = "Attendees for %1$s:\n%2$s";
+    public static final String MESSAGE_NO_ATTENDANCE = "No attendance recorded yet.";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views attendees for an event. "
             + "Parameters: e/EVENTID\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023";
-
-    public static final String MESSAGE_SUCCESS = "Attendance for %1$s:\n%2$s";
-    public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found";
-    public static final String MESSAGE_NO_ATTENDANCE = "No attendance recorded yet.";
 
     private final EventId eventId;
 
     /**
-     * Creates a ViewAttendanceCommand to view attendance for the specified event.
+     * Creates a ViewAttendeesCommand to view attendees for the specified event.
      */
-    public ViewAttendanceCommand(EventId eventId) {
+    public ViewAttendeesCommand(EventId eventId) {
         requireNonNull(eventId);
         this.eventId = eventId;
     }
@@ -64,7 +62,7 @@ public class ViewAttendanceCommand extends Command {
                 })
                 .collect(Collectors.joining("\n"));
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getDescription(), attendanceList));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getEventId(), attendanceList));
     }
 
     @Override
@@ -74,12 +72,12 @@ public class ViewAttendanceCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ViewAttendanceCommand)) {
+        if (!(other instanceof ViewAttendeesCommand)) {
             return false;
         }
 
-        ViewAttendanceCommand otherViewAttendanceCommand = (ViewAttendanceCommand) other;
-        return eventId.equals(otherViewAttendanceCommand.eventId);
+        ViewAttendeesCommand otherViewAttendeesCommand = (ViewAttendeesCommand) other;
+        return eventId.equals(otherViewAttendeesCommand.eventId);
     }
 
     @Override

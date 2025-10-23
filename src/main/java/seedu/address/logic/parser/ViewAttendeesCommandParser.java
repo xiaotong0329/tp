@@ -5,33 +5,33 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 
 import java.util.Arrays;
 
-import seedu.address.logic.commands.ViewAttendanceCommand;
+import seedu.address.logic.commands.ViewAttendeesCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.event.EventId;
 
 /**
- * Parses input arguments and creates a new {@code ViewAttendanceCommand} object.
+ * Parses input arguments and creates a new {@code ViewAttendeesCommand} object.
  */
-public class ViewAttendanceCommandParser implements Parser<ViewAttendanceCommand> {
+public class ViewAttendeesCommandParser implements Parser<ViewAttendeesCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the {@code ViewAttendanceCommand}
-     * and returns a {@code ViewAttendanceCommand} object for execution.
+     * Parses the given {@code String} of arguments in the context of the {@code ViewAttendeesCommand}
+     * and returns a {@code ViewAttendeesCommand} object for execution.
      *
      * @throws ParseException if the user input does not conform to the expected format
      */
     @Override
-    public ViewAttendanceCommand parse(String args) throws ParseException {
+    public ViewAttendeesCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EVENT_ID);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_EVENT_ID)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendanceCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendeesCommand.MESSAGE_USAGE));
         }
 
         EventId eventId = ParserUtil.parseEventId(argMultimap.getValue(PREFIX_EVENT_ID).get());
-        return new ViewAttendanceCommand(eventId);
+        return new ViewAttendeesCommand(eventId);
     }
 
     /**
