@@ -27,6 +27,9 @@ public class ResultDisplay extends UiPart<Region> {
     @FXML
     private TextArea resultDisplay;
 
+    /**
+     * Creates a new ResultDisplay.
+     */
     public ResultDisplay() {
         super(FXML);
         setupTextArea();
@@ -89,10 +92,10 @@ public class ResultDisplay extends UiPart<Region> {
         resultDisplay.setPrefRowCount(lineCount);
 
         // Log for debugging
-        logger.info("Adjusting height: text length=" + text.length() +
-                   ", lineCount=" + lineCount +
-                   ", requiredHeight=" + requiredHeight +
-                   ", finalHeight=" + finalHeight);
+        logger.info("Adjusting height: text length=" + text.length()
+                   + ", lineCount=" + lineCount
+                   + ", requiredHeight=" + requiredHeight
+                   + ", finalHeight=" + finalHeight);
 
         // Force a layout pass
         getRoot().requestLayout();
@@ -141,28 +144,25 @@ public class ResultDisplay extends UiPart<Region> {
         }
 
         // Check for error indicators
-        if (content.toLowerCase().contains("error") ||
-            content.toLowerCase().contains("invalid") ||
-            content.toLowerCase().contains("not found") ||
-            content.toLowerCase().contains("failed")) {
+        if (content.toLowerCase().contains("error")
+            || content.toLowerCase().contains("invalid")
+            || content.toLowerCase().contains("not found")
+            || content.toLowerCase().contains("failed")) {
             getRoot().getStyleClass().add("error");
-        }
-        // Check for success indicators
-        else if (content.toLowerCase().contains("successfully") ||
-                 content.toLowerCase().contains("added") ||
-                 content.toLowerCase().contains("deleted") ||
-                 content.toLowerCase().contains("updated")) {
+        } else if (content.toLowerCase().contains("successfully")
+                 || content.toLowerCase().contains("added")
+                 || content.toLowerCase().contains("deleted")
+                 || content.toLowerCase().contains("updated")) {
+            // Check for success indicators
             getRoot().getStyleClass().add("success");
-        }
-        // Check for long list content (like viewAttendance)
-        else if (content.contains("•") ||
-                 content.contains("\n") && content.split("\n").length > 3 ||
-                 content.toLowerCase().contains("attendance") ||
-                 content.toLowerCase().contains("list")) {
+        } else if (content.contains("•")
+                 || content.contains("\n") && content.split("\n").length > 3
+                 || content.toLowerCase().contains("attendance")
+                 || content.toLowerCase().contains("list")) {
+            // Check for long list content (like viewAttendance)
             getRoot().getStyleClass().add("long-list");
-        }
-        // Default info styling for other content
-        else {
+        } else {
+            // Default info styling for other content
             getRoot().getStyleClass().add("info");
         }
     }
