@@ -64,7 +64,7 @@ public class ViewAttendanceCommand extends Command {
                 })
                 .collect(Collectors.joining("\n"));
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getDescription(), attendanceList));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getEventId(), attendanceList));
     }
 
     @Override
