@@ -19,12 +19,12 @@ public class MarkTaskCommand extends Command {
     public static final String COMMAND_WORD = "marktask";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Marks the task identified by the index number as done.\n"
+            + ": Marks the task identified by the index number used in the displayed task list as done.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked Task as done: %1$s";
-    public static final String MESSAGE_TASK_ALREADY_DONE = "Task is already marked as done: %1$s";
+    public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked task as done: %1$s";
+    public static final String MESSAGE_TASK_ALREADY_DONE = "This task is already marked as done";
 
     private final Index targetIndex;
 
@@ -44,7 +44,7 @@ public class MarkTaskCommand extends Command {
         Task taskToMark = lastShownList.get(targetIndex.getZeroBased());
 
         if (taskToMark.isDone()) {
-            throw new CommandException(String.format(MESSAGE_TASK_ALREADY_DONE, Messages.format(taskToMark)));
+            throw new CommandException(MESSAGE_TASK_ALREADY_DONE);
         }
 
         Task markedTask = taskToMark.toggleDone();

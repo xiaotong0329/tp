@@ -16,14 +16,23 @@ public class Attendance {
 
     private final EventId eventId;
     private final Name memberName;
+    private final boolean hasAttended;
 
     /**
      * Every field must be present and not null.
      */
     public Attendance(EventId eventId, Name memberName) {
+        this(eventId, memberName, false);
+    }
+
+    /**
+     * Creates an {@code Attendance} with the specified attendance status.
+     */
+    public Attendance(EventId eventId, Name memberName, boolean hasAttended) {
         requireAllNonNull(eventId, memberName);
         this.eventId = eventId;
         this.memberName = memberName;
+        this.hasAttended = hasAttended;
     }
 
     public EventId getEventId() {
@@ -32,6 +41,20 @@ public class Attendance {
 
     public Name getMemberName() {
         return memberName;
+    }
+
+    public boolean hasAttended() {
+        return hasAttended;
+    }
+
+    /**
+     * Returns a copy of this attendance record marked as attended.
+     */
+    public Attendance markAttended() {
+        if (hasAttended) {
+            return this;
+        }
+        return new Attendance(eventId, memberName, true);
     }
 
     /**
@@ -61,12 +84,13 @@ public class Attendance {
 
         Attendance otherAttendance = (Attendance) other;
         return eventId.equals(otherAttendance.eventId)
-                && memberName.equals(otherAttendance.memberName);
+                && memberName.equals(otherAttendance.memberName)
+                && hasAttended == otherAttendance.hasAttended;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventId, memberName);
+        return Objects.hash(eventId, memberName, hasAttended);
     }
 
     @Override
@@ -74,6 +98,7 @@ public class Attendance {
         return new ToStringBuilder(this)
                 .add("eventId", eventId)
                 .add("memberName", memberName)
+                .add("hasAttended", hasAttended)
                 .toString();
     }
 }

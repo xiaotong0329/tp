@@ -4,6 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -12,6 +16,8 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.budget.Budget;
+import seedu.address.model.common.Money;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
@@ -28,6 +34,7 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Event> filteredEvents;
     private final FilteredList<Task> filteredTasks;
+    private Budget budget; // nullable
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -42,6 +49,7 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredEvents = new FilteredList<>(this.addressBook.getEventList());
         filteredTasks = new FilteredList<>(this.addressBook.getTaskList());
+        this.budget = addressBook.getBudget().orElse(null);
     }
 
     public ModelManager() {
@@ -88,6 +96,7 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
+        this.budget = addressBook.getBudget().orElse(null);
     }
 
     @Override
@@ -103,20 +112,25 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
+        logger.info("Deleting person: " + target.getName());
         addressBook.removePerson(target);
+        logger.fine("Person deleted successfully. Total persons: " + addressBook.getPersonList().size());
     }
 
     @Override
     public void addPerson(Person person) {
+        logger.info("Adding person: " + person.getName());
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        logger.fine("Person added successfully. Total persons: " + addressBook.getPersonList().size());
     }
 
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
+        logger.info("Editing person: " + target.getName() + " -> " + editedPerson.getName());
         addressBook.setPerson(target, editedPerson);
+        logger.fine("Person edited successfully");
     }
 
     @Override
@@ -186,6 +200,12 @@ public class ModelManager implements Model {
         addressBook.addAttendance(attendance);
     }
 
+    @Override
+    public void setAttendance(Attendance target, Attendance editedAttendance) {
+        requireAllNonNull(target, editedAttendance);
+        addressBook.setAttendance(target, editedAttendance);
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -241,29 +261,41 @@ public class ModelManager implements Model {
 
     @Override
     public void commit() {
+        logger.info("Committing current state for undo functionality");
         addressBook.commit();
+        logger.fine("State committed successfully. Undo history size: " + addressBook.getUndoCount());
     }
 
     @Override
     public boolean undo() {
+        logger.info("Attempting to undo last operation");
         boolean result = addressBook.undo();
         if (result) {
+            logger.info("Undo successful. Updating filtered lists");
             // Update filtered lists to reflect the restored state
             updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+            logger.fine("Filtered lists updated. Remaining undo operations: " + addressBook.getUndoCount());
+        } else {
+            logger.warning("Undo failed - no operations to undo");
         }
         return result;
     }
 
     @Override
     public boolean redo() {
+        logger.info("Attempting to redo last undone operation");
         boolean result = addressBook.redo();
         if (result) {
+            logger.info("Redo successful. Updating filtered lists");
             // Update filtered lists to reflect the restored state
             updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+            logger.fine("Filtered lists updated. Remaining redo operations: " + addressBook.getRedoCount());
+        } else {
+            logger.warning("Redo failed - no operations to redo");
         }
         return result;
     }
@@ -280,7 +312,53 @@ public class ModelManager implements Model {
 
     @Override
     public void rollbackLastCommit() {
+        logger.info("Rolling back last commit due to command failure");
         addressBook.rollbackLastCommit();
+        logger.fine("Rollback completed. Undo history size: " + addressBook.getUndoCount());
+    }
+
+    //=========== Budget Operations ========================================================================
+
+    @Override
+    public Optional<Budget> getBudget() {
+        return Optional.ofNullable(budget);
+    }
+
+    @Override
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+        // AddressBook persists budget for storage roundtrip
+        this.addressBook.setBudget(budget);
+    }
+
+    @Override
+    public void clearBudget() {
+        this.budget = null;
+        this.addressBook.clearBudget();
+    }
+
+    @Override
+    public Money computeTotalExpensesWithin(LocalDate start, LocalDate end) {
+        Money total = Money.zero();
+        for (Event e : addressBook.getEventList()) {
+            LocalDate d = e.getDate();
+            if ((d.isEqual(start) || d.isAfter(start)) && (d.isEqual(end) || d.isBefore(end))) {
+                total = total.plus(e.getExpense());
+            }
+        }
+        return total;
+    }
+
+    @Override
+    public List<Event> getEventsWithin(LocalDate start, LocalDate end) {
+        List<Event> result = new ArrayList<>();
+        for (Event e : addressBook.getEventList()) {
+            LocalDate d = e.getDate();
+            if ((d.isEqual(start) || d.isAfter(start)) && (d.isEqual(end) || d.isBefore(end))) {
+                result.add(e);
+            }
+        }
+        return result;
     }
 
     @Override

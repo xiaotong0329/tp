@@ -58,16 +58,25 @@ public class Messages {
 
     /**
      * Formats the {@code task} for display to the user.
+     * Displays the task title, deadline (if present), and completion status.
+     *
+     * @param task The task to format
+     * @return A formatted string representation of the task
      */
     public static String format(Task task) {
         final StringBuilder builder = new StringBuilder();
         builder.append(task.getTitle());
+
         if (task.getDeadline() != null) {
+            java.time.format.DateTimeFormatter formatter =
+                    java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm");
             builder.append("; Deadline: ")
-                    .append(task.getDeadline().toString());
+                    .append(task.getDeadline().format(formatter));
         }
+
         builder.append("; Status: ")
                 .append(task.isDone() ? "Done" : "Not Done");
+
         return builder.toString();
     }
 

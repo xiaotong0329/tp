@@ -257,6 +257,12 @@ public class AddEventCommandTest {
         public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void setAttendance(seedu.address.model.attendance.Attendance target,
+                seedu.address.model.attendance.Attendance editedAttendance) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
