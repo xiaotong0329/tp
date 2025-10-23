@@ -204,7 +204,7 @@ public class ResultDisplayTest {
                  || content.contains("\n") && content.split("\n").length > 3
                  || content.toLowerCase().contains("attendance")
                  || content.toLowerCase().contains("list")) {
-            // Check for long list content (like viewAttendance)
+            // Check for long list content (like viewAttendees)
             return "long-list";
         } else {
             // Default info styling for other content
