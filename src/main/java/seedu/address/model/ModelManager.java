@@ -112,20 +112,25 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
+        logger.info("Deleting person: " + target.getName());
         addressBook.removePerson(target);
+        logger.fine("Person deleted successfully. Total persons: " + addressBook.getPersonList().size());
     }
 
     @Override
     public void addPerson(Person person) {
+        logger.info("Adding person: " + person.getName());
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        logger.fine("Person added successfully. Total persons: " + addressBook.getPersonList().size());
     }
 
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
+        logger.info("Editing person: " + target.getName() + " -> " + editedPerson.getName());
         addressBook.setPerson(target, editedPerson);
+        logger.fine("Person edited successfully");
     }
 
     @Override
@@ -256,29 +261,41 @@ public class ModelManager implements Model {
 
     @Override
     public void commit() {
+        logger.info("Committing current state for undo functionality");
         addressBook.commit();
+        logger.fine("State committed successfully. Undo history size: " + addressBook.getUndoCount());
     }
 
     @Override
     public boolean undo() {
+        logger.info("Attempting to undo last operation");
         boolean result = addressBook.undo();
         if (result) {
+            logger.info("Undo successful. Updating filtered lists");
             // Update filtered lists to reflect the restored state
             updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+            logger.fine("Filtered lists updated. Remaining undo operations: " + addressBook.getUndoCount());
+        } else {
+            logger.warning("Undo failed - no operations to undo");
         }
         return result;
     }
 
     @Override
     public boolean redo() {
+        logger.info("Attempting to redo last undone operation");
         boolean result = addressBook.redo();
         if (result) {
+            logger.info("Redo successful. Updating filtered lists");
             // Update filtered lists to reflect the restored state
             updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+            logger.fine("Filtered lists updated. Remaining redo operations: " + addressBook.getRedoCount());
+        } else {
+            logger.warning("Redo failed - no operations to redo");
         }
         return result;
     }
@@ -295,7 +312,9 @@ public class ModelManager implements Model {
 
     @Override
     public void rollbackLastCommit() {
+        logger.info("Rolling back last commit due to command failure");
         addressBook.rollbackLastCommit();
+        logger.fine("Rollback completed. Undo history size: " + addressBook.getUndoCount());
     }
 
     //=========== Budget Operations ========================================================================
