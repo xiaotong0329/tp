@@ -98,7 +98,6 @@ public class MainApp extends Application {
         assert modelManager != null : "ModelManager should not be null after initialization";
         assert modelManager.getAddressBook() != null : "AddressBook should not be null in ModelManager";
         assert modelManager.getUserPrefs() != null : "UserPrefs should not be null in ModelManager";
-        
         logger.info("Model validation completed - all components are properly initialized");
         return modelManager;
     }
