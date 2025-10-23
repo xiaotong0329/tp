@@ -12,13 +12,13 @@ import javafx.collections.ObservableList;
 /**
  * A generic list that enforces uniqueness between its elements and does not allow nulls.
  * Elements are considered unique by comparing using a custom equality method provided by subclasses.
- * 
+ *
  * @param <T> The type of elements in the list
  */
 public abstract class UniqueList<T> implements Iterable<T> {
-    
+
     protected final ObservableList<T> internalList = FXCollections.observableArrayList();
-    private final ObservableList<T> internalUnmodifiableList = 
+    private final ObservableList<T> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
@@ -134,12 +134,12 @@ public abstract class UniqueList<T> implements Iterable<T> {
      * Returns true if the two elements are considered the same for uniqueness purposes.
      */
     protected abstract boolean isSameElement(T element1, T element2);
-    
+
     /**
      * Creates the appropriate duplicate exception for this list type.
      */
     protected abstract RuntimeException createDuplicateException();
-    
+
     /**
      * Creates the appropriate not found exception for this list type.
      */
