@@ -5,6 +5,8 @@ import static seedu.address.logic.commands.MarkAttendanceCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.MarkAttendanceCommand;
@@ -22,7 +24,7 @@ public class MarkAttendanceCommandParserTest {
     public void parse_allFieldsPresent_success() {
         String userInput = " e/Event1 m/John Doe";
         MarkAttendanceCommand expectedCommand = new MarkAttendanceCommand(
-                new EventId("Event1"), new Name("John Doe"));
+                new EventId("Event1"), List.of(new Name("John Doe")));
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }

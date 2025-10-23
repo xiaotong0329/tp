@@ -96,7 +96,10 @@ public class LogicManager implements Logic {
                 || commandWord.equals("AddTaskCommand")
                 || commandWord.equals("DeleteTaskCommand")
                 || commandWord.equals("MarkTaskCommand")
-                || commandWord.equals("UnmarkTaskCommand");
+                || commandWord.equals("UnmarkTaskCommand")
+                || commandWord.equals("BudgetSetCommand")
+                || commandWord.equals("BudgetResetCommand")
+                || commandWord.equals("SetExpenseCommand");
     }
 
     @Override

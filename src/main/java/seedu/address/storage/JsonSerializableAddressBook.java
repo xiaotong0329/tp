@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.attendance.Attendance;
+import seedu.address.model.budget.Budget;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
@@ -23,10 +25,13 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
     public static final String MESSAGE_DUPLICATE_EVENT = "Events list contains duplicate event(s).";
     public static final String MESSAGE_DUPLICATE_TASK = "Tasks list contains duplicate task(s).";
+    public static final String MESSAGE_DUPLICATE_ATTENDANCE = "Attendances list contains duplicate attendance(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedEvent> events = new ArrayList<>();
     private final List<JsonAdaptedTask> tasks = new ArrayList<>();
+    private final List<JsonAdaptedAttendance> attendances = new ArrayList<>();
+    private final JsonAdaptedBudget budget; // optional
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons, events, and tasks.
@@ -34,7 +39,9 @@ class JsonSerializableAddressBook {
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
             @JsonProperty("events") List<JsonAdaptedEvent> events,
-            @JsonProperty("tasks") List<JsonAdaptedTask> tasks) {
+            @JsonProperty("tasks") List<JsonAdaptedTask> tasks,
+            @JsonProperty("attendances") List<JsonAdaptedAttendance> attendances,
+            @JsonProperty("budget") JsonAdaptedBudget budget) {
         this.persons.addAll(persons);
         if (events != null) {
             this.events.addAll(events);
@@ -42,6 +49,18 @@ class JsonSerializableAddressBook {
         if (tasks != null) {
             this.tasks.addAll(tasks);
         }
+        if (attendances != null) {
+            this.attendances.addAll(attendances);
+        }
+        this.budget = budget; // may be null
+    }
+
+    // Backward-compatible ctor without budget field
+    public JsonSerializableAddressBook(List<JsonAdaptedPerson> persons,
+            List<JsonAdaptedEvent> events,
+            List<JsonAdaptedTask> tasks,
+            List<JsonAdaptedAttendance> attendances) {
+        this(persons, events, tasks, attendances, null);
     }
 
     /**
@@ -53,6 +72,12 @@ class JsonSerializableAddressBook {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
         events.addAll(source.getEventList().stream().map(JsonAdaptedEvent::new).collect(Collectors.toList()));
         tasks.addAll(source.getTaskList().stream().map(JsonAdaptedTask::new).collect(Collectors.toList()));
+        attendances.addAll(source.getAttendanceList().stream()
+                .map(JsonAdaptedAttendance::new)
+                .collect(Collectors.toList()));
+        // ReadOnlyAddressBook now exposes getBudget()
+        Budget b = source.getBudget().orElse(null);
+        this.budget = (b == null) ? null : new JsonAdaptedBudget(b);
     }
 
     /**
@@ -82,6 +107,16 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_TASK);
             }
             addressBook.addTask(task);
+        }
+        for (JsonAdaptedAttendance jsonAdaptedAttendance : attendances) {
+            Attendance attendance = jsonAdaptedAttendance.toModelType();
+            if (addressBook.hasAttendance(attendance)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_ATTENDANCE);
+            }
+            addressBook.addAttendance(attendance);
+        }
+        if (budget != null) {
+            addressBook.setBudget(budget.toModelType());
         }
         return addressBook;
     }

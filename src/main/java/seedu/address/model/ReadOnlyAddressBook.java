@@ -1,7 +1,10 @@
 package seedu.address.model;
 
+import java.util.Optional;
+
 import javafx.collections.ObservableList;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.budget.Budget;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
@@ -34,5 +37,12 @@ public interface ReadOnlyAddressBook {
      * This list will not contain any duplicate tasks.
      */
     ObservableList<Task> getTaskList();
+
+    /**
+     * Returns the optional global budget.
+     */
+    default Optional<Budget> getBudget() {
+        return Optional.empty();
+    }
 
 }

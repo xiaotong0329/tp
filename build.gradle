@@ -11,6 +11,11 @@ mainClassName = 'seedu.address.Main'
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
+// Enable assertions for the application
+run {
+    jvmArgs = ['-ea']
+}
+
 repositories {
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
