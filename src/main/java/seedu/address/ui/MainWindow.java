@@ -67,13 +67,16 @@ public class MainWindow extends UiPart<Stage> {
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
+        logger.fine("MainWindow dependencies injected.");
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
+        logger.fine("Default window size applied.");
 
         setAccelerators();
 
         helpWindow = new HelpWindow();
+        logger.fine("Help window initialised.");
     }
 
     public Stage getPrimaryStage() {
@@ -118,6 +121,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        logger.fine("Populating main window UI placeholders.");
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
@@ -155,13 +159,16 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     public void handleHelp() {
         if (!helpWindow.isShowing()) {
+            logger.fine("Opening help window.");
             helpWindow.show();
         } else {
+            logger.fine("Focusing existing help window.");
             helpWindow.focus();
         }
     }
 
     void show() {
+        logger.fine("Showing primary stage.");
         primaryStage.show();
     }
 
@@ -170,9 +177,12 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     private void handleExit() {
+        logger.info("Shutting down from UI.");
         GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
                 (int) primaryStage.getX(), (int) primaryStage.getY());
         logic.setGuiSettings(guiSettings);
+        logger.fine("Saved GUI settings on exit: "
+                + guiSettings.getWindowWidth() + "x" + guiSettings.getWindowHeight());
         helpWindow.hide();
         primaryStage.hide();
     }
@@ -188,6 +198,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
+            logger.info("Executing command from UI: " + commandText);
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
