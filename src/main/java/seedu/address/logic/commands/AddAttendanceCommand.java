@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.AttendanceMessages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.attendance.Attendance;
@@ -26,9 +28,11 @@ public class AddAttendanceCommand extends Command {
             + "Parameters: e/EVENTID m/MEMBER[/MEMBER]...\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023 m/John Doe/Jane Smith";
 
-    public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found";
-    public static final String MESSAGE_MEMBER_NOT_FOUND = "Member not found: %1$s";
-    public static final String MESSAGE_RESULT = "Attendance list for %1$s updated.\nAdded: %2$s%3$s";
+    public static final String MESSAGE_EVENT_NOT_FOUND = AttendanceMessages.MESSAGE_EVENT_NOT_FOUND;
+    public static final String MESSAGE_MEMBER_NOT_FOUND = AttendanceMessages.MESSAGE_MEMBER_NOT_FOUND;
+    public static final String MESSAGE_RESULT = AttendanceMessages.MESSAGE_ADD_ATTENDANCE_RESULT;
+
+    private static final Logger logger = LogsCenter.getLogger(AddAttendanceCommand.class);
 
     private final EventId eventId;
     private final List<Name> memberNames;
@@ -55,6 +59,26 @@ public class AddAttendanceCommand extends Command {
         }
 
         Set<Name> uniqueNames = new LinkedHashSet<>(memberNames);
+        AttendanceUpdateSummary summary = addMembersToEvent(model, uniqueNames);
+
+        logger.fine(() -> String.format(
+                "Processed %d member(s) for event %s: added=%d, duplicates=%d",
+                uniqueNames.size(), eventId,
+                summary.getAddedMembers().size(),
+                summary.getDuplicateMembers().size()));
+
+        assert summary.totalProcessed() == uniqueNames.size();
+
+        String resultMessage = AttendanceMessages.buildAddAttendanceResult(
+                event.getDescription(),
+                summary.getAddedMembers(),
+                summary.getDuplicateMembers());
+
+        return new CommandResult(resultMessage);
+    }
+
+    private AttendanceUpdateSummary addMembersToEvent(Model model,
+                                                      Set<Name> uniqueNames) throws CommandException {
         List<Name> addedMembers = new ArrayList<>();
         List<Name> duplicateMembers = new ArrayList<>();
 
@@ -65,39 +89,22 @@ public class AddAttendanceCommand extends Command {
 
             Attendance attendance = new Attendance(eventId, name);
             if (model.hasAttendance(attendance)) {
+                assert !duplicateMembers.contains(name);
                 duplicateMembers.add(name);
                 continue;
             }
 
             model.addAttendance(attendance);
+            assert !addedMembers.contains(name);
             addedMembers.add(name);
         }
 
-        String addedText = formatNames(addedMembers);
-        String duplicateMessage = duplicateMembers.isEmpty()
-                ? ""
-                : "\n" + formatAlreadyAddedMessage(duplicateMembers);
-        return new CommandResult(String.format(MESSAGE_RESULT, event.getDescription(), addedText, duplicateMessage));
+        return new AttendanceUpdateSummary(addedMembers, duplicateMembers);
     }
 
     private boolean memberExists(Model model, Name name) {
         return model.getAddressBook().getPersonList().stream()
                 .anyMatch(person -> person.getName().equals(name));
-    }
-
-    private String formatNames(List<Name> names) {
-        if (names.isEmpty()) {
-            return "None";
-        }
-        return names.stream().map(Name::toString).collect(Collectors.joining(", "));
-    }
-
-    private String formatAlreadyAddedMessage(List<Name> names) {
-        String nameText = formatNames(names);
-        if (names.size() == 1) {
-            return "Member already added: " + nameText;
-        }
-        return "Members already added: " + nameText;
     }
 
     @Override
@@ -113,5 +120,27 @@ public class AddAttendanceCommand extends Command {
         AddAttendanceCommand otherCommand = (AddAttendanceCommand) other;
         return eventId.equals(otherCommand.eventId)
                 && memberNames.equals(otherCommand.memberNames);
+    }
+
+    private static final class AttendanceUpdateSummary {
+        private final List<Name> addedMembers;
+        private final List<Name> duplicateMembers;
+
+        private AttendanceUpdateSummary(List<Name> addedMembers, List<Name> duplicateMembers) {
+            this.addedMembers = List.copyOf(addedMembers);
+            this.duplicateMembers = List.copyOf(duplicateMembers);
+        }
+
+        private List<Name> getAddedMembers() {
+            return addedMembers;
+        }
+
+        private List<Name> getDuplicateMembers() {
+            return duplicateMembers;
+        }
+
+        private int totalProcessed() {
+            return addedMembers.size() + duplicateMembers.size();
+        }
     }
 }

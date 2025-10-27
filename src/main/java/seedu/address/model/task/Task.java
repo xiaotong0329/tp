@@ -22,6 +22,7 @@ public class Task {
     public static final String VALIDATION_REGEX = "^.{1,100}$";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DEFAULT_DEADLINE_TIME = "23:59";
     public static final int MAX_TITLE_LENGTH = 100;
 
     private final String title;
@@ -160,7 +161,7 @@ public class Task {
         } catch (DateTimeParseException e1) {
             // If that fails, try parsing as date only and append default time
             try {
-                return LocalDateTime.parse(trimmed + " 23:59", dateTimeFormatter);
+                return LocalDateTime.parse(trimmed + " " + DEFAULT_DEADLINE_TIME, dateTimeFormatter);
             } catch (DateTimeParseException e2) {
                 throw new IllegalArgumentException(
                         String.format("Invalid deadline format: '%s'. Expected format: %s or %s",

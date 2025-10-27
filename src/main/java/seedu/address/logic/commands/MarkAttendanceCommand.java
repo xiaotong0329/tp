@@ -7,9 +7,11 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.AttendanceMessages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.attendance.Attendance;
@@ -28,9 +30,11 @@ public class MarkAttendanceCommand extends Command {
             + "Parameters: e/EVENTID m/MEMBER[/MEMBER]...\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023 m/John Doe/Jane Smith";
 
-    public static final String MESSAGE_SUCCESS = "Attendance for %1$s marked.";
-    public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found";
-    public static final String MESSAGE_MEMBER_NOT_FOUND = "Member not found in attendance list: %1$s";
+    public static final String MESSAGE_SUCCESS = AttendanceMessages.MESSAGE_MARK_ATTENDANCE_SUCCESS;
+    public static final String MESSAGE_EVENT_NOT_FOUND = AttendanceMessages.MESSAGE_EVENT_NOT_FOUND;
+    public static final String MESSAGE_MEMBER_NOT_FOUND = AttendanceMessages.MESSAGE_MEMBER_NOT_FOUND_IN_LIST;
+
+    private static final Logger logger = LogsCenter.getLogger(MarkAttendanceCommand.class);
 
     private final EventId eventId;
     private final List<Name> memberNames;
@@ -58,29 +62,21 @@ public class MarkAttendanceCommand extends Command {
         Map<Name, Attendance> attendanceByName = collectAttendance(model);
 
         List<Name> targetNames = new ArrayList<>(new LinkedHashSet<>(memberNames));
+        AttendanceMarkingSummary summary = markAttendance(model, attendanceByName, targetNames);
 
-        List<Name> newlyMarked = new ArrayList<>();
-        List<Name> alreadyMarked = new ArrayList<>();
+        logger.fine(() -> String.format(
+                "Marked attendance for event %s: newlyMarked=%d, alreadyMarked=%d",
+                eventId,
+                summary.getNewlyMarkedMembers().size(),
+                summary.getAlreadyMarkedMembers().size()));
 
-        for (Name name : targetNames) {
-            Attendance attendance = attendanceByName.get(name);
-            if (attendance == null) {
-                throw new CommandException(String.format(MESSAGE_MEMBER_NOT_FOUND, name));
-            }
+        assert summary.totalProcessed() == targetNames.size();
 
-            if (attendance.hasAttended()) {
-                alreadyMarked.add(name);
-                continue;
-            }
-
-            Attendance updatedAttendance = attendance.markAttended();
-            model.setAttendance(attendance, updatedAttendance);
-            newlyMarked.add(name);
-        }
-
-        String markedText = formatNames(newlyMarked);
-        String alreadyMarkedText = formatNames(alreadyMarked);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, event.getDescription(), markedText, alreadyMarkedText));
+        String resultMessage = AttendanceMessages.buildMarkAttendanceResult(
+                event.getDescription(),
+                summary.getNewlyMarkedMembers(),
+                summary.getAlreadyMarkedMembers());
+        return new CommandResult(resultMessage);
     }
 
     @Override
@@ -107,6 +103,33 @@ public class MarkAttendanceCommand extends Command {
                 .toString();
     }
 
+    private AttendanceMarkingSummary markAttendance(Model model,
+                                                    Map<Name, Attendance> attendanceByName,
+                                                    List<Name> targetNames) throws CommandException {
+        List<Name> newlyMarked = new ArrayList<>();
+        List<Name> alreadyMarked = new ArrayList<>();
+
+        for (Name name : targetNames) {
+            Attendance attendance = attendanceByName.get(name);
+            if (attendance == null) {
+                throw new CommandException(String.format(MESSAGE_MEMBER_NOT_FOUND, name));
+            }
+
+            if (attendance.hasAttended()) {
+                assert !alreadyMarked.contains(name);
+                alreadyMarked.add(name);
+                continue;
+            }
+
+            Attendance updatedAttendance = attendance.markAttended();
+            model.setAttendance(attendance, updatedAttendance);
+            assert !newlyMarked.contains(name);
+            newlyMarked.add(name);
+        }
+
+        return new AttendanceMarkingSummary(newlyMarked, alreadyMarked);
+    }
+
     private Map<Name, Attendance> collectAttendance(Model model) {
         Map<Name, Attendance> result = new LinkedHashMap<>();
         model.getAddressBook().getAttendanceList().stream()
@@ -115,10 +138,25 @@ public class MarkAttendanceCommand extends Command {
         return result;
     }
 
-    private String formatNames(List<Name> names) {
-        if (names.isEmpty()) {
-            return "None";
+    private static final class AttendanceMarkingSummary {
+        private final List<Name> newlyMarkedMembers;
+        private final List<Name> alreadyMarkedMembers;
+
+        private AttendanceMarkingSummary(List<Name> newlyMarkedMembers, List<Name> alreadyMarkedMembers) {
+            this.newlyMarkedMembers = List.copyOf(newlyMarkedMembers);
+            this.alreadyMarkedMembers = List.copyOf(alreadyMarkedMembers);
         }
-        return names.stream().map(Name::toString).collect(Collectors.joining(", "));
+
+        private List<Name> getNewlyMarkedMembers() {
+            return newlyMarkedMembers;
+        }
+
+        private List<Name> getAlreadyMarkedMembers() {
+            return alreadyMarkedMembers;
+        }
+
+        private int totalProcessed() {
+            return newlyMarkedMembers.size() + alreadyMarkedMembers.size();
+        }
     }
 }

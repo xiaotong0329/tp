@@ -3,8 +3,11 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.AttendanceMessages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.attendance.Attendance;
@@ -22,11 +25,13 @@ public class ShowAttendanceCommand extends Command {
             + "Parameters: e/EVENTID\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023";
 
-    public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found";
+    public static final String MESSAGE_EVENT_NOT_FOUND = AttendanceMessages.MESSAGE_EVENT_NOT_FOUND;
     public static final String MESSAGE_SUCCESS =
         "Attendance summary for %1$s:\n"
         + "Attended (%2$d): %3$s\n"
         + "Absent (%4$d): %5$s";
+
+    private static final Logger logger = LogsCenter.getLogger(ShowAttendanceCommand.class);
 
     private final EventId eventId;
 
@@ -64,18 +69,16 @@ public class ShowAttendanceCommand extends Command {
                 .map(attendance -> attendance.getMemberName().toString())
                 .collect(Collectors.toList());
 
-        String attendedText = formatNames(attendedNames);
-        String absentText = formatNames(absentNames);
+        assert attendedNames.size() + absentNames.size() == eventAttendances.size();
+
+        String attendedText = AttendanceMessages.formatNames(attendedNames);
+        String absentText = AttendanceMessages.formatNames(absentNames);
+
+        logger.fine(() -> String.format("Event %s attendance summary: attended=%d, absent=%d",
+                eventId, attendedNames.size(), absentNames.size()));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, event.getEventId(),
                 attendedNames.size(), attendedText, absentNames.size(), absentText));
-    }
-
-    private String formatNames(List<String> names) {
-        if (names.isEmpty()) {
-            return "None";
-        }
-        return String.join(", ", names);
     }
 
     @Override
@@ -92,4 +95,3 @@ public class ShowAttendanceCommand extends Command {
         return eventId.equals(otherCommand.eventId);
     }
 }
-

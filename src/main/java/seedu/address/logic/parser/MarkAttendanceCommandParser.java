@@ -1,10 +1,12 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.AttendanceParserUtil.arePrefixesPresent;
+import static seedu.address.logic.parser.AttendanceParserUtil.hasExactlyOneValue;
+import static seedu.address.logic.parser.AttendanceParserUtil.parseMemberNames;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBER;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.logic.commands.MarkAttendanceCommand;
@@ -29,8 +31,8 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
         }
 
         // Each prefix must appear exactly once
-        if (hasNotExactlyOneValue(argMultimap, PREFIX_EVENT_ID)
-                || hasNotExactlyOneValue(argMultimap, PREFIX_MEMBER)) {
+        if (!hasExactlyOneValue(argMultimap, PREFIX_EVENT_ID)
+                || !hasExactlyOneValue(argMultimap, PREFIX_MEMBER)) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
@@ -50,40 +52,5 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
             // Tests expect a generic invalid-format message on invalid input
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
-    }
-
-    private List<Name> parseMemberNames(String rawMember) throws ParseException {
-        String[] parts = rawMember.split("/");
-        List<Name> result = new ArrayList<>();
-
-        for (String part : parts) {
-            String trimmed = part.trim();
-            if (trimmed.isEmpty()) {
-                throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
-            }
-            result.add(ParserUtil.parseName(trimmed));
-        }
-
-        return result;
-    }
-
-    /**
-     * Returns true if all the given prefixes are present in the argument multimap.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap am, Prefix... prefixes) {
-        for (Prefix prefix : prefixes) {
-            if (am.getValue(prefix).isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Returns true if the given prefix does not have exactly one value.
-     */
-    private static boolean hasNotExactlyOneValue(ArgumentMultimap am, Prefix prefix) {
-        List<String> values = am.getAllValues(prefix);
-        return values.size() != 1;
     }
 }
