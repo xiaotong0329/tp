@@ -1,0 +1,8 @@
+Name,Year,StudentNumber,Email,Phone,DietaryRequirements,Role,Tags
+Alex Yeoh,2,A1234567X,alexyeoh@example.com,87438807,No allergies,Member,
+Bernice Yu,3,B2345678Y,berniceyu@example.com,99272758,Vegetarian,Vice President,[colleagues];[friends]
+Charlotte Oliveiro,1,C3456789Z,charlotte@example.com,93210283,Halal,Treasurer,[neighbours]
+David Li,4,D4567890A,lidavid@example.com,91031282,No restrictions,Secretary,[family]
+Irfan Ibrahim,2,E5678901B,irfan@example.com,92492021,Halal,Member,[classmates]
+Roy Balakrishnan,3,F6789012C,royb@example.com,92624417,Vegetarian,President,[colleagues]
+manbo,3,A1234567X,johnd@example.com,98765432,Vegetarian,President,[leadership];[active]

@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.AttendanceParserUtil.arePrefixesPresent;
 import static seedu.address.logic.parser.AttendanceParserUtil.hasExactlyOneValue;
 import static seedu.address.logic.parser.AttendanceParserUtil.parseMemberNames;
+import static seedu.address.logic.parser.AttendanceParserUtil.propagateAttendanceParseException;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBER;
 
@@ -35,9 +36,9 @@ public class AddAttendanceCommandParser implements Parser<AddAttendanceCommand> 
         }
 
         String rawEventId = argMultimap.getValue(PREFIX_EVENT_ID).get().trim();
-        String rawMembers = argMultimap.getValue(PREFIX_MEMBER).get().trim();
+        String rawMembers = argMultimap.getValue(PREFIX_MEMBER).get();
 
-        if (rawEventId.isEmpty() || rawMembers.isEmpty()) {
+        if (rawEventId.isEmpty()) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
@@ -46,7 +47,7 @@ public class AddAttendanceCommandParser implements Parser<AddAttendanceCommand> 
             List<Name> memberNames = parseMemberNames(rawMembers);
             return new AddAttendanceCommand(eventId, memberNames);
         } catch (ParseException pe) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw propagateAttendanceParseException(pe, AddAttendanceCommand.MESSAGE_USAGE);
         }
     }
 }

@@ -159,6 +159,12 @@ public interface Model {
     void setAttendance(Attendance target, Attendance editedAttendance);
 
     /**
+     * Removes the given attendance record.
+     * The attendance record must exist in the address book.
+     */
+    void removeAttendance(Attendance attendance);
+
+    /**
      * Returns an unmodifiable view of the filtered event list
      */
     ObservableList<Event> getFilteredEventList();

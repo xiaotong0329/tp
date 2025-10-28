@@ -27,9 +27,11 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MarkAttendanceCommand;
 import seedu.address.logic.commands.MarkTaskCommand;
 import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.RemoveAttendanceCommand;
 import seedu.address.logic.commands.SetExpenseCommand;
 import seedu.address.logic.commands.ShowAttendanceCommand;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UnmarkAttendanceCommand;
 import seedu.address.logic.commands.UnmarkTaskCommand;
 import seedu.address.logic.commands.ViewAttendeesCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -132,6 +134,12 @@ public class AddressBookParser {
         case MarkAttendanceCommand.COMMAND_WORD:
             return new MarkAttendanceCommandParser().parse(arguments);
 
+        case UnmarkAttendanceCommand.COMMAND_WORD:
+            return new UnmarkAttendanceCommandParser().parse(arguments);
+
+        case RemoveAttendanceCommand.COMMAND_WORD:
+            return new RemoveAttendanceCommandParser().parse(arguments);
+
         case ViewAttendeesCommand.COMMAND_WORD:
             return new ViewAttendeesCommandParser().parse(arguments);
 
@@ -151,4 +159,3 @@ public class AddressBookParser {
 
     }
 }
-

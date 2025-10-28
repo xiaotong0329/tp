@@ -58,6 +58,16 @@ public class Attendance {
     }
 
     /**
+     * Returns a copy of this attendance record marked as absent.
+     */
+    public Attendance markAbsent() {
+        if (!hasAttended) {
+            return this;
+        }
+        return new Attendance(eventId, memberName, false);
+    }
+
+    /**
      * Returns true if both attendance records have the same event ID and member name.
      * This defines a weaker notion of equality between two attendance records.
      */

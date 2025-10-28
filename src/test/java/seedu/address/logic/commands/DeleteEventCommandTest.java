@@ -264,6 +264,11 @@ public class DeleteEventCommandTest {
                 seedu.address.model.attendance.Attendance editedAttendance) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void removeAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

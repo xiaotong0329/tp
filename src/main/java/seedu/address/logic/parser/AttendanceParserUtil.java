@@ -15,6 +15,11 @@ import seedu.address.model.person.Name;
  */
 public final class AttendanceParserUtil {
 
+    public static final String MESSAGE_EMPTY_MEMBER_NAME =
+            "Member names cannot be blank. Remove consecutive '/' or empty segments in m/…";
+    public static final String MESSAGE_NO_MEMBER_SPECIFIED =
+            "Please provide at least one member name after m/…";
+
     private AttendanceParserUtil() {
         // Utility class
     }
@@ -42,16 +47,33 @@ public final class AttendanceParserUtil {
      */
     public static List<Name> parseMemberNames(String rawMembers) throws ParseException {
         requireNonNull(rawMembers);
-        String[] parts = rawMembers.split("/");
+        String trimmedInput = rawMembers.trim();
+        if (trimmedInput.isEmpty()) {
+            throw new ParseException(MESSAGE_NO_MEMBER_SPECIFIED);
+        }
+
+        String[] parts = trimmedInput.split("/");
         List<Name> result = new ArrayList<>();
 
         for (String part : parts) {
             String trimmed = part.trim();
             if (trimmed.isEmpty()) {
-                throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+                throw new ParseException(MESSAGE_EMPTY_MEMBER_NAME);
             }
             result.add(ParserUtil.parseName(trimmed));
         }
         return result;
+    }
+
+    /**
+     * Wraps a {@link ParseException} with the command usage where appropriate.
+     */
+    public static ParseException propagateAttendanceParseException(ParseException pe, String usage) {
+        requireNonNull(pe);
+        requireNonNull(usage);
+        if (MESSAGE_INVALID_COMMAND_FORMAT.equals(pe.getMessage())) {
+            return new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, usage), pe);
+        }
+        return new ParseException(pe.getMessage(), pe);
     }
 }

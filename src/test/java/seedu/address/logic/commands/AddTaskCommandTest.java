@@ -245,6 +245,11 @@ public class AddTaskCommandTest {
         }
 
         @Override
+        public void removeAttendance(Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Event> getFilteredEventList() {
             throw new AssertionError("This method should not be called.");
         }

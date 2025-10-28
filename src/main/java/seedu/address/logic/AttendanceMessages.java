@@ -25,6 +25,10 @@ public final class AttendanceMessages {
     public static final String MESSAGE_ADD_ATTENDANCE_RESULT = "Attendance list for %1$s updated.\nAdded: %2$s%3$s";
     public static final String MESSAGE_MARK_ATTENDANCE_SUCCESS =
             "Attendance for %1$s marked.\nNewly marked: %2$s\nAlready marked: %3$s";
+    public static final String MESSAGE_UNMARK_ATTENDANCE_SUCCESS =
+            "Attendance for %1$s updated.\nNow absent: %2$s\nAlready absent: %3$s";
+    public static final String MESSAGE_REMOVE_ATTENDANCE_SUCCESS =
+            "Removed from attendance list for %1$s: %2$s";
 
     private AttendanceMessages() {
         // Utility class
@@ -89,5 +93,34 @@ public final class AttendanceMessages {
                 eventDescription,
                 formatNames(newlyMarked),
                 formatNames(alreadyMarked));
+    }
+
+    /**
+     * Builds the user-facing result message for unmarking attendance entries.
+     */
+    public static String buildUnmarkAttendanceResult(String eventDescription,
+                                                     List<Name> newlyAbsent,
+                                                     List<Name> alreadyAbsent) {
+        requireNonNull(eventDescription);
+        requireNonNull(newlyAbsent);
+        requireNonNull(alreadyAbsent);
+
+        return String.format(MESSAGE_UNMARK_ATTENDANCE_SUCCESS,
+                eventDescription,
+                formatNames(newlyAbsent),
+                formatNames(alreadyAbsent));
+    }
+
+    /**
+     * Builds the user-facing result message for removing attendance entries.
+     */
+    public static String buildRemoveAttendanceResult(String eventDescription,
+                                                     List<Name> removedMembers) {
+        requireNonNull(eventDescription);
+        requireNonNull(removedMembers);
+
+        return String.format(MESSAGE_REMOVE_ATTENDANCE_SUCCESS,
+                eventDescription,
+                formatNames(removedMembers));
     }
 }
