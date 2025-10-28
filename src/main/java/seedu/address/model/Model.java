@@ -162,7 +162,7 @@ public interface Model {
      * Removes the given attendance record.
      * The attendance record must exist in the address book.
      */
-    void removeAttendance(Attendance attendance);
+    void removeattendees(Attendance attendance);
 
     /**
      * Returns an unmodifiable view of the filtered event list

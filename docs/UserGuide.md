@@ -232,19 +232,19 @@ Examples:
 * `addattendance e/Orientation2023 m/John Doe` - Adds John Doe to the attending list of Orientation2023
 * `addattendance e/Meeting2023 m/Jane Smith` - Adds Jane Smith to the attending list of Meeting2023
 
-### Removing attendance : `removeattendance`
+### Removing attendance : `removeattendees`
 
 Removes members from an event’s attendance list.
 
-Format: `removeattendance e/EVENTID m/MEMBER[/MEMBER]...`
+Format: `removeattendees e/EVENTID m/MEMBER[/MEMBER]...`
 
 * Deletes the attendance entries for the listed members.
 * Each member must already exist in the attendance list.
 * Removed members no longer appear in future attendance summaries unless re-added.
 
 Examples:
-* `removeattendance e/Orientation2023 m/John Doe` - Removes John Doe from Orientation2023’s attendance list
-* `removeattendance e/Meeting2023 m/Jane Smith/Jake Lee` - Removes Jane Smith and Jake Lee from Meeting2023’s attendance list
+* `removeattendees e/Orientation2023 m/John Doe` - Removes John Doe from Orientation2023’s attendance list
+* `removeattendees e/Meeting2023 m/Jane Smith/Jake Lee` - Removes Jane Smith and Jake Lee from Meeting2023’s attendance list
 
 ### Viewing attendees : `viewattendees`
 
@@ -364,7 +364,7 @@ Action     | Format, Examples
 **Import** | `import /from FILEPATH`<br> e.g., `import /from members.csv`
 **Export** | `export /to FILEPATH`<br> e.g., `export /to members.csv`
 **Events** | `addevent ev/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
-**Attendance** | `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `markattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `unmarkattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `removeattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendees e/EVENTID`<br> `showattendance e/EVENTID`
+**Attendance** | `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `markattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `unmarkattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `removeattendees e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendees e/EVENTID`<br> `showattendance e/EVENTID`
 **Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
 **Undo/Redo** | `undo`, `redo`
 **Budget** | `budget set a/AMOUNT from/START to/END`, `budget reset`, `budget report`, `setexpense INDEX a/AMOUNT`
