@@ -14,11 +14,15 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Person;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.EventBuilder;
+import seedu.address.testutil.PersonBuilder;
 
 public class ModelManagerTest {
 
@@ -149,6 +153,41 @@ public class ModelManagerTest {
     @Test
     public void updateFilteredPersonList_nullPredicate_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.updateFilteredPersonList(null));
+    }
+
+    @Test
+    public void setPerson_updatesAttendanceNames() {
+        ModelManager manager = new ModelManager();
+        Person originalPerson = new PersonBuilder().withName("Original Name").build();
+        Person editedPerson = new PersonBuilder(originalPerson).withName("Updated Name").build();
+        Event event = new EventBuilder().withEventId("TestEvent").build();
+
+        manager.addPerson(originalPerson);
+        manager.addEvent(event);
+        manager.addAttendance(new Attendance(event.getEventId(), originalPerson.getName(), true));
+
+        manager.setPerson(originalPerson, editedPerson);
+
+        ObservableList<Attendance> attendances = manager.getAddressBook().getAttendanceList();
+        assertTrue(attendances.stream()
+                .anyMatch(attendance -> attendance.getMemberName().equals(editedPerson.getName())));
+        assertFalse(attendances.stream()
+                .anyMatch(attendance -> attendance.getMemberName().equals(originalPerson.getName())));
+    }
+
+    @Test
+    public void deletePerson_removesAttendanceEntries() {
+        ModelManager manager = new ModelManager();
+        Person person = new PersonBuilder().build();
+        Event event = new EventBuilder().withEventId("TestEvent").build();
+
+        manager.addPerson(person);
+        manager.addEvent(event);
+        manager.addAttendance(new Attendance(event.getEventId(), person.getName(), true));
+
+        manager.deletePerson(person);
+
+        assertTrue(manager.getAddressBook().getAttendanceList().isEmpty());
     }
 
     @Test

@@ -23,6 +23,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.event.Event;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.testutil.PersonBuilder;
@@ -273,6 +274,16 @@ public class AddCommandTest {
 
         @Override
         public void removeAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeAttendanceForMember(Name memberName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void renameAttendanceForMember(Name oldName, Name newName) {
             throw new AssertionError("This method should not be called.");
         }
     }

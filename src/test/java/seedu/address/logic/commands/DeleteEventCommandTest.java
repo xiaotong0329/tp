@@ -18,6 +18,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 
@@ -269,6 +270,16 @@ public class DeleteEventCommandTest {
         public void removeAttendance(seedu.address.model.attendance.Attendance attendance) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void removeAttendanceForMember(Name memberName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void renameAttendanceForMember(Name oldName, Name newName) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -298,6 +309,16 @@ public class DeleteEventCommandTest {
 
         @Override
         public void addAttendance(seedu.address.model.attendance.Attendance attendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeAttendanceForMember(Name memberName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void renameAttendanceForMember(Name oldName, Name newName) {
             throw new AssertionError("This method should not be called.");
         }
     }

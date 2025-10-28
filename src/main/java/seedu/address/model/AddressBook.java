@@ -13,6 +13,7 @@ import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.budget.Budget;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.task.Task;
@@ -186,6 +187,20 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setAttendances(List<Attendance> attendances) {
         this.attendances.setAttendances(attendances);
+    }
+
+    /**
+     * Renames attendance entries for the given member.
+     */
+    public void renameAttendanceForMember(Name oldName, Name newName) {
+        attendances.renameMember(oldName, newName);
+    }
+
+    /**
+     * Removes all attendance entries for the given member.
+     */
+    public void removeAttendanceForMember(Name memberName) {
+        attendances.removeAttendancesByMember(memberName);
     }
 
     /**

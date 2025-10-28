@@ -2,11 +2,13 @@ package seedu.address.model.attendance;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.model.UniqueList;
 import seedu.address.model.attendance.exceptions.AttendanceNotFoundException;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
+import seedu.address.model.person.Name;
 
 /**
  * A list of attendance records that enforces uniqueness between its elements and does not allow nulls.
@@ -43,6 +45,31 @@ public class UniqueAttendanceList extends UniqueList<Attendance> {
     public void setAttendances(UniqueAttendanceList replacement) {
         requireNonNull(replacement);
         setAllFromOther(replacement);
+    }
+
+    /**
+     * Renames the member in all attendance records from {@code oldName} to {@code newName}.
+     */
+    public void renameMember(Name oldName, Name newName) {
+        requireNonNull(oldName);
+        requireNonNull(newName);
+        List<Attendance> updatedAttendances = new ArrayList<>();
+        for (Attendance attendance : internalList) {
+            if (attendance.getMemberName().equals(oldName)) {
+                updatedAttendances.add(new Attendance(attendance.getEventId(), newName, attendance.hasAttended()));
+            } else {
+                updatedAttendances.add(attendance);
+            }
+        }
+        setElements(updatedAttendances);
+    }
+
+    /**
+     * Removes all attendance records that belong to {@code memberName}.
+     */
+    public void removeAttendancesByMember(Name memberName) {
+        requireNonNull(memberName);
+        internalList.removeIf(attendance -> attendance.getMemberName().equals(memberName));
     }
 
     @Override
