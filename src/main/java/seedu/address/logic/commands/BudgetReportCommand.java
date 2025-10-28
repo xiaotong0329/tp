@@ -32,7 +32,8 @@ public class BudgetReportCommand extends Command {
         for (Event e : events) {
             sb.append(e.getDescription()).append(": ").append(e.getExpense().toString()).append("$\n");
         }
-        sb.append("\nBudget remaining: ").append(remaining.toString()).append("$");
+        sb.append("\nTotal spent: ").append(spent.toString()).append("$\n");
+        sb.append("Budget remaining: ").append(remaining.toString()).append("$");
         return new CommandResult(sb.toString());
     }
 }
