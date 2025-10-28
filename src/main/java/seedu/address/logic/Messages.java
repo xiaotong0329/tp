@@ -69,7 +69,7 @@ public class Messages {
 
         if (task.getDeadline() != null) {
             java.time.format.DateTimeFormatter formatter =
-                    java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm");
+                    java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm", java.util.Locale.ENGLISH);
             builder.append("; Deadline: ")
                     .append(task.getDeadline().format(formatter));
         }
