@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.AttendanceMessages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -43,8 +44,8 @@ public class MarkAttendanceCommandTest {
 
         MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(eventId, List.of(memberName));
 
-        String expectedMessage = String.format(MarkAttendanceCommand.MESSAGE_SUCCESS,
-                event.getDescription(), memberName, "None");
+        String expectedMessage = AttendanceMessages.buildMarkAttendanceResult(
+                event.getDescription(), List.of(memberName), List.of());
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.setAttendance(new Attendance(eventId, memberName),
@@ -102,8 +103,8 @@ public class MarkAttendanceCommandTest {
         model.addAttendance(new Attendance(eventId, memberName, true));
 
         // Second attendance (duplicate)
-        String expectedMessage = String.format(MarkAttendanceCommand.MESSAGE_SUCCESS,
-                event.getDescription(), "None", memberName);
+        String expectedMessage = AttendanceMessages.buildMarkAttendanceResult(
+                event.getDescription(), List.of(), List.of(memberName));
 
         assertCommandSuccess(markAttendanceCommand, model, expectedMessage, model);
     }
