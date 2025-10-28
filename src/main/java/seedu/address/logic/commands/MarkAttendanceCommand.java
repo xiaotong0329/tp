@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +58,7 @@ public class MarkAttendanceCommand extends Command {
             throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
         }
 
-        Map<Name, Attendance> attendanceByName = collectAttendance(model);
+        Map<Name, Attendance> attendanceByName = AttendanceCommandUtil.collectAttendanceByName(model, eventId);
 
         List<Name> targetNames = new ArrayList<>(new LinkedHashSet<>(memberNames));
         AttendanceMarkingSummary summary = markAttendance(model, attendanceByName, targetNames);
@@ -128,14 +127,6 @@ public class MarkAttendanceCommand extends Command {
         }
 
         return new AttendanceMarkingSummary(newlyMarked, alreadyMarked);
-    }
-
-    private Map<Name, Attendance> collectAttendance(Model model) {
-        Map<Name, Attendance> result = new LinkedHashMap<>();
-        model.getAddressBook().getAttendanceList().stream()
-                .filter(attendance -> attendance.getEventId().equals(eventId))
-                .forEach(attendance -> result.put(attendance.getMemberName(), attendance));
-        return result;
     }
 
     private static final class AttendanceMarkingSummary {

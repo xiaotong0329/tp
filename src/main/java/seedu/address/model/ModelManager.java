@@ -206,6 +206,14 @@ public class ModelManager implements Model {
         addressBook.setAttendance(target, editedAttendance);
     }
 
+    @Override
+    public void removeAttendance(Attendance attendance) {
+        requireNonNull(attendance);
+        logger.fine(() -> String.format("Removing attendance: %s for event %s",
+                attendance.getMemberName(), attendance.getEventId()));
+        addressBook.removeAttendance(attendance);
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
