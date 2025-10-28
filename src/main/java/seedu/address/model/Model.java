@@ -13,6 +13,7 @@ import seedu.address.model.budget.Budget;
 import seedu.address.model.common.Money;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 
@@ -163,6 +164,16 @@ public interface Model {
      * The attendance record must exist in the address book.
      */
     void removeAttendance(Attendance attendance);
+
+    /**
+     * Removes all attendance records associated with the specified member name.
+     */
+    void removeAttendanceForMember(Name memberName);
+
+    /**
+     * Renames attendance records from {@code oldName} to {@code newName}.
+     */
+    void renameAttendanceForMember(Name oldName, Name newName);
 
     /**
      * Returns an unmodifiable view of the filtered event list

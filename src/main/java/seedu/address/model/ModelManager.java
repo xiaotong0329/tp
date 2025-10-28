@@ -20,6 +20,7 @@ import seedu.address.model.budget.Budget;
 import seedu.address.model.common.Money;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 
@@ -113,7 +114,9 @@ public class ModelManager implements Model {
     @Override
     public void deletePerson(Person target) {
         logger.info("Deleting person: " + target.getName());
+        Name memberName = target.getName();
         addressBook.removePerson(target);
+        addressBook.removeAttendanceForMember(memberName);
         logger.fine("Person deleted successfully. Total persons: " + addressBook.getPersonList().size());
     }
 
@@ -128,8 +131,13 @@ public class ModelManager implements Model {
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-        logger.info("Editing person: " + target.getName() + " -> " + editedPerson.getName());
+        Name oldName = target.getName();
+        Name newName = editedPerson.getName();
+        logger.info("Editing person: " + oldName + " -> " + newName);
         addressBook.setPerson(target, editedPerson);
+        if (!oldName.equals(newName)) {
+            addressBook.renameAttendanceForMember(oldName, newName);
+        }
         logger.fine("Person edited successfully");
     }
 
@@ -212,6 +220,18 @@ public class ModelManager implements Model {
         logger.fine(() -> String.format("Removing attendance: %s for event %s",
                 attendance.getMemberName(), attendance.getEventId()));
         addressBook.removeAttendance(attendance);
+    }
+
+    @Override
+    public void removeAttendanceForMember(Name memberName) {
+        requireNonNull(memberName);
+        addressBook.removeAttendanceForMember(memberName);
+    }
+
+    @Override
+    public void renameAttendanceForMember(Name oldName, Name newName) {
+        requireAllNonNull(oldName, newName);
+        addressBook.renameAttendanceForMember(oldName, newName);
     }
 
     //=========== Filtered Person List Accessors =============================================================
