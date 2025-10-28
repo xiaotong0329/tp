@@ -22,7 +22,7 @@ public class ShowAttendanceCommand extends Command {
     public static final String COMMAND_WORD = "showattendance";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows a summary of attendance for an event. "
-            + "Parameters: e/EVENTID\n"
+            + "Format: " + COMMAND_WORD + " e/EVENTID\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023";
 
     public static final String MESSAGE_EVENT_NOT_FOUND = AttendanceMessages.MESSAGE_EVENT_NOT_FOUND;

@@ -19,7 +19,7 @@ public class FindCommand extends Command {
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Searches across name, year, student number, email, phone, dietary requirements, role, and tags.\n"
             + "Uses AND logic - all keywords must be found in the person's fields.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
+            + "Format: " + COMMAND_WORD + " KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " year 3 vegetarian (finds students who are BOTH year 3 AND vegetarian)";
 
     private final PersonContainsKeywordsPredicate predicate;

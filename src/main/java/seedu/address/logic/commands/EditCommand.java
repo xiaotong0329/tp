@@ -44,7 +44,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
         + "by the index number used in the displayed person list. "
         + "Existing values will be overwritten by the input values.\n"
-        + "Parameters: INDEX (must be a positive integer) "
+        + "Format: " + COMMAND_WORD + " INDEX "
         + "[" + PREFIX_NAME + "NAME] "
         + "[" + PREFIX_YEAR + "YEAR] "
         + "[" + PREFIX_STUDENT_NUMBER + "STUDENT_NUMBER] "
