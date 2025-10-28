@@ -66,24 +66,24 @@ public class CsvManager {
         // Write CSV data
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             writer.write(HEADER);
-            writer.newLine();
+            writer.write(System.lineSeparator());
 
             for (Person p : persons) {
                 String tags = p.getTags().stream()
-                    .map(Tag::toString)
+                    .map(tag -> tag.tagName) // remove [ ]
                     .collect(Collectors.joining(";"));
 
                 writer.write(String.join(",",
-                    safe(p.getName()),
-                    safe(p.getYear()),
-                    safe(p.getStudentNumber()),
-                    safe(p.getEmail()),
-                    safe(p.getPhone()),
-                    safe(p.getDietaryRequirements()),
-                    safe(p.getRole()),
-                    tags
+                    csvEscape(p.getName()),
+                    csvEscape(p.getYear()),
+                    csvEscape(p.getStudentNumber()),
+                    csvEscape(p.getEmail()),
+                    csvEscape(p.getPhone()),
+                    csvEscape(p.getDietaryRequirements()),
+                    csvEscape(p.getRole()),
+                    csvEscape(tags)
                 ));
-                writer.newLine();
+                writer.write(System.lineSeparator());
             }
         }
 
@@ -137,9 +137,15 @@ public class CsvManager {
                 if (line.trim().isEmpty()) {
                     continue;
                 }
+
                 String[] parts = line.split(",", -1);
 
-                // Graceful defaults, since requireAllNonNull
+                // Merge extra parts (in case tags contain commas)
+                if (parts.length > 8) {
+                    parts = mergeTrailing(parts, 8);
+                }
+
+                // Graceful defaults
                 String nameStr = getOrDefault(parts, 0, "Unknown");
                 String yearStr = getOrDefault(parts, 1, "N/A");
                 String studentNoStr = getOrDefault(parts, 2, "N/A");
@@ -163,14 +169,13 @@ public class CsvManager {
                     persons.add(p);
                 } catch (Exception e) {
                     System.out.println("Warning: Skipped malformed line: " + line);
+                    e.printStackTrace();
                 }
             }
         }
 
-        System.out.println("Import complete: "
-            + persons.size()
-            + " members loaded from "
-            + filePath);
+        System.out.println("Import complete: " + persons.size()
+            + " members loaded from " + filePath);
         return persons;
     }
 
@@ -192,11 +197,43 @@ public class CsvManager {
         if (tagString == null || tagString.isEmpty()) {
             return new HashSet<>();
         }
-        return Arrays.stream(tagString.split(";"))
+        return Arrays.stream(
+                tagString.replace("[", "")
+                    .replace("]", "")
+                    .split("[;]"))
             .map(String::trim)
             .filter(s -> !s.isEmpty())
             .map(Tag::new)
             .collect(Collectors.toSet());
     }
+
+    /**
+     * Escapes commas and quotes in CSV values.
+     */
+    private static String csvEscape(Object obj) {
+        if (obj == null) {
+            return "";
+        }
+        String value = obj.toString();
+        if (value.contains(",") || value.contains("\"")) {
+            value = "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+        return value;
+    }
+
+    /**
+     * Merges trailing array elements after a certain index into one string (for flexible tag counts).
+     */
+    private static String[] mergeTrailing(String[] arr, int expectedLength) {
+        if (arr.length <= expectedLength) {
+            return arr;
+        }
+        String[] merged = new String[expectedLength];
+        System.arraycopy(arr, 0, merged, 0, expectedLength - 1);
+        // merge all remaining into last cell (tags)
+        merged[expectedLength - 1] = String.join(",", Arrays.copyOfRange(arr, expectedLength - 1, arr.length));
+        return merged;
+    }
 }
+
 

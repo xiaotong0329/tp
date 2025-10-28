@@ -83,7 +83,8 @@ public class AddEventCommandParserTest {
 
         // invalid date
         assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + INVALID_DATE_DESC + DESCRIPTION_DESC_EVENT1,
-                "Date should be in YYYY-MM-DD format");
+            "Date should be in YYYY-MM-DD format (e.g., 2025-07-05 — leading zeros are required)");
+
 
         // invalid description
         assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + INVALID_DESCRIPTION_DESC,
