@@ -22,6 +22,8 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private Label eventId;
     @FXML
+    private Label budget;
+    @FXML
     private Label date;
     @FXML
     private Label description;
@@ -34,6 +36,7 @@ public class EventCard extends UiPart<Region> {
         this.event = event;
         id.setText(displayedIndex + ". ");
         eventId.setText(event.getEventId().value);
+        budget.setText("$" + event.getExpense().toString());
         date.setText(event.getDate().toString());
         description.setText(event.getDescription());
     }
