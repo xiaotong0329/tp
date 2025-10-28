@@ -32,7 +32,8 @@ public class ResultDisplay extends UiPart<Region> {
      */
     public ResultDisplay() {
         super(FXML);
-        setupTextArea();
+        resultDisplay.setWrapText(true);
+        resultDisplay.setEditable(false);
     }
 
     /**
@@ -54,13 +55,12 @@ public class ResultDisplay extends UiPart<Region> {
         });
     }
 
-    public void setFeedbackToUser(String feedbackToUser) {
-        requireNonNull(feedbackToUser);
-        resultDisplay.setText(feedbackToUser);
-        Platform.runLater(() -> {
-            adjustHeightToContent();
-            applyContentBasedStyling(feedbackToUser);
-        });
+    public void setFeedbackToUser(String feedback) {
+        requireNonNull(feedback);
+        resultDisplay.setText(feedback);
+        // auto-scroll to bottom
+        Platform.runLater(() ->
+            resultDisplay.positionCaret(resultDisplay.getText().length()));
     }
 
     /**

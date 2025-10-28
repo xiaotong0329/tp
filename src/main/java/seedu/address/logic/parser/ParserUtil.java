@@ -140,7 +140,8 @@ public class ParserUtil {
         try {
             return java.time.LocalDate.parse(trimmedDate, java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         } catch (java.time.format.DateTimeParseException e) {
-            throw new ParseException("Date should be in YYYY-MM-DD format");
+            throw new ParseException("Date should be in YYYY-MM-DD format "
+                + "(e.g., 2025-07-05 — leading zeros are required)");
         }
     }
 

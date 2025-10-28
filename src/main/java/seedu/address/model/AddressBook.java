@@ -14,6 +14,7 @@ import seedu.address.model.budget.Budget;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.UniqueEventList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentNumber;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
@@ -101,6 +102,15 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return persons.contains(person);
+    }
+
+    /**
+     * Returns true if a member with the same student number exists in this address book.
+     */
+    public boolean hasStudentNumber(StudentNumber studentNumber) {
+        requireNonNull(studentNumber);
+        return persons.asUnmodifiableObservableList().stream()
+            .anyMatch(existingPerson -> existingPerson.getStudentNumber().equals(studentNumber));
     }
 
     /**

@@ -23,6 +23,7 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentNumber;
 import seedu.address.model.task.Task;
 import seedu.address.testutil.TaskBuilder;
 
@@ -281,6 +282,11 @@ public class AddTaskCommandTest {
 
         @Override
         public void rollbackLastCommit() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasStudentNumber(StudentNumber studentNumber) {
             throw new AssertionError("This method should not be called.");
         }
     }

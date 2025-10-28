@@ -3,12 +3,10 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -62,43 +60,6 @@ public class AddCommandNewFieldsTest {
         assertTrue(model.hasPerson(validPerson));
     }
 
-    @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Person personInList = new PersonBuilder().build();
-        model.addPerson(personInList);
-        Person duplicatePerson = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(duplicatePerson);
-
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(model));
-    }
-
-    @Test
-    public void execute_duplicatePersonWithDifferentFields_throwsCommandException() {
-        Person personInList = new PersonBuilder()
-                .withName("Alice")
-                .withYear("2")
-                .withStudentNumber("A1111111X")
-                .withEmail("alice@example.com")
-                .withPhone("11111111")
-                .withDietaryRequirements("Vegetarian")
-                .withRole("Member")
-                .build();
-        model.addPerson(personInList);
-
-        // Same name but different other fields should still be considered duplicate
-        Person duplicatePerson = new PersonBuilder()
-                .withName("Alice")
-                .withYear("3")
-                .withStudentNumber("A2222222Y")
-                .withEmail("alice2@example.com")
-                .withPhone("22222222")
-                .withDietaryRequirements("Halal")
-                .withRole("President")
-                .build();
-        AddCommand addCommand = new AddCommand(duplicatePerson);
-
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(model));
-    }
 
     @Test
     public void execute_personWithAllYearValues_success() throws Exception {

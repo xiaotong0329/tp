@@ -17,13 +17,13 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentNumber;
 import seedu.address.model.task.Task;
 import seedu.address.testutil.PersonBuilder;
 
@@ -44,15 +44,6 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
-    }
-
-    @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Person validPerson = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(validPerson);
-        ModelStub modelStub = new ModelStubWithPerson(validPerson);
-
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -270,6 +261,11 @@ public class AddCommandTest {
                 seedu.address.model.attendance.Attendance editedAttendance) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public boolean hasStudentNumber(StudentNumber studentNumber) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -291,7 +287,8 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that always accept the person being added.
+     * A Model stub that always accepts the person being added,
+     * unless another person with the same Student Number already exists.
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
@@ -300,6 +297,14 @@ public class AddCommandTest {
         public boolean hasPerson(Person person) {
             requireNonNull(person);
             return personsAdded.stream().anyMatch(person::isSamePerson);
+        }
+
+        @Override
+        public boolean hasStudentNumber(StudentNumber studentNumber) {
+            requireNonNull(studentNumber);
+            // Return true if a person with the same student number already exists
+            return personsAdded.stream()
+                .anyMatch(existingPerson -> existingPerson.getStudentNumber().equals(studentNumber));
         }
 
         @Override
@@ -323,5 +328,6 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
     }
+
 
 }

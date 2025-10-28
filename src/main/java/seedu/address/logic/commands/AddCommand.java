@@ -61,8 +61,9 @@ public class AddCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasPerson(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        // Only check uniqueness by Student ID
+        if (model.hasStudentNumber(toAdd.getStudentNumber())) {
+            throw new CommandException("A member with this student number already exists.");
         }
 
         model.addPerson(toAdd);

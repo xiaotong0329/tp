@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="placeHolder" styleClass="pane-with-border" xmlns="http://javafx.com/javafx/17"
-    xmlns:fx="http://javafx.com/fxml/1">
-  <TextArea fx:id="resultDisplay" editable="false" styleClass="result-display"
-            wrapText="true" prefRowCount="1" maxHeight="Infinity"/>
+<StackPane fx:id="placeHolder"
+           styleClass="pane-with-border"
+           xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           prefHeight="150" maxHeight="200">
+    <TextArea fx:id="resultDisplay"
+              editable="false"
+              styleClass="result-display"
+              wrapText="true"
+              prefHeight="150"
+              maxHeight="200"
+              focusTraversable="false" />
 </StackPane>
+

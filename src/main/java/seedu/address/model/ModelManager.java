@@ -21,6 +21,7 @@ import seedu.address.model.common.Money;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentNumber;
 import seedu.address.model.task.Task;
 
 /**
@@ -108,6 +109,12 @@ public class ModelManager implements Model {
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return addressBook.hasPerson(person);
+    }
+
+    @Override
+    public boolean hasStudentNumber(StudentNumber studentNumber) {
+        requireNonNull(studentNumber);
+        return addressBook.hasStudentNumber(studentNumber);
     }
 
     @Override

@@ -333,7 +333,7 @@ Action     | Format, Examples
 **List**   | `list`
 **Import** | `import /from FILEPATH`<br> e.g., `import /from members.csv`
 **Export** | `export /to FILEPATH`<br> e.g., `export /to members.csv`
-**Events** | `addevent ev/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
+**Events** | `addevent e/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
 **Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendees e/EVENTID`<br> `showattendance e/EVENTID`
 **Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
 **Undo/Redo** | `undo`, `redo`
