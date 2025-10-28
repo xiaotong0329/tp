@@ -25,7 +25,7 @@ public class AddAttendanceCommand extends Command {
     public static final String COMMAND_WORD = "addattendance";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds members to an event's attendance list. "
-            + "Parameters: e/EVENTID m/MEMBER[/MEMBER]...\n"
+            + "Format: " + COMMAND_WORD + " e/EVENTID m/MEMBER[/MEMBER]...\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023 m/John Doe/Jane Smith";
 
     public static final String MESSAGE_EVENT_NOT_FOUND = AttendanceMessages.MESSAGE_EVENT_NOT_FOUND;

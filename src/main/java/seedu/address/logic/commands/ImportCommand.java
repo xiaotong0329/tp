@@ -20,7 +20,7 @@ public class ImportCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
         + ": Imports members from a CSV file.\n"
-        + "Parameters: [/from FILEPATH]\n"
+        + "Format: " + COMMAND_WORD + " [/from FILEPATH]\n"
         + "Example: " + COMMAND_WORD + " /from members.csv";
 
     public static final String MESSAGE_SUCCESS = "Import complete: %1$d members added.";

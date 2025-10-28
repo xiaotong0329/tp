@@ -21,7 +21,7 @@ public class ExportCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
         + ": Exports all members to a CSV file.\n"
-        + "Parameters: [/to FILEPATH]\n"
+        + "Format: " + COMMAND_WORD + " [/to FILEPATH]\n"
         + "Example: " + COMMAND_WORD + " /to members.csv";
 
     public static final String MESSAGE_SUCCESS = "Export successful: %1$s";

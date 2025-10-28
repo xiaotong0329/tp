@@ -26,7 +26,7 @@ public class MarkAttendanceCommand extends Command {
     public static final String COMMAND_WORD = "markattendance";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks members as attended for an event. "
-            + "Parameters: e/EVENTID m/MEMBER[/MEMBER]...\n"
+            + "Format: " + COMMAND_WORD + " e/EVENTID m/MEMBER[/MEMBER]...\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023 m/John Doe/Jane Smith";
 
     public static final String MESSAGE_SUCCESS = AttendanceMessages.MESSAGE_MARK_ATTENDANCE_SUCCESS;

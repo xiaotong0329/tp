@@ -14,7 +14,8 @@ import seedu.address.model.event.Event;
 public class SetExpenseCommand extends Command {
     public static final String COMMAND_WORD = "setexpense";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Set expense of an event by index. "
-            + "Parameters: INDEX a/AMOUNT";
+            + "Format: " + COMMAND_WORD + " INDEX a/AMOUNT\n"
+            + "Example: " + COMMAND_WORD + " 1 a/500";
     public static final String MESSAGE_SUCCESS = "Expense set for %1$s: %2$s$";
 
     private final Index targetIndex;

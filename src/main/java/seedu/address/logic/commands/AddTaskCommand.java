@@ -17,8 +17,7 @@ public class AddTaskCommand extends Command {
     public static final String COMMAND_WORD = "addtask";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to the address book. "
-            + "Parameters: "
-            + "TITLE "
+            + "Format: " + COMMAND_WORD + " TITLE "
             + "[" + PREFIX_DEADLINE + "DEADLINE]\n"
             + "Example: " + COMMAND_WORD + " Complete project report "
             + PREFIX_DEADLINE + "2024-12-31 23:59";
