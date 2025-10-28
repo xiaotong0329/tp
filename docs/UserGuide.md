@@ -224,8 +224,8 @@ Views the list of members who attended a specific event.
 
 Format: `viewattendees e/EVENTID`
 
-* Shows all members marked as attended for the specified event.
-* If no attendance has been recorded for the event, shows "No attendance recorded yet."
+* Shows all members for the specified event with their attendance status.
+* If no attendees has been recorded for the event, shows "No attendees recorded yet."
 
 Examples:
 * `viewattendees e/Orientation2023` - Shows all members who attended Orientation2023
