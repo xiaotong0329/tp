@@ -20,7 +20,7 @@ public class ViewAttendeesCommand extends Command {
     public static final String COMMAND_WORD = "viewattendees";
     public static final String MESSAGE_EVENT_NOT_FOUND = "Event not found";
     public static final String MESSAGE_SUCCESS = "Attendees for %1$s:\n%2$s";
-    public static final String MESSAGE_NO_ATTENDANCE = "No attendance recorded yet.";
+    public static final String MESSAGE_NO_ATTENDANCE = "No attendees recorded yet.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views attendees for an event. "
             + "Parameters: e/EVENTID\n"
             + "Example: " + COMMAND_WORD + " e/Orientation2023";

@@ -156,16 +156,14 @@ public class Task {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
 
         try {
-            // Try parsing as full date-time first
             return LocalDateTime.parse(trimmed, dateTimeFormatter);
-        } catch (DateTimeParseException e1) {
-            // If that fails, try parsing as date only and append default time
+        } catch (DateTimeParseException e) {
             try {
-                return LocalDateTime.parse(trimmed + " " + DEFAULT_DEADLINE_TIME, dateTimeFormatter);
+                return LocalDateTime.parse(trimmed + " 23:59", dateTimeFormatter);
             } catch (DateTimeParseException e2) {
-                throw new IllegalArgumentException(
-                        String.format("Invalid deadline format: '%s'. Expected format: %s or %s",
-                                trimmed, DATE_TIME_FORMAT, DATE_FORMAT));
+                throw new IllegalArgumentException(String.format(
+                    "Invalid deadline format: '%s'. Expected format: %s or %s",
+                    trimmed, DATE_TIME_FORMAT, DATE_FORMAT));
             }
         }
     }
