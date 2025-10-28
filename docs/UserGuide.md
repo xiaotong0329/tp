@@ -122,10 +122,12 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
+* Both the name and attributes can be searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Persons matching at least one name keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Persons matching ALL the attribute keywords will be returned (i.e. `AND` search).
+  e.g. `Year 3 vegetarian` will return all the students who are both `Year 3` and `Vegetarian`
 
 Examples:
 * `find John` returns `john` and `John Doe`
@@ -250,8 +252,8 @@ Views the list of members who attended a specific event.
 
 Format: `viewattendees e/EVENTID`
 
-* Shows all members marked as attended for the specified event.
-* If no attendance has been recorded for the event, shows "No attendance recorded yet."
+* Shows all members for the specified event with their attendance status.
+* If no attendees has been recorded for the event, shows "No attendees recorded yet."
 
 Examples:
 * `viewattendees e/Orientation2023` - Shows all members who attended Orientation2023
