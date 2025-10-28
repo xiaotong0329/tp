@@ -99,6 +99,19 @@ public class Person {
     }
 
     /**
+     * Returns true if both persons have the same {@code StudentNumber}.
+     * This defines equality based only on student identity, regardless of name or other fields.
+     */
+    public boolean isSameStudentNumber(Person otherPerson) {
+        if (otherPerson == this) {
+            return true;
+        }
+
+        return otherPerson != null
+            && otherPerson.getStudentNumber().equals(getStudentNumber());
+    }
+
+    /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
      */

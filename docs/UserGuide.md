@@ -202,21 +202,7 @@ Format: `markattendance e/EVENTID m/MEMBER[/MEMBER]...`
 
 Examples:
 * `markattendance e/Orientation2023 m/John Doe` - Marks John Doe as attended for Orientation2023
-* `markattendance e/Meeting2023 m/Jane Smith/Jake Lee` - Marks Jane Smith and Jake Lee as attended for Meeting2023
-
-### Unmarking attendance : `unmarkattendance`
-
-Marks members as absent again for an event without removing them from the attendance list.
-
-Format: `unmarkattendance e/EVENTID m/MEMBER[/MEMBER]...`
-
-* Marks the listed members as absent for the event.
-* Each member must already exist in the attendance list.
-* Members who are already marked absent remain absent and are mentioned in the feedback message.
-
-Examples:
-* `unmarkattendance e/Orientation2023 m/John Doe` - Marks John Doe as absent again for Orientation2023
-* `unmarkattendance e/Meeting2023 m/Jane Smith/Jake Lee` - Marks Jane Smith and Jake Lee as absent for Meeting2023
+* `markattendance e/Meeting2023 m/Jane Smith` - Marks Jane Smith as attended for Meeting2023
 
 ### Adding attendance : `addattendance`
 
@@ -363,8 +349,9 @@ Action     | Format, Examples
 **List**   | `list`
 **Import** | `import /from FILEPATH`<br> e.g., `import /from members.csv`
 **Export** | `export /to FILEPATH`<br> e.g., `export /to members.csv`
-**Events** | `addevent ev/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
 **Attendance** | `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `markattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `unmarkattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `removeattendees e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendees e/EVENTID`<br> `showattendance e/EVENTID`
+**Events** | `addevent e/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
+**Attendance** | `markattendance e/EVENTID m/MEMBERNAME`<br> `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendees e/EVENTID`<br> `showattendance e/EVENTID`
 **Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
 **Undo/Redo** | `undo`, `redo`
 **Budget** | `budget set a/AMOUNT from/START to/END`, `budget reset`, `budget report`, `setexpense INDEX a/AMOUNT`

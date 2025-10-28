@@ -104,7 +104,7 @@
 }
 
 .list-cell:hover {
-    -fx-background-color: #1f2937;
+    -fx-background-color: transparent;
 }
 
 .list-cell:filled:selected {

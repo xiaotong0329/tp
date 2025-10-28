@@ -20,6 +20,7 @@ import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentNumber;
 import seedu.address.model.task.Task;
 import seedu.address.testutil.EventBuilder;
 
@@ -262,6 +263,11 @@ public class AddEventCommandTest {
         @Override
         public void setAttendance(seedu.address.model.attendance.Attendance target,
                 seedu.address.model.attendance.Attendance editedAttendance) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasStudentNumber(StudentNumber studentNumber) {
             throw new AssertionError("This method should not be called.");
         }
 

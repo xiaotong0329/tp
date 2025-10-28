@@ -15,6 +15,7 @@ import seedu.address.model.event.Event;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentNumber;
 import seedu.address.model.task.Task;
 
 /**
@@ -98,6 +99,20 @@ public interface Model {
      * The event must exist in the address book.
      */
     void deleteEvent(Event target);
+
+    /**
+     * Returns true if a member with the same {@link seedu.address.model.person.StudentNumber}
+     * exists in the address book.
+     *
+     * <p>This method enforces the constraint that all members must have a unique student number.
+     * Names, emails, and other fields may be duplicated, but each student number must be unique.</p>
+     *
+     * @param studentNumber The student number to check for.
+     * @return true if a member with the same student number already exists, false otherwise.
+     * @throws NullPointerException if {@code studentNumber} is null.
+     */
+    boolean hasStudentNumber(StudentNumber studentNumber);
+
 
     /**
      * Adds the given event.
