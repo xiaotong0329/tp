@@ -32,14 +32,16 @@ public class AddAttendanceCommandParser implements Parser<AddAttendanceCommand> 
 
         if (!hasExactlyOneValue(argMultimap, PREFIX_EVENT_ID)
                 || !hasExactlyOneValue(argMultimap, PREFIX_MEMBER)) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddAttendanceCommand.MESSAGE_USAGE));
         }
 
         String rawEventId = argMultimap.getValue(PREFIX_EVENT_ID).get().trim();
         String rawMembers = argMultimap.getValue(PREFIX_MEMBER).get();
 
         if (rawEventId.isEmpty()) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddAttendanceCommand.MESSAGE_USAGE));
         }
 
         try {

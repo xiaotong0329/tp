@@ -46,17 +46,17 @@ public class TypicalPersons {
             .withTags("friends").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer")
             .withYear("2").withStudentNumber("E5678901B").withEmail("werner@example.com")
-            .withPhone("9482224").withDietaryRequirements("No restrictions").withRole("Member").build();
+            .withPhone("94822240").withDietaryRequirements("No restrictions").withRole("Member").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz")
             .withYear("5").withStudentNumber("F6789012C").withEmail("lydia@example.com")
-            .withPhone("9482427").withDietaryRequirements("Halal").withRole("Member").build();
+            .withPhone("94824270").withDietaryRequirements("Halal").withRole("Member").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best")
             .withYear("6").withStudentNumber("G7890123D").withEmail("anna@example.com")
-            .withPhone("9482442").withDietaryRequirements("No restrictions").withRole("Member").build();
-    public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
+            .withPhone("94824420").withDietaryRequirements("No restrictions").withRole("Member").build();
+    public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("84824240")
             .withEmail("stefan@example.com").withYear("2").withStudentNumber("H8901234E")
             .withDietaryRequirements("Halal").withRole("Member").build();
-    public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("8482131")
+    public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("84821310")
             .withEmail("hans@example.com").withYear("3").withStudentNumber("I9012345F")
             .withDietaryRequirements("No restrictions").withRole("Member").build();
 
