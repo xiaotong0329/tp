@@ -215,11 +215,11 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void removeAttendance(Attendance attendance) {
+    public void removeattendees(Attendance attendance) {
         requireNonNull(attendance);
         logger.fine(() -> String.format("Removing attendance: %s for event %s",
                 attendance.getMemberName(), attendance.getEventId()));
-        addressBook.removeAttendance(attendance);
+        addressBook.removeattendees(attendance);
     }
 
     @Override

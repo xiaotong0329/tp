@@ -246,7 +246,7 @@ public class AddTaskCommandTest {
         }
 
         @Override
-        public void removeAttendance(Attendance attendance) {
+        public void removeattendees(Attendance attendance) {
             throw new AssertionError("This method should not be called.");
         }
 
