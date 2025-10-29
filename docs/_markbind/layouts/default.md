@@ -11,8 +11,9 @@
     <navbar-item slot="left" href="{{baseUrl}}/DeveloperGuide.html">Developer Guide</navbar-item>
     <navbar-item slot="left" href="{{baseUrl}}/AboutUs.html">About Us</navbar-item>
     <navbar-item slot="left" href="https://github.com/AY2526S1-CS2103T-T10-3/tp" target="_blank">
-      <md>:fab-github:</md>
+      <span class="fab fa-github"></span>
     </navbar-item>
+
   </navbar>
 </header>
 
