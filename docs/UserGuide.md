@@ -67,11 +67,12 @@ ClubHub is a **desktop app for managing contacts, optimized for use via a  Line 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
+
 ### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
 
-![help message](images/helpMessage.png)
+  ![help message](images/helpMessage.png)
 
 Format: `help`
 
@@ -89,13 +90,21 @@ Format: `add n/NAME y/YEAR s/STUDENT_NUMBER e/EMAIL p/PHONE d/DIETARY_REQUIREMEN
 
 Examples:
 * `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President`
-* `add n/Betsy Crowe y/2 s/A7654321A e/betsycrowe@example.com p/1234567 d/Halal r/Member t/cricket`
+* `add n/Betsy Crowe y/2 s/A7654321A e/betsycrowe@example.com p/12345678 d/Halal r/Member t/cricket`
+
+  ![result for 'add Betsy Crowe'](images/addBetsyCroweResult.png)
+display format of member's contact in ClubHub:
+  ![Betsy Crowe](images/BetsyCrowe.png)
+
 
 ### Listing all persons : `list`
 
 Shows a list of all persons in the ClubHub.
 
+  ![list message](images/listMessage.png)
+
 Format: `list`
+
 
 ### Editing a person : `edit`
 
@@ -113,6 +122,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [y/YEAR] [s/STUDENT_NUMBER] [d/
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+  ![result for 'edit 2' message](images/editBetsyCrower.png)
 
 ### Locating persons by name: `find`
 
@@ -124,15 +134,13 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Both the name and attributes can be searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one name keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 * Persons matching ALL the attribute keywords will be returned (i.e. `AND` search).
-  e.g. `Year 3 vegetarian` will return all the students who are both `Year 3` and `Vegetarian`
+  e.g. `year 2 vegetarian` will return all the students who are both `Year 2` and `Vegetarian`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find alex` returns `Alex Yeoh`, `Alex Lee`<br>
+* `find vegetarian year 2 ` returns students who are both `vegetarian` and `year 2`
+  ![result for 'find vegetarian year 2'](images/findVegYear2Result.png)
 
 ### Deleting a person : `delete`
 
@@ -151,7 +159,7 @@ Examples:
 ### Clearing all entries : `clear`
 
 Clears all entries from the ClubHub.
-
+  ![clear message](images/clearMessage.png)
 Format: `clear`
 
 ### Exiting the program : `exit`
@@ -187,8 +195,27 @@ Formats:
 * `deleteevent e/EVENTID`
 
 Examples:
-* `addevent e/Orientation2023 dt/2023-08-15 desc/NUS Freshmen Orientation`
 * `deleteevent e/Orientation2025`
+* `addevent e/Orientation2023 dt/2023-08-15 desc/NUS Freshmen Orientation`
+  ![addevent message](images/addEventResult.png)
+display format of the event in ClubHub:
+  ![Orientation2023](images/Orientation2023.png)
+
+
+### Adding attendance : `addattendance`
+
+Adds the member to the attendance list. 
+
+Format: `addattendance e/EVENTID m/MEMBER[/MEMBER]...`
+
+* Adds the member who is supposed to attend the event to the attendance list.
+* If the member has already been added the attendance list, the command will ignore the duplicate and continue.
+* Both the member and event must exist in the system.
+
+Examples:
+* `addattendance e/Orientation2023 m/John Doe` - Adds John Doe to the attending list of Orientation2023
+* `addattendance e/Meeting2023 m/Jane Smith` - Adds Jane Smith to the attending list of Meeting2023
+
 
 ### Marking attendance : `markattendance`
 
@@ -204,19 +231,6 @@ Examples:
 * `markattendance e/Orientation2023 m/John Doe` - Marks John Doe as attended for Orientation2023
 * `markattendance e/Meeting2023 m/Jane Smith` - Marks Jane Smith as attended for Meeting2023
 
-### Adding attendance : `addattendance`
-
-Adds the member to the attendance list. 
-
-Format: `addattendance e/EVENTID m/MEMBER[/MEMBER]...`
-
-* Adds the member who is supposed to attend the event to the attendance list.
-* If the member has already been added the attendance list, the command will ignore the duplicate and continue.
-* Both the member and event must exist in the system.
-
-Examples:
-* `addattendance e/Orientation2023 m/John Doe` - Adds John Doe to the attending list of Orientation2023
-* `addattendance e/Meeting2023 m/Jane Smith` - Adds Jane Smith to the attending list of Meeting2023
 
 ### Removing attendance : `removeattendance`
 
@@ -234,7 +248,7 @@ Examples:
 
 ### Viewing attendees : `viewattendees`
 
-Views the list of members who attended a specific event.
+Views the list of members who are attendees of a specific event.
 
 Format: `viewattendees e/EVENTID`
 
@@ -242,8 +256,9 @@ Format: `viewattendees e/EVENTID`
 * If no attendees has been recorded for the event, shows "No attendees recorded yet."
 
 Examples:
-* `viewattendees e/Orientation2023` - Shows all members who attended Orientation2023
-* `viewattendees e/Meeting2023` - Shows all members who attended Meeting2023
+* `viewattendees e/Meeting2023` - Shows all attendees of Meeting2023
+* `viewattendees e/Orientation2023` - Shows all attendees of Orientation2023
+  ![result for viewattendees](images/viewattendeesResult.png)
 
 ### Showing attendance summary : `showattendance`
 
@@ -256,8 +271,9 @@ Format: `showattendance e/EVENTID`
 * The event must exist in the system.
 
 Examples:
-* `showattendance e/Orientation2023` - Shows attendance summary for Orientation2023
 * `showattendance e/Meeting2023` - Shows attendance summary for Meeting2023
+* `showattendance e/Orientation2023` - Shows attendance summary for Orientation2023
+  ![result for showattendance](images/showattendanceResult.png)
 
 ### Tasks : `addtask`, `deletetask`, `marktask`, `unmarktask`
 
