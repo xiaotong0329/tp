@@ -13,9 +13,7 @@
 
 ## **Acknowledgements**
 
-* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
-* Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://junit.org/junit5/)
-* UI components and architecture patterns adapted from the original AddressBook project.
+_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -31,13 +29,13 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <puml src="diagrams/ArchitectureDiagram.puml" width="280" />
 
-The ***Architecture Diagram*** given above explains the high-level design of ClubHub.
+The ***Architecture Diagram*** given above explains the high-level design of the App.
 
 Given below is a quick overview of main components and how they interact with each other.
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -71,7 +69,7 @@ The sections below give more details of each component.
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
-<puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
+<puml src="diagrams/UiClassDiagram.puml" width="550" alt="Structure of the UI Component"/>
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
@@ -82,8 +80,7 @@ The `UI` component,
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person`, `Event`, and `Task` objects residing in the `Model`.
-* provides separate panels for members, events, tasks, and budget tracking.
+* depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
 
 ### Logic component
 
@@ -95,7 +92,7 @@ Here's a (partial) class diagram of the `Logic` component:
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
-<puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
+<puml src="diagrams/DeleteSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
 
 <box type="info" seamless>
 
@@ -127,12 +124,8 @@ How the parsing works:
 The `Model` component,
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores all `Event` objects in a `UniqueEventList` for event management.
-* stores all `Task` objects in a `UniqueTaskList` for task tracking.
-* stores `Attendance` records for tracking event participation.
-* stores a `Budget` object for financial tracking and expense management.
-* stores the currently 'selected' objects (e.g., results of a search query) as separate _filtered_ lists which are exposed to outsiders as unmodifiable `ObservableList` objects that can be 'observed' e.g. the UI can be bound to these lists so that the UI automatically updates when the data in the lists change.
-* stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 <box type="info" seamless>
@@ -152,7 +145,6 @@ The `Model` component,
 
 The `Storage` component,
 * can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* can save and load `Person`, `Event`, `Task`, `Attendance`, and `Budget` data.
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
@@ -166,11 +158,11 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### Undo/redo feature
+### \[Proposed\] Undo/redo feature
 
-#### Implementation
+#### Proposed Implementation
 
-The undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
 * `VersionedAddressBook#commit()` — Saves the current address book state in its history.
 * `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
@@ -182,15 +174,15 @@ Given below is an example usage scenario and how the undo/redo mechanism behaves
 
 Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
 
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
+<puml src="diagrams/UndoRedoState0.puml" width="400" alt="UndoRedoState0" />
 
 Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
+<puml src="diagrams/UndoRedoState1.puml" width="400" alt="UndoRedoState1" />
 
 Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
 
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+<puml src="diagrams/UndoRedoState2.puml" width="400" alt="UndoRedoState2" />
 
 <box type="info" seamless>
 
@@ -200,7 +192,7 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
+<puml src="diagrams/UndoRedoState3.puml" width="400" alt="UndoRedoState3" />
 
 
 <box type="info" seamless>
@@ -212,7 +204,7 @@ than attempting to perform the undo.
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
 
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+<puml src="diagrams/UndoSequenceDiagram-Logic.puml" width="550" alt="UndoSequenceDiagram-Logic" />
 
 <box type="info" seamless>
 
@@ -222,7 +214,7 @@ The following sequence diagram shows how an undo operation goes through the `Log
 
 Similarly, how an undo operation goes through the `Model` component is shown below:
 
-<puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
+<puml src="diagrams/UndoSequenceDiagram-Model.puml" width="550" alt="UndoSequenceDiagram-Model" />
 
 The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
 
@@ -234,11 +226,11 @@ The `redo` command does the opposite — it calls `Model#redoAddressBook()`,
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
 
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+<puml src="diagrams/UndoRedoState4.puml" width="400" alt="UndoRedoState4" />
 
 Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+<puml src="diagrams/UndoRedoState5.puml" width="400" alt="UndoRedoState5" />
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
@@ -259,80 +251,130 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
-### Event Management
+### Add member feature
 
-#### Implementation
+The add member feature allows users to add new members to the address book with their details.
 
-The event management system allows users to create, view, and delete events. Each event has:
-- **EventId**: Unique identifier for the event
-- **Date**: When the event occurs
-- **Description**: Details about the event
-- **Expense**: Budget allocated for the event
+The sequence diagram below illustrates the interactions within the `Logic` component for adding a member:
 
-Key classes:
-- `Event`: Represents an event with its properties
-- `AddEventCommand`: Creates new events
-- `DeleteEventCommand`: Removes events
-- `UniqueEventList`: Manages event collection
+<puml src="diagrams/AddSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `add` Command" />
 
-### Task Management
+<box type="info" seamless>
 
-#### Implementation
+**Note:** The lifeline for `AddCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 
-The task management system allows users to create, mark, and delete tasks. Each task has:
-- **Title**: Description of the task
-- **Deadline**: Optional due date
-- **Status**: Whether the task is completed
+</box>
 
-Key classes:
-- `Task`: Represents a task with its properties
-- `AddTaskCommand`: Creates new tasks
-- `MarkTaskCommand`/`UnmarkTaskCommand`: Updates task status
-- `DeleteTaskCommand`: Removes tasks
-- `UniqueTaskList`: Manages task collection
+How the `add` command works:
+1. When the user enters an `add` command, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `AddCommandParser` to parse the command arguments.
+3. `AddCommandParser` validates and parses all required fields (name, year, student number, email, phone, dietary requirements, role, and optional tags).
+4. An `AddCommand` object is created and executed.
+5. Before execution, the current state is committed for undo/redo functionality.
+6. `AddCommand` checks if a person with the same student number already exists.
+7. If not duplicate, the person is added to the address book.
+8. The updated address book is saved to storage.
 
-### Attendance Tracking
+### Edit member feature
 
-#### Implementation
+The edit member feature allows users to update existing member details.
 
-The attendance system tracks which members attended specific events:
-- **Attendance**: Links members to events with attendance status
-- **MarkAttendanceCommand**: Records member attendance
-- **AddAttendanceCommand**: Adds members to event attendance list
-- **ShowAttendanceCommand**: Displays attendance for an event
+The sequence diagram below illustrates the interactions within the `Logic` component for editing a member:
 
-Key classes:
-- `Attendance`: Represents attendance record
-- `UniqueAttendanceList`: Manages attendance collection
+<puml src="diagrams/EditSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `edit` Command" />
 
-### Budget Management
+<box type="info" seamless>
 
-#### Implementation
+**Note:** The lifeline for `EditCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 
-The budget system tracks financial information:
-- **Budget**: Overall budget with start/end dates and amount
-- **SetExpenseCommand**: Sets expense for specific events
-- **BudgetSetCommand**: Sets overall budget
-- **BudgetReportCommand**: Shows budget summary
+</box>
 
-Key classes:
-- `Budget`: Represents budget information
-- `Money`: Represents monetary values
-- `SetExpenseCommand`: Sets event-specific expenses
+How the `edit` command works:
+1. When the user enters an `edit` command with an index and field updates, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `EditCommandParser` to parse the command arguments.
+3. `EditCommandParser` validates the index and parses the optional fields to update.
+4. An `EditCommand` object is created with an `EditPersonDescriptor` containing the updates.
+5. Before execution, the current state is committed for undo/redo functionality.
+6. `EditCommand` retrieves the person at the specified index from the filtered list.
+7. A new `Person` object is created with the updated fields.
+8. `EditCommand` checks if the edited person already exists (unless it's the same person).
+9. If valid, the person is updated in the address book.
+10. The filtered list is updated to show all persons.
+11. The updated address book is saved to storage.
 
-### Import/Export Feature
+### Find member feature
 
-#### Implementation
+The find member feature allows users to search for members by keywords across all fields.
 
-The import/export system allows data exchange:
-- **ImportCommand**: Loads member data from CSV files
-- **ExportCommand**: Saves member data to CSV files
-- **CsvUtil**: Handles CSV file operations
+The sequence diagram below illustrates the interactions within the `Logic` component for finding members:
 
-Key classes:
-- `ImportCommand`: Imports data from CSV
-- `ExportCommand`: Exports data to CSV
-- `CsvUtil`: Utility for CSV operations
+<puml src="diagrams/FindSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `find` Command" />
+
+How the `find` command works:
+1. When the user enters a `find` command with keywords, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates a `FindCommandParser` to parse the command arguments.
+3. `FindCommandParser` splits the input into keywords.
+4. A `PersonContainsKeywordsPredicate` is created with the keywords.
+5. A `FindCommand` object is created and executed.
+6. `FindCommand` updates the filtered person list with the predicate.
+7. The predicate tests each person to see if their fields contain all the keywords (case-insensitive).
+8. Only persons matching all keywords are shown in the filtered list.
+9. The result message shows how many persons match the criteria.
+
+### Add event feature
+
+The add event feature allows users to create new events with an event ID, date, and description.
+
+The sequence diagram below illustrates the interactions within the `Logic` component for adding an event:
+
+<puml src="diagrams/AddEventSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `addevent` Command" />
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `AddEventCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+
+</box>
+
+How the `addevent` command works:
+1. When the user enters an `addevent` command, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `AddEventCommandParser` to parse the command arguments.
+3. `AddEventCommandParser` validates and parses the event ID, date, and description.
+4. An `AddEventCommand` object is created and executed.
+5. Before execution, the current state is committed for undo/redo functionality.
+6. `AddEventCommand` checks if an event with the same ID already exists.
+7. If not duplicate, the event is added to the address book.
+8. The updated address book is saved to storage.
+
+### Attendance feature
+
+The attendance feature allows users to record which members attended specific events.
+
+The class diagram below shows the structure of attendance-related classes:
+
+<puml src="diagrams/AttendanceClassDiagram.puml" width="550" alt="Class Diagram for Attendance Feature" />
+
+The sequence diagram below illustrates how attendance is added for an event:
+
+<puml src="diagrams/AttendanceSequenceDiagram.puml" width="550" alt="Sequence Diagram for Adding Attendance" />
+
+The activity diagram below summarizes the flow when adding attendance:
+
+<puml src="diagrams/AttendanceActivity.puml" width="400" alt="Activity Diagram for Adding Attendance" />
+
+How the attendance feature works:
+1. When the user enters an `addattendance` command with an event ID and member names, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `AddAttendanceCommandParser` to parse the command arguments.
+3. An `AddAttendanceCommand` object is created and executed.
+4. `AddAttendanceCommand` retrieves the event by event ID from the model.
+5. For each member name, it checks if the member exists and if attendance hasn't already been recorded.
+6. Duplicate entries are ignored.
+7. New `Attendance` objects are created and added to the event.
+8. A success message is built showing which members were added and which were duplicates.
+
+### \[Proposed\] Data archiving
+
+_{Explain here how the data archiving feature will be implemented}_
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -374,82 +416,27 @@ A streamlined address book that organises member details, tracks unique preferen
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-#### **Member Management**
-
 | Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
 |----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | secretary           | add a member with name, year, role, student number, phone number, email, and dietary requirements | keep member details organized and complete                            |
-| `* * *`  | secretary           | add optional tags to members (e.g., "volunteer", "leadership")             | categorize members for better organization                             |
-| `* * *`  | secretary           | edit a member's details                                                     | correct mistakes without re-entering everything                        |
-| `* * *`  | secretary           | delete a member from the system                                             | remove members who are no longer part of the club                      |
-| `* * *`  | secretary           | find members by searching across all fields (name, year, role, etc.)        | quickly locate specific members                                        |
-| `* * *`  | secretary           | list all members at once                                                    | get an overview of all club members                                   |
-| `* * *`  | secretary           | clear all member data                                                       | reset the system when starting fresh                                  |
+| `* * *`  | secretary           | add a member with name, year, role, student number, phone number, and telegram handle (optional) | keep member details organized                                          |
+| `* * *`  | careful secretary   | record a member’s dietary restrictions                                      | plan meals without mistakes                                            |
+| `* * *`  | forgetful secretary | search for members by role (e.g., Treasurer, President)                     | quickly contact the right person                                       |
+| `* * *`  | secretary           | filter members by year of study                                             | easily find all Year 1 members                                         |
+| `* * *`  | secretary           | update a member’s details                                                   | correct mistakes without re-entering everything                        |
+| `* * *`  | secretary (events)  | create an event with a date and description                                 | prepare an attendance list                                             |
+| `* * *`  | responsible secretary | mark which members attended an event                                      | track participation                                                    |
+| `* * *`  | secretary           | view the attendance list for an event                                       | follow up with absent members                                          |
+| `* * *`  | secretary           | delete an event                                                             | remove outdated or duplicate records                                   |
+| `* * *`  | careless secretary  | undo my last action                                                         | recover from mistakes quickly                                          |
+| `* *`    | secretary           | assign tasks to members                                                     | ensure responsibilities are clear                                      |
+| `* *`    | secretary           | mark tasks as done                                                          | track progress                                                         |
+| `* *`    | secretary           | view all pending tasks                                                      | know what still needs to be done                                       |
+| `* *`    | secretary           | see statistics about attendance (e.g. attendance per member)                | identify active vs inactive members                                    |
+| `* *`    | secretary           | archive past events                                                         | keep my event list uncluttered                                         |
+| `* *`    | secretary           | bulk import/export member details (CSV/Excel)                               | avoid re-entering everything when a new batch joins                    |
+| `*`      | secretary           | filter members' common free time                                            | arrange events efficiently                                             |
+| `*`      | busy secretary      | give access to the contact list to other exco members                       | let them manage contacts if I am not free                              |
 
-#### **Event Management**
-
-| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
-|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | secretary           | create an event with a unique ID, date, and description                    | prepare an attendance list and track club activities                   |
-| `* * *`  | secretary           | delete an event                                                             | remove outdated or duplicate records                                  |
-| `* * *`  | secretary           | set a budget/expense for specific events                                    | track event costs and manage finances                                 |
-| `* * *`  | secretary           | view all events in a list                                                   | see all upcoming and past events                                      |
-
-#### **Attendance Tracking**
-
-| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
-|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | secretary           | add members to an event's attendance list                                  | prepare attendance records before the event                           |
-| `* * *`  | secretary           | mark members as attended for an event                                       | record who actually showed up                                         |
-| `* * *`  | secretary           | mark members as absent for an event                                         | track who was supposed to come but didn't                             |
-| `* * *`  | secretary           | remove members from an event's attendance list                             | correct attendance records                                            |
-| `* * *`  | secretary           | view all attendees for a specific event                                     | see who is registered for an event                                    |
-| `* * *`  | secretary           | see attendance summary for an event (attended vs absent)                   | get a quick overview of event participation                           |
-
-#### **Task Management**
-
-| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
-|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | secretary           | add tasks with optional deadlines                                           | assign responsibilities and track progress                             |
-| `* * *`  | secretary           | mark tasks as completed                                                     | track what has been finished                                          |
-| `* * *`  | secretary           | unmark completed tasks as pending                                           | correct task status if needed                                         |
-| `* * *`  | secretary           | delete tasks                                                                | remove tasks that are no longer relevant                              |
-| `* * *`  | secretary           | view all tasks in a list                                                    | see what needs to be done                                             |
-
-#### **Budget Management**
-
-| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
-|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | treasurer           | set a global budget with start and end dates                               | track overall club finances for a period                              |
-| `* * *`  | treasurer           | set expenses for individual events                                          | track costs per event                                                  |
-| `* * *`  | treasurer           | view a budget report                                                        | see financial overview and spending patterns                           |
-| `* * *`  | treasurer           | reset the global budget                                                    | start fresh for a new period                                          |
-
-#### **Data Management**
-
-| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
-|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | secretary           | export member data to CSV files                                             | backup data and share with other exco members                         |
-| `* * *`  | secretary           | import member data from CSV files                                           | quickly add multiple members at once                                  |
-| `* * *`  | secretary           | undo my last action                                                         | recover from mistakes quickly                                         |
-| `* * *`  | secretary           | redo a previously undone action                                             | restore changes I accidentally undid                                  |
-
-#### **System Features**
-
-| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
-|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | secretary           | get help with available commands                                            | learn how to use the system effectively                               |
-| `* * *`  | secretary           | exit the application safely                                                 | close the app without losing data                                     |
-| `* *`    | secretary           | see statistics about attendance (e.g. attendance per member)                | identify active vs inactive members                                   |
-| `* *`    | secretary           | filter members by year of study                                             | easily find all Year 1 members                                        |
-| `* *`    | secretary           | search for members by specific roles (e.g., Treasurer, President)           | quickly contact the right person                                      |
-| `* *`    | secretary           | record a member's dietary restrictions                                      | plan meals without mistakes                                           |
-| `*`      | secretary           | filter members' common free time                                            | arrange events efficiently                                            |
-| `*`      | busy secretary      | give access to the contact list to other exco members                       | let them manage contacts if I am not free                             |
-
-
-
-# ClubHub Developer Guide
 
 ## **Use Cases**
 
@@ -893,94 +880,29 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-### Adding a member
+1. _{ more test cases …​ }_
 
-1. Adding a member with all required fields
+### Deleting a person
 
-   1. Test case: `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President`<br>
-      Expected: Member is added to the list. Success message shown.
+1. Deleting a person while all persons are being shown
 
-   1. Test case: `add n/Jane Smith y/2 s/A7654321A e/janesmith@example.com p/12345678 d/Halal r/Member t/volunteer`<br>
-      Expected: Member with tag is added. Success message shown.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-### Managing events
+   1. Test case: `delete 1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-1. Adding an event
+   1. Test case: `delete 0`<br>
+      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Test case: `addevent e/Orientation2025 dt/2025-08-15 desc/NUS Freshmen Orientation`<br>
-      Expected: Event is added to the event list. Success message shown.
+   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
 
-1. Deleting an event
-
-   1. Test case: `deleteevent e/Orientation2025`<br>
-      Expected: Event is removed from the list. Success message shown.
-
-### Managing tasks
-
-1. Adding a task
-
-   1. Test case: `addtask Prepare presentation dl/2025-12-01`<br>
-      Expected: Task is added to the task list. Success message shown.
-
-1. Marking a task as done
-
-   1. Test case: `marktask 1`<br>
-      Expected: Task status changes to done. Success message shown.
-
-### Managing attendance
-
-1. Adding members to attendance list
-
-   1. Test case: `addattendance e/Orientation2025 m/John Doe`<br>
-      Expected: Member is added to event attendance list. Success message shown.
-
-1. Marking attendance
-
-   1. Test case: `markattendance e/Orientation2025 m/John Doe`<br>
-      Expected: Member is marked as attended. Success message shown.
-
-### Budget management
-
-1. Setting event expense
-
-   1. Test case: `setexpense 1 a/100`<br>
-      Expected: Event expense is set to $100. Success message shown.
-
-1. Setting overall budget
-
-   1. Test case: `budget set a/5000 from/2025-01-01 to/2025-12-31`<br>
-      Expected: Budget is set for the specified period. Success message shown.
-
-### Import/Export
-
-1. Exporting members
-
-   1. Test case: `export /to members.csv`<br>
-      Expected: CSV file is created with member data. Success message shown.
-
-1. Importing members
-
-   1. Test case: `import /from members.csv`<br>
-      Expected: Members are imported from CSV file. Success message shown.
-
-### Undo/Redo
-
-1. Undoing a command
-
-   1. Test case: `add n/Test User y/1 s/A1111111A e/test@example.com p/11111111 d/None r/Member` followed by `undo`<br>
-      Expected: Member is removed. Success message shown.
-
-1. Redoing a command
-
-   1. Test case: After undo, execute `redo`<br>
-      Expected: Member is added back. Success message shown.
+1. _{ more test cases …​ }_
 
 ### Saving data
 
 1. Dealing with missing/corrupted data files
 
-   1. Delete the `data/addressbook.json` file and restart the app.<br>
-      Expected: App starts with sample data.
+   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
-   1. Corrupt the `data/addressbook.json` file by editing it with invalid JSON and restart the app.<br>
-      Expected: App starts with sample data and shows error message.
+1. _{ more test cases …​ }_
