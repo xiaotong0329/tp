@@ -22,7 +22,7 @@ import seedu.address.model.person.Name;
  */
 public class RemoveAttendanceCommand extends Command {
 
-    public static final String COMMAND_WORD = "removeattendees";
+    public static final String COMMAND_WORD = "removeattendance";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes members from an event's attendance list. "
             + "Format: " + COMMAND_WORD + " e/EVENTID m/MEMBER[/MEMBER]...\n"
@@ -58,7 +58,7 @@ public class RemoveAttendanceCommand extends Command {
         Map<Name, Attendance> attendanceByName = AttendanceCommandUtil.collectAttendanceByName(model, eventId);
 
         List<Name> targetNames = new ArrayList<>(new LinkedHashSet<>(memberNames));
-        List<Name> removedMembers = removeattendees(model, attendanceByName, targetNames);
+        List<Name> removedMembers = removeAttendees(model, attendanceByName, targetNames);
 
         logger.fine(() -> String.format("Removed %d member(s) from event %s",
                 removedMembers.size(), eventId));
@@ -70,9 +70,9 @@ public class RemoveAttendanceCommand extends Command {
         return new CommandResult(resultMessage);
     }
 
-    private List<Name> removeattendees(Model model,
-                                        Map<Name, Attendance> attendanceByName,
-                                        List<Name> targetNames) throws CommandException {
+    private List<Name> removeAttendees(Model model,
+                                       Map<Name, Attendance> attendanceByName,
+                                       List<Name> targetNames) throws CommandException {
         List<Name> removedMembers = new ArrayList<>();
 
         for (Name name : targetNames) {
@@ -81,7 +81,7 @@ public class RemoveAttendanceCommand extends Command {
                 throw new CommandException(String.format(MESSAGE_MEMBER_NOT_FOUND, name));
             }
 
-            model.removeattendees(attendance);
+            model.removeAttendance(attendance);
             removedMembers.add(name);
         }
 

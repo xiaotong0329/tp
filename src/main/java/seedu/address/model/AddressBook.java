@@ -242,8 +242,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
-    public void removeattendees(Attendance key) {
-        attendances.remove(key);
+    public void removeAttendance(Attendance attendance) {
+        attendances.remove(attendance);
     }
 
     //// task-level operations
