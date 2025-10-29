@@ -38,7 +38,7 @@ public class MarkTaskCommandTest {
         expectedModel.setTask(taskToMark, markedTask);
 
         String expectedMessage = String.format(MarkTaskCommand.MESSAGE_MARK_TASK_SUCCESS,
-                Messages.format(taskToMark));
+                Messages.format(markedTask));
 
         assertCommandSuccess(markTaskCommand, model, expectedMessage, expectedModel);
     }
@@ -63,7 +63,7 @@ public class MarkTaskCommandTest {
         expectedModel.setTask(taskToMark, markedTask);
 
         String expectedMessage = String.format(MarkTaskCommand.MESSAGE_MARK_TASK_SUCCESS,
-                Messages.format(taskToMark));
+                Messages.format(markedTask));
 
         assertCommandSuccess(markTaskCommand, model, expectedMessage, expectedModel);
     }
