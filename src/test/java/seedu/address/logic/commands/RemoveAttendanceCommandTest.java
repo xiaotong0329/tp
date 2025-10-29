@@ -47,7 +47,7 @@ public class RemoveAttendanceCommandTest {
                 event.getDescription(), List.of(memberName));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.removeattendees(attendance);
+        expectedModel.removeAttendance(attendance);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }

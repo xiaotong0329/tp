@@ -178,7 +178,7 @@ public interface Model {
      * Removes the given attendance record.
      * The attendance record must exist in the address book.
      */
-    void removeattendees(Attendance attendance);
+    void removeAttendance(Attendance attendance);
 
     /**
      * Removes all attendance records associated with the specified member name.
