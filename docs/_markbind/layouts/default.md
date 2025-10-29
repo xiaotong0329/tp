@@ -6,15 +6,13 @@
   <navbar type="dark">
     <a slot="brand" href="{{baseUrl}}/index.html" title="Home" class="navbar-brand">ClubHub</a>
 
-    <li slot="left"><a href="{{baseUrl}}/index.html" class="nav-link">Home</a></li>
-    <li slot="left"><a href="{{baseUrl}}/UserGuide.html" class="nav-link">User Guide</a></li>
-    <li slot="left"><a href="{{baseUrl}}/DeveloperGuide.html" class="nav-link">Developer Guide</a></li>
-    <li slot="left"><a href="{{baseUrl}}/AboutUs.html" class="nav-link">About Us</a></li>
-    <li slot="left">
-      <a href="https://github.com/AY2526S1-CS2103T-T10-3/tp" target="_blank" class="nav-link">
-        <md>:fab-github:</md>
-      </a>
-    </li>
+    <navbar-item slot="left" href="{{baseUrl}}/index.html">Home</navbar-item>
+    <navbar-item slot="left" href="{{baseUrl}}/UserGuide.html">User Guide</navbar-item>
+    <navbar-item slot="left" href="{{baseUrl}}/DeveloperGuide.html">Developer Guide</navbar-item>
+    <navbar-item slot="left" href="{{baseUrl}}/AboutUs.html">About Us</navbar-item>
+    <navbar-item slot="left" href="https://github.com/AY2526S1-CS2103T-T10-3/tp" target="_blank">
+      <md>:fab-github:</md>
+    </navbar-item>
   </navbar>
 </header>
 
@@ -64,4 +62,3 @@
     </small>
   </div>
 </footer>
-
