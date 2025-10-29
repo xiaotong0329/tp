@@ -74,4 +74,13 @@ shadowJar {
     archiveFileName = 'clubhub.jar'
 }
 
+tasks.withType(JavaExec) {
+    jvmArgs '-ea'
+}
+
+test {
+    jvmArgs '-ea'
+}
+
+
 defaultTasks 'clean', 'test'

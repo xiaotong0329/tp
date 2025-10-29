@@ -204,7 +204,7 @@ display format of the event in ClubHub:
 
 ### Adding attendance : `addattendance`
 
-Adds the member to the attendance list. 
+Adds the member to the attendance list.
 
 Format: `addattendance e/EVENTID m/MEMBER[/MEMBER]...`
 

@@ -69,7 +69,7 @@ The sections below give more details of each component.
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
-<puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
+<puml src="diagrams/UiClassDiagram.puml" width="550" alt="Structure of the UI Component"/>
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
@@ -92,7 +92,7 @@ Here's a (partial) class diagram of the `Logic` component:
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
-<puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
+<puml src="diagrams/DeleteSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
 
 <box type="info" seamless>
 
@@ -174,15 +174,15 @@ Given below is an example usage scenario and how the undo/redo mechanism behaves
 
 Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
 
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
+<puml src="diagrams/UndoRedoState0.puml" width="400" alt="UndoRedoState0" />
 
 Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
+<puml src="diagrams/UndoRedoState1.puml" width="400" alt="UndoRedoState1" />
 
 Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
 
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+<puml src="diagrams/UndoRedoState2.puml" width="400" alt="UndoRedoState2" />
 
 <box type="info" seamless>
 
@@ -192,7 +192,7 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
+<puml src="diagrams/UndoRedoState3.puml" width="400" alt="UndoRedoState3" />
 
 
 <box type="info" seamless>
@@ -204,7 +204,7 @@ than attempting to perform the undo.
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
 
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+<puml src="diagrams/UndoSequenceDiagram-Logic.puml" width="550" alt="UndoSequenceDiagram-Logic" />
 
 <box type="info" seamless>
 
@@ -214,7 +214,7 @@ The following sequence diagram shows how an undo operation goes through the `Log
 
 Similarly, how an undo operation goes through the `Model` component is shown below:
 
-<puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
+<puml src="diagrams/UndoSequenceDiagram-Model.puml" width="550" alt="UndoSequenceDiagram-Model" />
 
 The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
 
@@ -226,11 +226,11 @@ The `redo` command does the opposite — it calls `Model#redoAddressBook()`,
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
 
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+<puml src="diagrams/UndoRedoState4.puml" width="400" alt="UndoRedoState4" />
 
 Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+<puml src="diagrams/UndoRedoState5.puml" width="400" alt="UndoRedoState5" />
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
@@ -250,6 +250,126 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
+
+### Add member feature
+
+The add member feature allows users to add new members to the address book with their details.
+
+The sequence diagram below illustrates the interactions within the `Logic` component for adding a member:
+
+<puml src="diagrams/AddSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `add` Command" />
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `AddCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+
+</box>
+
+How the `add` command works:
+1. When the user enters an `add` command, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `AddCommandParser` to parse the command arguments.
+3. `AddCommandParser` validates and parses all required fields (name, year, student number, email, phone, dietary requirements, role, and optional tags).
+4. An `AddCommand` object is created and executed.
+5. Before execution, the current state is committed for undo/redo functionality.
+6. `AddCommand` checks if a person with the same student number already exists.
+7. If not duplicate, the person is added to the address book.
+8. The updated address book is saved to storage.
+
+### Edit member feature
+
+The edit member feature allows users to update existing member details.
+
+The sequence diagram below illustrates the interactions within the `Logic` component for editing a member:
+
+<puml src="diagrams/EditSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `edit` Command" />
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `EditCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+
+</box>
+
+How the `edit` command works:
+1. When the user enters an `edit` command with an index and field updates, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `EditCommandParser` to parse the command arguments.
+3. `EditCommandParser` validates the index and parses the optional fields to update.
+4. An `EditCommand` object is created with an `EditPersonDescriptor` containing the updates.
+5. Before execution, the current state is committed for undo/redo functionality.
+6. `EditCommand` retrieves the person at the specified index from the filtered list.
+7. A new `Person` object is created with the updated fields.
+8. `EditCommand` checks if the edited person already exists (unless it's the same person).
+9. If valid, the person is updated in the address book.
+10. The filtered list is updated to show all persons.
+11. The updated address book is saved to storage.
+
+### Find member feature
+
+The find member feature allows users to search for members by keywords across all fields.
+
+The sequence diagram below illustrates the interactions within the `Logic` component for finding members:
+
+<puml src="diagrams/FindSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `find` Command" />
+
+How the `find` command works:
+1. When the user enters a `find` command with keywords, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates a `FindCommandParser` to parse the command arguments.
+3. `FindCommandParser` splits the input into keywords.
+4. A `PersonContainsKeywordsPredicate` is created with the keywords.
+5. A `FindCommand` object is created and executed.
+6. `FindCommand` updates the filtered person list with the predicate.
+7. The predicate tests each person to see if their fields contain all the keywords (case-insensitive).
+8. Only persons matching all keywords are shown in the filtered list.
+9. The result message shows how many persons match the criteria.
+
+### Add event feature
+
+The add event feature allows users to create new events with an event ID, date, and description.
+
+The sequence diagram below illustrates the interactions within the `Logic` component for adding an event:
+
+<puml src="diagrams/AddEventSequenceDiagram.puml" width="550" alt="Interactions Inside the Logic Component for the `addevent` Command" />
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `AddEventCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+
+</box>
+
+How the `addevent` command works:
+1. When the user enters an `addevent` command, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `AddEventCommandParser` to parse the command arguments.
+3. `AddEventCommandParser` validates and parses the event ID, date, and description.
+4. An `AddEventCommand` object is created and executed.
+5. Before execution, the current state is committed for undo/redo functionality.
+6. `AddEventCommand` checks if an event with the same ID already exists.
+7. If not duplicate, the event is added to the address book.
+8. The updated address book is saved to storage.
+
+### Attendance feature
+
+The attendance feature allows users to record which members attended specific events.
+
+The class diagram below shows the structure of attendance-related classes:
+
+<puml src="diagrams/AttendanceClassDiagram.puml" width="550" alt="Class Diagram for Attendance Feature" />
+
+The sequence diagram below illustrates how attendance is added for an event:
+
+<puml src="diagrams/AttendanceSequenceDiagram.puml" width="550" alt="Sequence Diagram for Adding Attendance" />
+
+The activity diagram below summarizes the flow when adding attendance:
+
+<puml src="diagrams/AttendanceActivity.puml" width="400" alt="Activity Diagram for Adding Attendance" />
+
+How the attendance feature works:
+1. When the user enters an `addattendance` command with an event ID and member names, `LogicManager` passes it to `AddressBookParser`.
+2. `AddressBookParser` creates an `AddAttendanceCommandParser` to parse the command arguments.
+3. An `AddAttendanceCommand` object is created and executed.
+4. `AddAttendanceCommand` retrieves the event by event ID from the model.
+5. For each member name, it checks if the member exists and if attendance hasn't already been recorded.
+6. Duplicate entries are ignored.
+7. New `Attendance` objects are created and added to the event.
+8. A success message is built showing which members were added and which were duplicates.
 
 ### \[Proposed\] Data archiving
 
@@ -317,9 +437,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | secretary           | filter members' common free time                                            | arrange events efficiently                                             |
 | `*`      | busy secretary      | give access to the contact list to other exco members                       | let them manage contacts if I am not free                              |
 
-
-
-# ClubHub Developer Guide
 
 ## **Use Cases**
 
