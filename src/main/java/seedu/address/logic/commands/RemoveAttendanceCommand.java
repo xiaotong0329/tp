@@ -22,7 +22,7 @@ import seedu.address.model.person.Name;
  */
 public class RemoveAttendanceCommand extends Command {
 
-    public static final String COMMAND_WORD = "removeattendance";
+    public static final String COMMAND_WORD = "removeAttendees";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes members from an event's attendance list. "
             + "Format: " + COMMAND_WORD + " e/EVENTID m/MEMBER[/MEMBER]...\n"
@@ -71,8 +71,8 @@ public class RemoveAttendanceCommand extends Command {
     }
 
     private List<Name> removeAttendees(Model model,
-                                       Map<Name, Attendance> attendanceByName,
-                                       List<Name> targetNames) throws CommandException {
+                                        Map<Name, Attendance> attendanceByName,
+                                        List<Name> targetNames) throws CommandException {
         List<Name> removedMembers = new ArrayList<>();
 
         for (Name name : targetNames) {

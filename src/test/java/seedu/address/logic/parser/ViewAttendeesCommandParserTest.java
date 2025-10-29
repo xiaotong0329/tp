@@ -1,40 +1,36 @@
 package seedu.address.logic.parser;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.logic.commands.CommandTestUtil.EVENT_ID_DESC_EVENT1;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.ViewAttendeesCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.event.EventId;
 
-/**
- * Contains tests for {@code ViewAttendeesCommandParser}.
- */
 public class ViewAttendeesCommandParserTest {
 
     private final ViewAttendeesCommandParser parser = new ViewAttendeesCommandParser();
 
     @Test
-    public void parse_validArgs_returnsViewAttendeesCommand() throws Exception {
-        String userInput = " " + CliSyntax.PREFIX_EVENT_ID.getPrefix() + "testEvent";
-        assertTrue(parser.parse(userInput) instanceof ViewAttendeesCommand);
+    public void parse_validArgs_success() {
+        ViewAttendeesCommand expected = new ViewAttendeesCommand(new EventId("event1"));
+        assertParseSuccess(parser, EVENT_ID_DESC_EVENT1, expected);
     }
 
+    @Test
+    public void parse_missingPrefix_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                ViewAttendeesCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, " event1", expectedMessage);
+    }
 
     @Test
-    public void parse_invalidValue_failure() {
-        String expectedMessage = String.format(
-            MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendeesCommand.MESSAGE_USAGE);
-
-        // Missing prefix
-        assertThrows(ParseException.class, expectedMessage, () -> parser.parse("event1"));
-
-        // Empty input
-        assertThrows(ParseException.class, expectedMessage, () -> parser.parse(""));
-
-        // Random invalid string
-        assertThrows(ParseException.class, expectedMessage, () -> parser.parse("blah blah"));
+    public void parse_nonEmptyPreamble_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                ViewAttendeesCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, "preamble" + EVENT_ID_DESC_EVENT1, expectedMessage);
     }
 }
