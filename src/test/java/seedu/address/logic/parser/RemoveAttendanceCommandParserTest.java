@@ -12,25 +12,26 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.MarkAttendanceCommand;
+import seedu.address.logic.commands.RemoveAttendanceCommand;
 import seedu.address.model.event.EventId;
 import seedu.address.model.person.Name;
 
-public class MarkAttendanceCommandParserTest {
+public class RemoveAttendanceCommandParserTest {
 
     private static final String MEMBER_AMY = " " + PREFIX_MEMBER + "Amy Bee";
-    private final MarkAttendanceCommandParser parser = new MarkAttendanceCommandParser();
+    private final RemoveAttendanceCommandParser parser = new RemoveAttendanceCommandParser();
 
     @Test
     public void parse_validArgs_success() {
-        MarkAttendanceCommand expectedCommand = new MarkAttendanceCommand(new EventId("event1"),
+        RemoveAttendanceCommand expectedCommand = new RemoveAttendanceCommand(new EventId("event1"),
                 List.of(new Name("Amy Bee")));
         assertParseSuccess(parser, EVENT_ID_DESC_EVENT1 + MEMBER_AMY, expectedCommand);
     }
 
     @Test
     public void parse_missingPrefixes_failure() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkAttendanceCommand.MESSAGE_USAGE);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                RemoveAttendanceCommand.MESSAGE_USAGE);
         assertParseFailure(parser, MEMBER_AMY, expectedMessage);
         assertParseFailure(parser, " e/event1", expectedMessage);
     }
