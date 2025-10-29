@@ -843,9 +843,6 @@ The main user of ClubHub. Responsible for managing members, creating events, tra
 **Task**
 An assigned responsibility given to a member, tracked by ClubHub until marked completed.
 
-**Telegram Handle**
-An optional contact field that stores a member’s Telegram username for communication purposes.
-
 **Undo**
 A command that allows the Secretary to reverse the most recent action in ClubHub.
 
@@ -880,7 +877,6 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
 
 ### Deleting a person
 
@@ -897,12 +893,31 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. **Test case: Missing data file**
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    1. Close the app.
 
-1. _{ more test cases …​ }_
+    1. Navigate to your project’s `data/` folder and delete `addressbook.json`.
+
+    1. Re-launch the app by double-clicking the JAR file.<br>
+       **Expected:** The app starts successfully with an empty member list.<br>
+       No crash or error message appears.<br>
+       Upon adding a new member or closing the app, a new valid `addressbook.json` file is created automatically.
+
+1. **Test case: Corrupted data file**
+
+    1. Close the app.
+
+    1. Navigate to your project’s `data/` folder and open `addressbook.json` in a text editor.
+
+    1. Delete or modify part of the file (e.g. remove a closing brace `}` or change a field name). Save and close the file.
+
+    1. Re-launch the app by double-clicking the JAR file.<br>
+       **Expected:** The app displays a warning in the logs:<br>
+       `"Data file not in the correct format. Starting with an empty AddressBook."`<br>
+       The UI shows an empty list of members.<br>
+       On exit, the corrupted file is replaced with a new, valid empty JSON file.
+

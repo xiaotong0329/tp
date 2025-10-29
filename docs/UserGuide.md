@@ -348,8 +348,27 @@ _Details coming soon ..._
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ClubHub home folder.
+Q: How do I transfer my data to another computer?<br>
+A: Use the export and import commands.<br><br>
+On your current computer, run:<br>
+
+export /to members_backup.csv
+
+
+This saves all members into a CSV file.<br><br>
+Move that file to your new computer and run:<br>
+
+import /from members_backup.csv
+
+
+ClubHub will automatically load all members from the CSV file.<br>
+You do not need to manually edit or replace any internal data files.
+
+Q: Where are exported files saved?<br>
+A: If no path is specified, exported files are saved in the same directory as the ClubHub application (project root). You can also specify a custom path, e.g.:
+
+export /to data/members.csv
+
 
 --------------------------------------------------------------------------------------------------------------------
 
