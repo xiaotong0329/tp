@@ -11,11 +11,7 @@
     <li><a href="{{baseUrl}}/AboutUs.html" class="nav-link">About Us</a></li>
 <li><a href="https://github.com/AY2526S1-CS2103T-T10-3/tp" target="_blank" class="nav-link"><md>:fab-github:</md></a></li>
 
-    <li slot="right">
-      <form class="navbar-form">
-        <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
-      </form>
-    </li>
+
   </navbar>
 </header>
 
