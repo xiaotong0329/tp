@@ -67,28 +67,28 @@ alt duplicate event
 else
     AddEventCommand -> Model : addEvent(event)
     activate Model
-    
+
     Model -> AddressBook : addEvent(event)
     activate AddressBook
-    
+
     AddressBook -> UniqueEventList : add(event)
     activate UniqueEventList
     UniqueEventList --> AddressBook
     deactivate UniqueEventList
-    
+
     AddressBook --> Model
     deactivate AddressBook
-    
+
     Model --> AddEventCommand
     deactivate Model
-    
+
     create CommandResult
     AddEventCommand -> CommandResult
     activate CommandResult
-    
+
     CommandResult --> AddEventCommand
     deactivate CommandResult
-    
+
     AddEventCommand --> LogicManager : r
 end
 

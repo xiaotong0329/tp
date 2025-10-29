@@ -67,28 +67,28 @@ alt duplicate student number
 else
     AddCommand -> Model : addPerson(person)
     activate Model
-    
+
     Model -> AddressBook : addPerson(person)
     activate AddressBook
-    
+
     AddressBook -> UniquePersonList : add(person)
     activate UniquePersonList
     UniquePersonList --> AddressBook
     deactivate UniquePersonList
-    
+
     AddressBook --> Model
     deactivate AddressBook
-    
+
     Model --> AddCommand
     deactivate Model
-    
+
     create CommandResult
     AddCommand -> CommandResult
     activate CommandResult
-    
+
     CommandResult --> AddCommand
     deactivate CommandResult
-    
+
     AddCommand --> LogicManager : r
 end
 

@@ -50,7 +50,7 @@ else
     activate Model MODEL_COLOR
     Model --> AddAttendanceCommand : boolean
     deactivate Model
-    
+
     alt member not found
         AddAttendanceCommand --> User : throw CommandException
     else
@@ -67,13 +67,13 @@ else
             note right: duplicate names are ignored
         end
     end
-    
+
     create seedu.address.logic.commands.AttendanceMessages as Messages
     AddAttendanceCommand -> Messages : buildAddAttendanceResult(...)
     activate Messages LOGIC_COLOR_T1
     Messages --> AddAttendanceCommand : resultMessage
     deactivate Messages
-    
+
     AddAttendanceCommand --> User : CommandResult
 end
 deactivate AddAttendanceCommand
