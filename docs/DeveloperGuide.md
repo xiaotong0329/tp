@@ -583,35 +583,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC06 – Assign and Track Tasks**
-
-**System:** ClubHub
-**Actor:** Secretary
-
-**MSS:**
-1. Secretary searches for a member.
-2. ClubHub displays the member’s profile.
-3. Secretary chooses to assign a task.
-4. ClubHub requests task details.
-5. Secretary enters task description and deadline.
-6. ClubHub saves the task under the member’s record.
-7. Secretary later views the list of pending tasks.
-8. When task is done, Secretary marks it completed.
-9. ClubHub updates the task status.
-   Use case ends.
-
-**Extensions:**
-- 1a. Member not found.
-    - 1a1. ClubHub displays “No member found.”
-    - Use case ends.
-- 5a. Task details are missing/invalid.
-    - 5a1. ClubHub prompts for correction.
-    - 5a2. Secretary re-enters details.
-    - Use case resumes from step 6.
-
----
-
-### **Use case: UC07 – Undo Last Action**
+### **Use case: UC06 – Undo Last Action**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -629,7 +601,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC08 – View Attendance and Follow-Up**
+### **Use case: UC07 – View Attendance and Follow-Up**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -650,7 +622,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC09 – Delete Event**
+### **Use case: UC08 – Delete Event**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -672,7 +644,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC10 – View Pending Tasks**
+### **Use case: UC09 – View Pending Tasks**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -690,7 +662,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC11 – View Attendance Statistics**
+### **Use case: UC10 – View Attendance Statistics**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -708,73 +680,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC12 – Archive Past Events**
-
-**System:** ClubHub
-**Actor:** Secretary
-
-**MSS:**
-1. Secretary chooses to archive events.
-2. ClubHub lists past events (e.g., before today’s date).
-3. Secretary selects one or more events to archive.
-4. ClubHub moves the events into the archive section.
-5. ClubHub confirms success.
-   Use case ends.
-
-**Extensions:**
-- 2a. No past events available.
-    - 2a1. ClubHub displays “No past events to archive.”
-    - Use case ends.
-
----
-
-### **Use case: UC13 – Filter Members’ Common Free Time**
-
-**System:** ClubHub
-**Actor:** Secretary
-
-**MSS:**
-1. Secretary chooses to check common free time for members.
-2. ClubHub requests the list of members to include in the check.
-3. Secretary selects members (e.g., Exco team).
-4. ClubHub cross-references schedules/free-time data.
-5. ClubHub displays the common available time slots.
-   Use case ends.
-
-**Extensions:**
-- 2a. No schedules available for some members.
-    - 2a1. ClubHub notifies which members lack schedules.
-    - 2a2. Secretary may continue with available data.
-- 5a. No common free time found.
-    - 5a1. ClubHub suggests splitting into smaller groups.
-    - Use case ends.
-
----
-
-### **Use case: UC14 – Share Contact List Access**
-
-**System:** ClubHub
-**Actor:** Secretary, Other Exco Members
-
-**MSS:**
-1. Secretary chooses to share the contact list.
-2. ClubHub requests the role or specific member(s) to grant access.
-3. Secretary specifies the exco members.
-4. ClubHub grants read/write access to those members.
-5. ClubHub confirms access granted.
-   Use case ends.
-
-**Extensions:**
-- 3a. Member not in exco.
-    - 3a1. ClubHub rejects request.
-    - Use case resumes from step 2.
-- *a. Secretary revokes access later.
-    - *a1. ClubHub updates permissions.
-    - Use case ends.
-
----
-
-### **Use case: UC15 – Bulk Import/Export Member Details**
+### **Use case: UC11 – Bulk Import/Export Member Details**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -798,6 +704,65 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 - 2b. Duplicate entries in import file.
     - 2b1. ClubHub prompts whether to update or skip.
     - Use case resumes from step 2.
+
+---
+
+### **Use case: UC12 – Manage Budget**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to manage the club’s budget.
+2. ClubHub prompts for budget amount, start date, and end date.
+3. Secretary enters the amount and date range.
+4. ClubHub validates the inputs.
+5. ClubHub saves the budget and displays confirmation with budget details.
+6. Secretary requests to view the budget report.
+7. ClubHub retrieves expenses within the budget period.
+8. ClubHub displays total budget, total spent, remaining balance, and expenses per event.
+9. Secretary requests to reset the budget.
+10. ClubHub prompts for confirmation.
+11. Secretary confirms the reset action.
+12. ClubHub clears the budget and shows a success message.
+    Use case ends.
+
+**Extensions:**
+- 4a. Inputs are invalid (negative amount or invalid date range).
+    - 4a1. ClubHub displays an error message describing the issue.
+    - 4a2. Secretary corrects the inputs and retries from step 3.
+- 4b. Entered budget period overlaps an existing budget.
+    - 4b1. ClubHub prompts for confirmation to overwrite.
+    - 4b2. Secretary confirms overwrite; use case resumes from step 5.
+- 7a. No expenses recorded in the budget period.
+    - 7a1. ClubHub displays zero spending in the report.
+    - Use case resumes at step 8.
+- 8a. No budget set when the report is requested.
+    - 8a1. ClubHub displays “No budget set. Use `budgetset` to set one.”
+    - Use case ends.
+
+---
+
+### **Use case: UC13 – Add Task to Task List**
+
+**System:** ClubHub  
+**Actor:** Secretary
+
+**MSS:**
+1. Secretary chooses to add a new task.
+2. ClubHub prompts for the task title and optional deadline.
+3. Secretary enters the task details.
+4. ClubHub validates the details.
+5. ClubHub adds the task to the list and displays the confirmation with task details.
+   Use case ends.
+
+**Extensions:**
+- 4a. Task already exists.
+    - 4a1. ClubHub displays “This task already exists.”
+    - 4a2. Secretary modifies the details and retries from step 3.
+- 4b. Deadline format is invalid.
+    - 4b1. ClubHub displays the correct format (YYYY-MM-DD HH:MM).
+    - 4b2. Secretary corrects the deadline and retries from step 3.
 
 ### Non-Functional Requirements
 
@@ -929,4 +894,3 @@ testers are expected to do more *exploratory* testing.
        `"Data file not in the correct format. Starting with an empty AddressBook."`<br>
        The UI shows an empty list of members.<br>
        On exit, the corrupted file is replaced with a new, valid empty JSON file.
-
