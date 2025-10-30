@@ -246,6 +246,20 @@ Examples:
 * `removeattendance e/Orientation2023 m/John Doe` - Removes John Doe from Orientation2023’s attendance list
 * `removeattendance e/Meeting2023 m/Jane Smith/Jake Lee` - Removes Jane Smith and Jake Lee from Meeting2023’s attendance list
 
+### Unmarking attendance : `unmarkattendance`
+
+Marks members as absent for an event.
+
+Format: `unmarkattendance e/EVENTID m/MEMBER[/MEMBER]...`
+
+* Each member must already exist in the attendance list.
+* Members already marked absent remain absent and are reported separately in the result message.
+* Members must first be added via `addattendance`.
+
+Examples:
+* `unmarkattendance e/Orientation2023 m/John Doe` - Marks John Doe as absent for Orientation2023
+* `unmarkattendance e/Meeting2023 m/Jane Smith/Jake Lee` - Marks Jane Smith and Jake Lee as absent for Meeting2023
+
 ### Viewing attendees : `viewattendees`
 
 Views the list of members who are attendees of a specific event.
