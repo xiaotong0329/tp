@@ -13,7 +13,12 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+- Project scaffold adapted from SE-EDU: AddressBook-Level3 (AB3) `https://github.com/se-edu/addressbook-level3`
+- Documentation structure and diagrams adapted from SE-EDU guides
+- UI built with JavaFX `https://openjfx.io/`
+- JSON serialization with Jackson `https://github.com/FasterXML/jackson`
+- Testing with JUnit 5 `https://junit.org/junit5/`
+- PlantUML for diagrams `https://plantuml.com/`
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -158,17 +163,22 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Undo/redo feature
 
-#### Proposed Implementation
+#### Implementation (current)
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The undo/redo mechanism is implemented via `VersionedAddressBook`, which maintains two stacks:
+- `addressBookStateHistory` (undo stack)
+- `addressBookRedoHistory` (redo stack)
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+APIs:
+- `VersionedAddressBook#commit()` saves a copy of the current state to the undo stack and clears the redo stack.
+- `VersionedAddressBook#undo()` pushes the current state onto the redo stack, pops the previous state from the undo stack, and calls `resetData(previousState)`.
+- `VersionedAddressBook#redo()` pushes the current state onto the undo stack, pops from the redo stack, and calls `resetData(nextState)`.
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+Model surface:
+- `Model#commit()`, `Model#undo()`, `Model#redo()` delegate to the above `VersionedAddressBook` methods.
+- On successful `undo()`/`redo()`, `ModelManager` refreshes filtered lists via `updateFilteredPersonList`, `updateFilteredEventList`, and `updateFilteredTaskList` to keep the UI consistent.
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
@@ -197,8 +207,7 @@ Step 4. The user now decides that adding the person was a mistake, and decides t
 
 <box type="info" seamless>
 
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+**Note:** If the undo stack is empty, `undo()` returns false and no state change occurs. Similarly, if the redo stack is empty, `redo()` returns false.
 
 </box>
 
@@ -216,7 +225,7 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 
 <puml src="diagrams/UndoSequenceDiagram-Model.puml" width="550" alt="UndoSequenceDiagram-Model" />
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+The `redo` command calls `Model#redo()`, restoring the next state if available.
 
 <box type="info" seamless>
 
@@ -371,11 +380,6 @@ How the attendance feature works:
 7. New `Attendance` objects are created and added to the event.
 8. A success message is built showing which members were added and which were duplicates.
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -416,26 +420,31 @@ A streamlined address book that organises member details, tracks unique preferen
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​             | I want to …​                                                                | So that I can…​                                                        |
-|----------|---------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | secretary           | add a member with name, year, role, student number, phone number, and telegram handle (optional) | keep member details organized                                          |
-| `* * *`  | careful secretary   | record a member’s dietary restrictions                                      | plan meals without mistakes                                            |
-| `* * *`  | forgetful secretary | search for members by role (e.g., Treasurer, President)                     | quickly contact the right person                                       |
-| `* * *`  | secretary           | filter members by year of study                                             | easily find all Year 1 members                                         |
-| `* * *`  | secretary           | update a member’s details                                                   | correct mistakes without re-entering everything                        |
-| `* * *`  | secretary (events)  | create an event with a date and description                                 | prepare an attendance list                                             |
-| `* * *`  | responsible secretary | mark which members attended an event                                      | track participation                                                    |
-| `* * *`  | secretary           | view the attendance list for an event                                       | follow up with absent members                                          |
-| `* * *`  | secretary           | delete an event                                                             | remove outdated or duplicate records                                   |
-| `* * *`  | careless secretary  | undo my last action                                                         | recover from mistakes quickly                                          |
-| `* *`    | secretary           | assign tasks to members                                                     | ensure responsibilities are clear                                      |
-| `* *`    | secretary           | mark tasks as done                                                          | track progress                                                         |
-| `* *`    | secretary           | view all pending tasks                                                      | know what still needs to be done                                       |
-| `* *`    | secretary           | see statistics about attendance (e.g. attendance per member)                | identify active vs inactive members                                    |
-| `* *`    | secretary           | archive past events                                                         | keep my event list uncluttered                                         |
-| `* *`    | secretary           | bulk import/export member details (CSV/Excel)                               | avoid re-entering everything when a new batch joins                    |
-| `*`      | secretary           | filter members' common free time                                            | arrange events efficiently                                             |
-| `*`      | busy secretary      | give access to the contact list to other exco members                       | let them manage contacts if I am not free                              |
+| Priority | As a …​               | I want to …​                                                                      | So that I can…​                                    |
+|----------|-----------------------|-----------------------------------------------------------------------------------|---------------------------------------------------|
+| `* * *`  | secretary             | add a member with name, year, role, student number, phone, email, dietary info   | keep member details organized and complete        |
+| `* * *`  | secretary             | add optional tags to members                                                      | categorize members for better organization        |
+| `* * *`  | secretary             | edit a member’s details                                                           | correct mistakes without re-entering everything   |
+| `* * *`  | secretary             | delete a member                                                                   | remove members no longer in the club              |
+| `* * *`  | secretary             | find members by searching across all fields                                       | quickly locate specific members                   |
+| `* * *`  | secretary             | list all members                                                                  | get an overview of all club members               |
+| `* * *`  | secretary             | clear all member data                                                             | reset the system when starting fresh              |
+| `* * *`  | secretary (events)    | create an event with unique ID, date, and description                             | plan and track club activities                    |
+| `* * *`  | secretary (events)    | delete an event                                                                   | remove outdated or duplicate records              |
+| `* * *`  | secretary (events)    | set a budget/expense for specific events                                          | track event costs and manage finances             |
+| `* * *`  | secretary (attendance)| add members to an event’s attendance list                                         | prepare attendance records before the event       |
+| `* * *`  | secretary (attendance)| mark members as attended/absent                                                   | record actual participation                       |
+| `* * *`  | secretary (attendance)| view attendees and attendance summary                                             | get a quick overview of participation             |
+| `* * *`  | secretary (tasks)     | add tasks with optional deadlines                                                 | assign responsibilities and track progress        |
+| `* * *`  | secretary (tasks)     | mark/unmark tasks as completed                                                    | keep task status accurate                         |
+| `* * *`  | secretary (tasks)     | delete tasks                                                                      | remove tasks that are no longer relevant          |
+| `* * *`  | treasurer (budget)    | set a global budget with start and end dates                                      | track club finances for a period                  |
+| `* * *`  | treasurer (budget)    | set expenses for individual events                                                | track costs per event                              |
+| `* * *`  | treasurer (budget)    | view a budget report                                                              | see financial overview and spending patterns      |
+| `* * *`  | secretary             | import/export member data as CSV                                                  | move data in/out efficiently                      |
+| `* * *`  | secretary             | undo/redo my last action                                                          | recover from mistakes quickly                     |
+| `* *`    | secretary             | see statistics about attendance                                                   | identify active vs inactive members               |
+| `* *`    | secretary             | filter members by year or role                                                    | find target groups quickly                        |
 
 
 ## **Use Cases**
