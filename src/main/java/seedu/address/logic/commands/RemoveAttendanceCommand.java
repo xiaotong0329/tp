@@ -66,7 +66,7 @@ public class RemoveAttendanceCommand extends Command {
         assert removedMembers.size() == targetNames.size();
 
         String resultMessage = AttendanceMessages.buildRemoveAttendanceResult(
-                event.getDescription(), removedMembers);
+                event.getEventId().toString(), removedMembers);
         return new CommandResult(resultMessage);
     }
 

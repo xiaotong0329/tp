@@ -44,7 +44,7 @@ public class UnmarkAttendanceCommandTest {
         UnmarkAttendanceCommand command = new UnmarkAttendanceCommand(eventId, List.of(memberName));
 
         String expectedMessage = AttendanceMessages.buildUnmarkAttendanceResult(
-                event.getDescription(), List.of(memberName), List.of());
+                event.getEventId().toString(), List.of(memberName), List.of());
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.setAttendance(new Attendance(eventId, memberName, true),
@@ -70,7 +70,7 @@ public class UnmarkAttendanceCommandTest {
         UnmarkAttendanceCommand command = new UnmarkAttendanceCommand(eventId, List.of(memberName));
 
         String expectedMessage = AttendanceMessages.buildUnmarkAttendanceResult(
-                event.getDescription(), List.of(), List.of(memberName));
+                event.getEventId().toString(), List.of(), List.of(memberName));
 
         assertCommandSuccess(command, model, expectedMessage, model);
     }

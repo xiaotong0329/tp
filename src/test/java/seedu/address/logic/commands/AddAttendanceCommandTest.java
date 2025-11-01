@@ -47,7 +47,7 @@ public class AddAttendanceCommandTest {
         List<Name> membersToAdd = List.of(ALICE.getName(), BENSON.getName());
         AddAttendanceCommand command = new AddAttendanceCommand(EVENT.getEventId(), membersToAdd);
 
-        String expectedMessage = AttendanceMessages.buildAddAttendanceResult(EVENT.getDescription(),
+        String expectedMessage = AttendanceMessages.buildAddAttendanceResult(EVENT.getEventId().toString(),
                 membersToAdd, List.of());
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
@@ -64,7 +64,7 @@ public class AddAttendanceCommandTest {
         List<Name> members = List.of(ALICE.getName(), BENSON.getName());
         AddAttendanceCommand command = new AddAttendanceCommand(EVENT.getEventId(), members);
 
-        String expectedMessage = AttendanceMessages.buildAddAttendanceResult(EVENT.getDescription(),
+        String expectedMessage = AttendanceMessages.buildAddAttendanceResult(EVENT.getEventId().toString(),
                 List.of(BENSON.getName()), List.of(ALICE.getName()));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());

@@ -72,7 +72,7 @@ public class MarkAttendanceCommand extends Command {
         assert summary.totalProcessed() == targetNames.size();
 
         String resultMessage = AttendanceMessages.buildMarkAttendanceResult(
-                event.getDescription(),
+                event.getEventId().toString(),
                 summary.getNewlyMarkedMembers(),
                 summary.getAlreadyMarkedMembers());
         return new CommandResult(resultMessage);
