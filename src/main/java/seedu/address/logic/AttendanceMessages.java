@@ -62,10 +62,10 @@ public final class AttendanceMessages {
     /**
      * Builds the user-facing result message for adding attendance entries.
      */
-    public static String buildAddAttendanceResult(String eventDescription,
+    public static String buildAddAttendanceResult(String eventReference,
                                                   List<Name> addedMembers,
                                                   List<Name> duplicateMembers) {
-        requireNonNull(eventDescription);
+        requireNonNull(eventReference);
         requireNonNull(addedMembers);
         requireNonNull(duplicateMembers);
 
@@ -74,7 +74,7 @@ public final class AttendanceMessages {
                 : "\n" + formatAlreadyAddedMembers(duplicateMembers);
 
         return String.format(MESSAGE_ADD_ATTENDANCE_RESULT,
-                eventDescription,
+                eventReference,
                 formatNames(addedMembers),
                 duplicateSection);
     }
@@ -82,15 +82,15 @@ public final class AttendanceMessages {
     /**
      * Builds the user-facing result message for marking attendance entries.
      */
-    public static String buildMarkAttendanceResult(String eventDescription,
+    public static String buildMarkAttendanceResult(String eventReference,
                                                    List<Name> newlyMarked,
                                                    List<Name> alreadyMarked) {
-        requireNonNull(eventDescription);
+        requireNonNull(eventReference);
         requireNonNull(newlyMarked);
         requireNonNull(alreadyMarked);
 
         return String.format(MESSAGE_MARK_ATTENDANCE_SUCCESS,
-                eventDescription,
+                eventReference,
                 formatNames(newlyMarked),
                 formatNames(alreadyMarked));
     }
@@ -98,15 +98,15 @@ public final class AttendanceMessages {
     /**
      * Builds the user-facing result message for unmarking attendance entries.
      */
-    public static String buildUnmarkAttendanceResult(String eventDescription,
+    public static String buildUnmarkAttendanceResult(String eventReference,
                                                      List<Name> newlyAbsent,
                                                      List<Name> alreadyAbsent) {
-        requireNonNull(eventDescription);
+        requireNonNull(eventReference);
         requireNonNull(newlyAbsent);
         requireNonNull(alreadyAbsent);
 
         return String.format(MESSAGE_UNMARK_ATTENDANCE_SUCCESS,
-                eventDescription,
+                eventReference,
                 formatNames(newlyAbsent),
                 formatNames(alreadyAbsent));
     }
@@ -114,13 +114,13 @@ public final class AttendanceMessages {
     /**
      * Builds the user-facing result message for removing attendance entries.
      */
-    public static String buildRemoveAttendanceResult(String eventDescription,
+    public static String buildRemoveAttendanceResult(String eventReference,
                                                      List<Name> removedMembers) {
-        requireNonNull(eventDescription);
+        requireNonNull(eventReference);
         requireNonNull(removedMembers);
 
         return String.format(MESSAGE_REMOVE_ATTENDANCE_SUCCESS,
-                eventDescription,
+                eventReference,
                 formatNames(removedMembers));
     }
 }

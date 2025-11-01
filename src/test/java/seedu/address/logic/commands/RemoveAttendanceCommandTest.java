@@ -44,7 +44,7 @@ public class RemoveAttendanceCommandTest {
         RemoveAttendanceCommand command = new RemoveAttendanceCommand(eventId, List.of(memberName));
 
         String expectedMessage = AttendanceMessages.buildRemoveAttendanceResult(
-                event.getDescription(), List.of(memberName));
+                event.getEventId().toString(), List.of(memberName));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.removeAttendance(attendance);

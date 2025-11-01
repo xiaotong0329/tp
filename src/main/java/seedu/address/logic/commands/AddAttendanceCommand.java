@@ -70,7 +70,7 @@ public class AddAttendanceCommand extends Command {
         assert summary.totalProcessed() == uniqueNames.size();
 
         String resultMessage = AttendanceMessages.buildAddAttendanceResult(
-                event.getDescription(),
+                event.getEventId().toString(),
                 summary.getAddedMembers(),
                 summary.getDuplicateMembers());
 

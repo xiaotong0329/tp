@@ -70,7 +70,7 @@ public class UnmarkAttendanceCommand extends Command {
         assert summary.totalProcessed() == targetNames.size();
 
         String resultMessage = AttendanceMessages.buildUnmarkAttendanceResult(
-                event.getDescription(),
+                event.getEventId().toString(),
                 summary.getNewlyAbsentMembers(),
                 summary.getAlreadyAbsentMembers());
         return new CommandResult(resultMessage);

@@ -45,7 +45,7 @@ public class MarkAttendanceCommandTest {
         MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(eventId, List.of(memberName));
 
         String expectedMessage = AttendanceMessages.buildMarkAttendanceResult(
-                event.getDescription(), List.of(memberName), List.of());
+                event.getEventId().toString(), List.of(memberName), List.of());
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.setAttendance(new Attendance(eventId, memberName),
@@ -104,7 +104,7 @@ public class MarkAttendanceCommandTest {
 
         // Second attendance (duplicate)
         String expectedMessage = AttendanceMessages.buildMarkAttendanceResult(
-                event.getDescription(), List.of(), List.of(memberName));
+                event.getEventId().toString(), List.of(), List.of(memberName));
 
         assertCommandSuccess(markAttendanceCommand, model, expectedMessage, model);
     }
