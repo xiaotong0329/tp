@@ -22,7 +22,7 @@ import seedu.address.model.person.Name;
  */
 public class RemoveAttendanceCommand extends Command {
 
-    public static final String COMMAND_WORD = "removeAttendees";
+    public static final String COMMAND_WORD = "removeattendance";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes members from an event's attendance list. "
             + "Format: " + COMMAND_WORD + " e/EVENTID m/MEMBER[/MEMBER]...\n"
