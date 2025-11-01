@@ -33,4 +33,12 @@ public class ViewAttendeesCommandParserTest {
                 ViewAttendeesCommand.MESSAGE_USAGE);
         assertParseFailure(parser, "preamble" + EVENT_ID_DESC_EVENT1, expectedMessage);
     }
+
+    @Test
+    public void parse_multipleEventPrefixes_failure() {
+        String input = EVENT_ID_DESC_EVENT1 + " " + EVENT_ID_DESC_EVENT1;
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                ViewAttendeesCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, input, expectedMessage);
+    }
 }

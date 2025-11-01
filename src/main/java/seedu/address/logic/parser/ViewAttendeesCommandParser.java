@@ -25,7 +25,8 @@ public class ViewAttendeesCommandParser implements Parser<ViewAttendeesCommand> 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EVENT_ID);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_EVENT_ID)
-                || !argMultimap.getPreamble().isEmpty()) {
+                || !argMultimap.getPreamble().isEmpty()
+                || argMultimap.getAllValues(PREFIX_EVENT_ID).size() != 1) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendeesCommand.MESSAGE_USAGE));
         }
