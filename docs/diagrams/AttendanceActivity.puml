@@ -22,10 +22,8 @@ else ([event exists])
         :Record added member;
       endif
     endif
-  repeat while () is ([More names])
-
-  
-  :build result message;
-  stop
+repeat while () is ([More names])
+:build result message;
+stop
 endif
 @enduml

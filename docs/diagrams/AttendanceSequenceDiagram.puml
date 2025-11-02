@@ -73,7 +73,7 @@ else
     Messages --> AddAttendanceCommand : resultMessage
     deactivate Messages
 
-    AddAttendanceCommand --> User : 
+    AddAttendanceCommand --> User : CommandResult
     deactivate AddAttendanceCommand
 end
 
