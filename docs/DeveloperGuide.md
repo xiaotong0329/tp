@@ -180,6 +180,16 @@ Model surface:
 - `Model#commit()`, `Model#undo()`, `Model#redo()` delegate to the above `VersionedAddressBook` methods.
 - On successful `undo()`/`redo()`, `ModelManager` refreshes filtered lists via `updateFilteredPersonList`, `updateFilteredEventList`, and `updateFilteredTaskList` to keep the UI consistent.
 
+Supported commands:
+All commands that modify data are undoable, including:
+- Member operations: `add`, `edit`, `delete`, `clear`
+- Event operations: `addevent`, `deleteevent`, `setexpense`
+- Task operations: `addtask`, `deletetask`, `marktask`, `unmarktask`
+- Attendance operations: `addattendance`, `markattendance`, `unmarkattendance`, `removeAttendees`
+- Budget operations: `budgetset`, `budgetreset`
+
+Read-only commands (like `list`, `find`, `showattendance`, `viewattendees`, `budgetreport`) do not commit state and cannot be undone.
+
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
 Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
@@ -196,7 +206,7 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 <box type="info" seamless>
 
-**Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+**Note:** If a command fails its execution, it will not save state, so the address book state will not be saved into the `addressBookStateList`. All modifying commands automatically commit state before execution (including attendance operations: `addattendance`, `markattendance`, `unmarkattendance`, `removeAttendees`), making them undoable.
 
 </box>
 
@@ -369,14 +379,16 @@ The activity diagram below summarizes the flow when adding attendance:
 How the attendance feature works:
 1. When the user enters an `addattendance` command with an event ID and member names, `LogicManager` passes it to `AddressBookParser`.
 2. `AddressBookParser` creates an `AddAttendanceCommandParser` to parse the command arguments.
-3. An `AddAttendanceCommand` object is created and executed.
-4. `AddAttendanceCommand` retrieves the event by event ID from the model.
-5. For each member name, it checks if the member exists and if attendance hasn't already been recorded.
-6. Duplicate entries are ignored.
-7. New `Attendance` objects are created and added to the event.
-8. A success message is built showing which members were added and which were duplicates.
+3. An `AddAttendanceCommand` object is created.
+4. Before execution, the current state is committed for undo/redo functionality (in `LogicManager#execute()`).
+5. `AddAttendanceCommand` retrieves the event by event ID from the model.
+6. For each member name, it checks if the member exists and if attendance hasn't already been recorded.
+7. Duplicate entries are ignored.
+8. New `Attendance` objects are created and added to the event.
+9. A success message is built showing which members were added and which were duplicates.
+10. The updated address book is saved to storage.
 
-*Other attendance related features work in the similar way.*
+*Other attendance related features (`markattendance`, `unmarkattendance`, `removeAttendees`) work in a similar way and are also undoable.*
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
