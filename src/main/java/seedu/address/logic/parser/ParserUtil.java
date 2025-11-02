@@ -154,6 +154,9 @@ public class ParserUtil {
     public static String parseDescription(String description) throws ParseException {
         requireNonNull(description);
         String trimmedDescription = description.trim();
+        if (trimmedDescription.isEmpty()) {
+            throw new ParseException("Description should not be empty");
+        }
         if (trimmedDescription.length() > 100) {
             throw new ParseException("Description should not exceed 100 characters");
         }
