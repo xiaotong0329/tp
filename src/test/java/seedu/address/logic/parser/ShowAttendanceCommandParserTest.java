@@ -31,12 +31,16 @@ public class ShowAttendanceCommandParserTest {
     @Test
     public void parse_multiplePrefixes_failure() {
         String userInput = EVENT_ID_DESC_EVENT1 + " " + PREFIX_EVENT_ID + "event2";
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_COMMAND_FORMAT);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                ShowAttendanceCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, userInput, expectedMessage);
     }
 
     @Test
     public void parse_blankEventId_failure() {
         String userInput = " " + PREFIX_EVENT_ID;
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_COMMAND_FORMAT);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                ShowAttendanceCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, userInput, expectedMessage);
     }
 }

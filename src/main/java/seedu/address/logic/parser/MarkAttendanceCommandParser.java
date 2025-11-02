@@ -23,25 +23,25 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
     @Override
     public MarkAttendanceCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EVENT_ID, PREFIX_MEMBER);
+        String usageError = String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkAttendanceCommand.MESSAGE_USAGE);
 
         // Must have no preamble and both prefixes present
         if (!arePrefixesPresent(argMultimap, PREFIX_EVENT_ID, PREFIX_MEMBER)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    MarkAttendanceCommand.MESSAGE_USAGE));
+            throw new ParseException(usageError);
         }
 
         // Each prefix must appear exactly once
         if (!hasExactlyOneValue(argMultimap, PREFIX_EVENT_ID)
                 || !hasExactlyOneValue(argMultimap, PREFIX_MEMBER)) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(usageError);
         }
 
         // Event ID must be non-blank after trimming
         String rawEventId = argMultimap.getValue(PREFIX_EVENT_ID).get().trim();
         String rawMember = argMultimap.getValue(PREFIX_MEMBER).get();
         if (rawEventId.isEmpty()) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(usageError);
         }
 
         // Parse into domain types

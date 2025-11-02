@@ -15,27 +15,27 @@ public class ShowAttendanceCommandParser implements Parser<ShowAttendanceCommand
     @Override
     public ShowAttendanceCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EVENT_ID);
+        String usageError = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowAttendanceCommand.MESSAGE_USAGE);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_EVENT_ID)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ShowAttendanceCommand.MESSAGE_USAGE));
+            throw new ParseException(usageError);
         }
 
         if (hasNotExactlyOneValue(argMultimap, PREFIX_EVENT_ID)) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(usageError);
         }
 
         String rawEventId = argMultimap.getValue(PREFIX_EVENT_ID).get().trim();
         if (rawEventId.isEmpty()) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(usageError);
         }
 
         try {
             EventId eventId = ParserUtil.parseEventId(rawEventId);
             return new ShowAttendanceCommand(eventId);
         } catch (ParseException pe) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(usageError);
         }
     }
 
@@ -52,4 +52,3 @@ public class ShowAttendanceCommandParser implements Parser<ShowAttendanceCommand
         return am.getAllValues(prefix).size() != 1;
     }
 }
-
