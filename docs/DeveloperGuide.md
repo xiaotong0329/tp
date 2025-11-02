@@ -356,11 +356,7 @@ How the `addevent` command works:
 
 ### Attendance feature
 
-The attendance feature allows users to record which members attended specific events.
-
-The class diagram below shows the structure of attendance-related classes:
-
-<puml src="diagrams/AttendanceClassDiagram.puml" width="550" alt="Class Diagram for Attendance Feature" />
+The attendance feature allows users add and record which members attended specific events.
 
 The sequence diagram below illustrates how attendance is added for an event:
 
@@ -380,6 +376,7 @@ How the attendance feature works:
 7. New `Attendance` objects are created and added to the event.
 8. A success message is built showing which members were added and which were duplicates.
 
+*Other attendance related features work in the similar way.*
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
