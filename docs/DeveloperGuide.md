@@ -235,15 +235,15 @@ The `redo` command calls `Model#redo()`, restoring the next state if available.
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
 
-<puml src="diagrams/UndoRedoState4.puml" width="400" alt="UndoRedoState4" />
+<puml src="diagrams/UndoRedoState4.puml" width="450" alt="UndoRedoState4" />
 
 Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
-<puml src="diagrams/UndoRedoState5.puml" width="400" alt="UndoRedoState5" />
+<puml src="diagrams/UndoRedoState5.puml" width="450" alt="UndoRedoState5" />
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
+<puml src="diagrams/CommitActivityDiagram.puml" width="450" />
 
 #### Design considerations:
 
@@ -368,7 +368,7 @@ The sequence diagram below illustrates how attendance is added for an event:
 
 The activity diagram below summarizes the flow when adding attendance:
 
-<puml src="diagrams/AttendanceActivity.puml" width="400" alt="Activity Diagram for Adding Attendance" />
+<puml src="diagrams/AttendanceActivity.puml" width="500" alt="Activity Diagram for Adding Attendance" />
 
 How the attendance feature works:
 1. When the user enters an `addattendance` command with an event ID and member names, `LogicManager` passes it to `AddressBookParser`.
