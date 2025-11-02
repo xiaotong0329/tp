@@ -45,6 +45,7 @@ deactivate Model
 
 alt Event not found
     AddAttendanceCommand --> User : throw CommandException
+    deactivate AddAttendanceCommand
 else
     AddAttendanceCommand -> Model : for each name: check memberExists & hasAttendance
     activate Model MODEL_COLOR
@@ -53,6 +54,7 @@ else
 
     alt member not found
         AddAttendanceCommand --> User : throw CommandException
+        deactivate AddAttendanceCommand
     else
         alt not duplicate
             AddAttendanceCommand -> Model : addAttendance(attendance)
@@ -71,10 +73,10 @@ else
     create seedu.address.logic.commands.AttendanceMessages as Messages
     AddAttendanceCommand -> Messages : buildAddAttendanceResult(...)
     activate Messages LOGIC_COLOR_T1
-    Messages --> AddAttendanceCommand : resultMessage
-    deactivate Messages
+   Messages --> AddAttendanceCommand : resultMessage
+   deactivate Messages
 
     AddAttendanceCommand --> User : CommandResult
+    deactivate AddAttendanceCommand
 end
-deactivate AddAttendanceCommand
 @enduml
