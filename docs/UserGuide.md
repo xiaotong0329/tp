@@ -6,7 +6,7 @@
 
 # ClubHub User Guide
 
-ClubHub is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, ClubHub can get your contact management tasks done faster than traditional GUI apps.
+ClubHub is a powerful desktop application designed to help CCA secretaries and organizers efficiently manage members, events, and attendance. It combines the speed and precision of a Command Line Interface (CLI) with the clarity and accessibility of a Graphical User Interface (GUI). By typing simple, intuitive commands, users can perform tasks such as adding members, recording attendance, or viewing preferences much faster than with traditional point-and-click systems. This hybrid design makes ClubHub both lightweight and efficient, enabling users who type quickly to streamline their administrative work while still enjoying the visual feedback and ease of use that a GUI provides.
 
 <!-- * Table of Contents -->
 <page-nav-print />
