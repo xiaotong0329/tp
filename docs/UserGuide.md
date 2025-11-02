@@ -6,7 +6,7 @@
 
 # ClubHub User Guide
 
-ClubHub is a powerful desktop application designed to help CCA secretaries and organizers efficiently manage members, events, and attendance. It combines the speed and precision of a Command Line Interface (CLI) with the clarity and accessibility of a Graphical User Interface (GUI). By typing simple, intuitive commands, users can perform tasks such as adding members, recording attendance, or viewing preferences much faster than with traditional point-and-click systems. This hybrid design makes ClubHub both lightweight and efficient, enabling users who type quickly to streamline their administrative work while still enjoying the visual feedback and ease of use that a GUI provides.
+ClubHub is a powerful desktop application designed to help NUS CCA secretaries and  efficiently manage members, events, and attendance. It combines the speed and precision of a Command Line Interface (CLI) with the clarity and accessibility of a Graphical User Interface (GUI). By typing simple, intuitive commands, users can perform tasks such as adding members, recording attendance, or viewing details much faster than with traditional point-and-click systems without using external servers or internet connection. This hybrid design makes ClubHub both lightweight and efficient, enabling users who type quickly to streamline their administrative work while still enjoying the visual feedback and ease of use that a GUI provides.
 
 <!-- * Table of Contents -->
 <page-nav-print />
