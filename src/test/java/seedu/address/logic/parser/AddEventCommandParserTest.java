@@ -99,4 +99,15 @@ public class AddEventCommandParserTest {
                 + DESCRIPTION_DESC_EVENT1,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
     }
+
+    @Test
+    public void parse_emptyDescription_failure() {
+        // empty description
+        assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + " " + PREFIX_DESCRIPTION + "",
+                "Description should not be empty");
+
+        // whitespace only description
+        assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + " " + PREFIX_DESCRIPTION + "   ",
+                "Description should not be empty");
+    }
 }

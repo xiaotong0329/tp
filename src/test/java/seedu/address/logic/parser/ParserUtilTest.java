@@ -170,4 +170,43 @@ public class ParserUtilTest {
 
         assertEquals(expectedTagSet, actualTagSet);
     }
+
+    @Test
+    public void parseDescription_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDescription((String) null));
+    }
+
+    @Test
+    public void parseDescription_emptyString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDescription(""));
+    }
+
+    @Test
+    public void parseDescription_whitespaceOnly_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDescription(WHITESPACE));
+    }
+
+    @Test
+    public void parseDescription_validValueWithoutWhitespace_returnsDescription() throws Exception {
+        String validDescription = "Christmas Party";
+        assertEquals(validDescription, ParserUtil.parseDescription(validDescription));
+    }
+
+    @Test
+    public void parseDescription_validValueWithWhitespace_returnsTrimmedDescription() throws Exception {
+        String descriptionWithWhitespace = WHITESPACE + "Christmas Party" + WHITESPACE;
+        assertEquals("Christmas Party", ParserUtil.parseDescription(descriptionWithWhitespace));
+    }
+
+    @Test
+    public void parseDescription_exceedsMaxLength_throwsParseException() {
+        String longDescription = "a".repeat(101); // Exceeds 100 characters
+        assertThrows(ParseException.class, () -> ParserUtil.parseDescription(longDescription));
+    }
+
+    @Test
+    public void parseDescription_maxLength_returnsDescription() throws Exception {
+        String maxLengthDescription = "a".repeat(100); // Exactly 100 characters
+        assertEquals(maxLengthDescription, ParserUtil.parseDescription(maxLengthDescription));
+    }
 }
