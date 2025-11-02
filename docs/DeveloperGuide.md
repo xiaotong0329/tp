@@ -235,15 +235,15 @@ The `redo` command calls `Model#redo()`, restoring the next state if available.
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
 
-<puml src="diagrams/UndoRedoState4.puml" width="400" alt="UndoRedoState4" />
+<puml src="diagrams/UndoRedoState4.puml" width="450" alt="UndoRedoState4" />
 
 Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
-<puml src="diagrams/UndoRedoState5.puml" width="400" alt="UndoRedoState5" />
+<puml src="diagrams/UndoRedoState5.puml" width="450" alt="UndoRedoState5" />
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
+<puml src="diagrams/CommitActivityDiagram.puml" width="450" />
 
 #### Design considerations:
 
@@ -356,11 +356,7 @@ How the `addevent` command works:
 
 ### Attendance feature
 
-The attendance feature allows users to record which members attended specific events.
-
-The class diagram below shows the structure of attendance-related classes:
-
-<puml src="diagrams/AttendanceClassDiagram.puml" width="550" alt="Class Diagram for Attendance Feature" />
+The attendance feature allows users add and record which members attended specific events.
 
 The sequence diagram below illustrates how attendance is added for an event:
 
@@ -368,7 +364,7 @@ The sequence diagram below illustrates how attendance is added for an event:
 
 The activity diagram below summarizes the flow when adding attendance:
 
-<puml src="diagrams/AttendanceActivity.puml" width="400" alt="Activity Diagram for Adding Attendance" />
+<puml src="diagrams/AttendanceActivity.puml" width="500" alt="Activity Diagram for Adding Attendance" />
 
 How the attendance feature works:
 1. When the user enters an `addattendance` command with an event ID and member names, `LogicManager` passes it to `AddressBookParser`.
@@ -380,6 +376,7 @@ How the attendance feature works:
 7. New `Attendance` objects are created and added to the event.
 8. A success message is built showing which members were added and which were duplicates.
 
+*Other attendance related features work in the similar way.*
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -464,11 +461,11 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 3. Secretary enters the requested details.
 4. ClubHub validates inputs and creates the member record.
 5. ClubHub displays confirmation and the updated member list.
-   Use case ends.
+6. Use case ends.
 
 **Extensions:**
 - 3a. Missing/invalid fields.
-    - 3a1. ClubHub shows specific error and usage hint.
+    - 3a1. ClubHub displays an error message and usage hint.
     - 3a2. Secretary re-enters data.
     - Use case resumes from step 4.
 - *a. At any time, Secretary cancels.
@@ -490,7 +487,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 4. ClubHub searches members whose specified field matches the query.
 5. ClubHub displays a list of matching members with key details (e.g., Name, Year, Role, Dietary Restriction).
 6. (Optional) Secretary selects a member to view full details.
-   Use case ends.
+7. Use case ends.
 
 **Extensions:**
 - 2a. Secretary omits field or query.
@@ -501,7 +498,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
     - 3a2. Secretary re-enters a valid field.
     - Use case resumes from step 3.
 - 4a. No members match the criteria.
-    - 4a1. ClubHub displays "No member found." and suggests refining the query.
+    - 4a1. ClubHub displays an error message and suggests refining the query.
     - Use case ends.
 - 5a. Result set is too large.
     - 5a1. ClubHub paginates results or prompts for filters.
@@ -524,11 +521,11 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 3. Secretary enters details.
 4. ClubHub validates and creates the event.
 5. ClubHub displays confirmation.
-   Use case ends.
+6. Use case ends.
 
 **Extensions:**
 - 3a. Duplicate/non-conforming EventID or invalid date/description.
-    - 3a1. ClubHub shows validation error(s).
+    - 3a1. ClubHub displays an error message.
     - 3a2. Secretary re-enters data.
     - Use case resumes from step 4.
 
@@ -540,17 +537,17 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 **Actor:** Secretary
 
 **MSS:**
-1. Secretary searches for an event by ID or date.
+1. Secretary searches for an event by ID.
 2. ClubHub displays the event details.
 3. Secretary chooses to record attendance.
 4. ClubHub displays the list of members.
 5. Secretary marks members as attended.
 6. ClubHub saves the attendance and confirms.
-   Use case ends.
+7. Use case ends.
 
 **Extensions:**
 - 1a. Event not found.
-    - 1a1. ClubHub displays “Event not found.”
+    - 1a1. ClubHub displays an error message.
     - Use case ends.
 - 5a. Secretary marks the same member again.
     - 5a1. ClubHub ignores duplicate and continues.
@@ -570,11 +567,11 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 5. Secretary enters new details (e.g., role changed).
 6. ClubHub validates and updates the record.
 7. ClubHub confirms the update.
-   Use case ends.
+8. Use case ends.
 
 **Extensions:**
 - 1a. No member matches the search.
-    - 1a1. ClubHub displays “No member found.”
+    - 1a1. ClubHub displays an error message.
     - Use case ends.
 - 6a. Invalid details entered.
     - 6a1. ClubHub requests correction.
@@ -592,32 +589,32 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 1. Secretary issues the undo command.
 2. ClubHub restores the system to its state before the last action.
 3. ClubHub displays confirmation.
-   Use case ends.
+4. Use case ends.
 
 **Extensions:**
 - 1a. No action available to undo.
-    - 1a1. ClubHub displays “No action to undo.”
+    - 1a1. ClubHub displays an error message.
     - Use case ends.
 
 ---
 
-### **Use case: UC07 – View Attendance and Follow-Up**
+### **Use case: UC07 – View Attendance**
 
 **System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
 1. Secretary chooses to view attendance for an event.
-2. ClubHub displays the list of members who attended.
-3. Secretary identifies absentees for follow-up actions (e.g., reminders).
-   Use case ends.
+2. ClubHub displays the list of members who attended and those who absent.
+3. Secretary identifies absentees for follow-up actions.
+4. Use case ends.
 
 **Extensions:**
 - 1a. Event not found.
-    - 1a1. ClubHub displays “Event not found.”
+    - 1a1. ClubHub displays an error message.
     - Use case ends.
 - 2a. No attendance recorded yet.
-    - 2a1. ClubHub shows “No attendance recorded yet.”
+    - 2a1. ClubHub displays an error message.
     - Use case ends.
 
 ---
@@ -632,11 +629,11 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 2. ClubHub requests event ID and confirmation.
 3. Secretary provides the ID and confirms deletion.
 4. ClubHub deletes the event and shows success message.
-   Use case ends.
+5. Use case ends.
 
 **Extensions:**
 - 2a. Event not found.
-    - 2a1. ClubHub displays “Event not found.”
+    - 2a1. ClubHub displays an error message.
     - Use case ends.
 - *a. Secretary cancels at confirmation.
     - *a1. ClubHub cancels deletion.
@@ -644,43 +641,11 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC09 – View Pending Tasks**
 
-**System:** ClubHub
-**Actor:** Secretary
 
-**MSS:**
-1. Secretary chooses to view pending tasks.
-2. ClubHub retrieves and lists all tasks not marked as completed, grouped by member.
-3. Secretary reviews tasks.
-   Use case ends.
 
-**Extensions:**
-- 2a. No pending tasks.
-    - 2a1. ClubHub displays “No pending tasks.”
-    - Use case ends.
 
----
-
-### **Use case: UC10 – View Attendance Statistics**
-
-**System:** ClubHub
-**Actor:** Secretary
-
-**MSS:**
-1. Secretary chooses to view attendance statistics.
-2. ClubHub calculates attendance percentage for each member across all events.
-3. ClubHub displays summary statistics (e.g., member name, number of events attended, attendance rate).
-   Use case ends.
-
-**Extensions:**
-- 2a. No attendance data available.
-    - 2a1. ClubHub displays “No attendance data found.”
-    - Use case ends.
-
----
-
-### **Use case: UC11 – Bulk Import/Export Member Details**
+### **Use case: UC9 – Bulk Import/Export Member Details**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -695,11 +660,11 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 3. For export:
     - ClubHub generates a CSV/Excel file with current member details.
     - Secretary downloads the file.
-      Use case ends.
+4. Use case ends.
 
 **Extensions:**
 - 2a. Import file invalid (wrong format, missing fields).
-    - 2a1. ClubHub shows error message with line numbers.
+    - 2a1. ClubHub displays an error message.
     - 2a2. Secretary corrects file and retries.
 - 2b. Duplicate entries in import file.
     - 2b1. ClubHub prompts whether to update or skip.
@@ -707,7 +672,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ---
 
-### **Use case: UC12 – Manage Budget**
+### **Use case: UC10 – Manage Budget**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -725,11 +690,11 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 10. ClubHub prompts for confirmation.
 11. Secretary confirms the reset action.
 12. ClubHub clears the budget and shows a success message.
-    Use case ends.
+13. Use case ends.
 
 **Extensions:**
 - 4a. Inputs are invalid (negative amount or invalid date range).
-    - 4a1. ClubHub displays an error message describing the issue.
+    - 4a1. ClubHub displays an error message.
     - 4a2. Secretary corrects the inputs and retries from step 3.
 - 4b. Entered budget period overlaps an existing budget.
     - 4b1. ClubHub prompts for confirmation to overwrite.
@@ -738,12 +703,12 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
     - 7a1. ClubHub displays zero spending in the report.
     - Use case resumes at step 8.
 - 8a. No budget set when the report is requested.
-    - 8a1. ClubHub displays “No budget set. Use `budgetset` to set one.”
+    - 8a1. ClubHub displays an error message.
     - Use case ends.
 
 ---
 
-### **Use case: UC13 – Add Task to Task List**
+### **Use case: UC11 – Add Task to Task List**
 
 **System:** ClubHub
 **Actor:** Secretary
@@ -754,14 +719,14 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 3. Secretary enters the task details.
 4. ClubHub validates the details.
 5. ClubHub adds the task to the list and displays the confirmation with task details.
-   Use case ends.
+6. Use case ends.
 
 **Extensions:**
 - 4a. Task already exists.
-    - 4a1. ClubHub displays “This task already exists.”
+    - 4a1. ClubHub displays an error message.
     - 4a2. Secretary modifies the details and retries from step 3.
 - 4b. Deadline format is invalid.
-    - 4b1. ClubHub displays the correct format (YYYY-MM-DD HH:MM).
+    - 4b1. ClubHub displays an error message.
     - 4b2. Secretary corrects the deadline and retries from step 3.
 
 ### Non-Functional Requirements
