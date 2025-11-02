@@ -31,9 +31,9 @@ ClubHub is a powerful desktop application **targets NUS CCA secretaries who need
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President t/leadership` : Adds a club member.
+   * `add n/John y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President t/leadership` : Adds a club member.
 
-   * `addevent ev/Orientation2025 dt/2025-08-15 desc/NUS Freshmen Orientation` : Adds an event.
+   * `addevent e/Orientation2025 dt/2025-08-15 desc/NUS Freshmen Orientation` : Adds an event.
 
    * `clear` : Deletes all contacts.
 
