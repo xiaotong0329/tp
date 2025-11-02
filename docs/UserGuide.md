@@ -276,7 +276,7 @@ Examples:
 
 ### Showing attendance summary : `showattendance`
 
-Displays a summary of attendance for an event, including counts of attended and absent members.
+Displays a summary of attendance for an event, including counts of attended and absent members. This is different from viewattendees as the command show number of absentees and attendees. For event that have many attendees, this command gives users attendance stats more quickly compared to viewattendees
 
 Format: `showattendance e/EVENTID`
 
