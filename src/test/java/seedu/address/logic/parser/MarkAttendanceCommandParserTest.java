@@ -38,7 +38,9 @@ public class MarkAttendanceCommandParserTest {
     @Test
     public void parse_multipleMemberPrefixes_failure() {
         String input = EVENT_ID_DESC_EVENT1 + MEMBER_AMY + MEMBER_AMY;
-        assertParseFailure(parser, input, MESSAGE_INVALID_COMMAND_FORMAT);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                MarkAttendanceCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, input, expectedMessage);
     }
 
     @Test

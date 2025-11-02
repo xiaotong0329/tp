@@ -23,23 +23,23 @@ public class UnmarkAttendanceCommandParser implements Parser<UnmarkAttendanceCom
     @Override
     public UnmarkAttendanceCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EVENT_ID, PREFIX_MEMBER);
+        String usageError = String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmarkAttendanceCommand.MESSAGE_USAGE);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_EVENT_ID, PREFIX_MEMBER)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    UnmarkAttendanceCommand.MESSAGE_USAGE));
+            throw new ParseException(usageError);
         }
 
         if (!hasExactlyOneValue(argMultimap, PREFIX_EVENT_ID)
                 || !hasExactlyOneValue(argMultimap, PREFIX_MEMBER)) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(usageError);
         }
 
         String rawEventId = argMultimap.getValue(PREFIX_EVENT_ID).get().trim();
         String rawMembers = argMultimap.getValue(PREFIX_MEMBER).get();
 
         if (rawEventId.isEmpty()) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(usageError);
         }
 
         try {
