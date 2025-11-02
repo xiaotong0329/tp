@@ -782,23 +782,11 @@ A registered individual in ClubHub with stored details such as name, year of stu
 **Member Record**
 The collection of data fields stored for a member in ClubHub.
 
-**Pending Task**
-A task assigned to a member that has not yet been marked as completed.
-
 **Role**
 The position a member holds in the club (e.g., President, Treasurer, Secretary, General Member).
 
 **Secretary**
 The main user of ClubHub. Responsible for managing members, creating events, tracking attendance, assigning tasks, and maintaining records.
-
-**Task**
-An assigned responsibility given to a member, tracked by ClubHub until marked completed.
-
-**Undo**
-A command that allows the Secretary to reverse the most recent action in ClubHub.
-
-**Year of Study**
-The academic year of a member (e.g., Year 1, Year 2, etc.). Used for filtering and organising members.
 
 --------------------------------------------------------------------------------------------------------------------
 
