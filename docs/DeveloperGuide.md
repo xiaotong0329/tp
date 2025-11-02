@@ -709,7 +709,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC12 – Manage Budget**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
@@ -745,7 +745,7 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 
 ### **Use case: UC13 – Add Task to Task List**
 
-**System:** ClubHub  
+**System:** ClubHub
 **Actor:** Secretary
 
 **MSS:**
