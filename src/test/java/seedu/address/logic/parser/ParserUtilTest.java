@@ -187,13 +187,13 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseDescription_validValueWithoutWhitespace_returnsDescription() throws Exception {
+    public void parseDescription_validValue_returnsDescription() throws Exception {
         String validDescription = "Christmas Party";
         assertEquals(validDescription, ParserUtil.parseDescription(validDescription));
     }
 
     @Test
-    public void parseDescription_validValueWithWhitespace_returnsTrimmedDescription() throws Exception {
+    public void parseDescription_whitespace_returnsTrimmed() throws Exception {
         String descriptionWithWhitespace = WHITESPACE + "Christmas Party" + WHITESPACE;
         assertEquals("Christmas Party", ParserUtil.parseDescription(descriptionWithWhitespace));
     }

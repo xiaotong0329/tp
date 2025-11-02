@@ -107,7 +107,8 @@ public class AddEventCommandParserTest {
                 "Description should not be empty");
 
         // whitespace only description
-        assertParseFailure(parser, EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + " " + PREFIX_DESCRIPTION + "   ",
+        assertParseFailure(parser,
+                EVENT_ID_DESC_EVENT1 + DATE_DESC_EVENT1 + " " + PREFIX_DESCRIPTION + "   ",
                 "Description should not be empty");
     }
 }
