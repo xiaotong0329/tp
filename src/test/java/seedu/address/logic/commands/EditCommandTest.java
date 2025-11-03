@@ -121,7 +121,7 @@ public class EditCommandTest {
     @Test
     public void execute_duplicateStudentNumber_failure() {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        
+
         // Try to edit second person's student number to match first person's student number
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withStudentNumber(firstPerson.getStudentNumber().value).build();
