@@ -8,6 +8,7 @@
 
 ClubHub is a powerful desktop application **targets NUS CCA secretaries who need to manage varous details of many CCA member.** We aim to efficiently manage members, events, and attendance. It combines the speed and precision of a Command Line Interface (CLI) with the clarity and accessibility of a Graphical User Interface (GUI). By typing simple, intuitive commands, users can perform tasks such as adding members, recording attendance, or viewing details much faster than with traditional point-and-click systems without using external servers or internet connection. This hybrid design makes ClubHub both lightweight and efficient, enabling users who type quickly to streamline their administrative work while still enjoying the visual feedback and ease of use that a GUI provides.
 
+
 <!-- * Table of Contents -->
 <page-nav-print />
 
@@ -67,7 +68,7 @@ ClubHub addresses these needs by providing a fast, offline-capable solution that
 
 1. Refer to the [Features](#features) below for details of each command.
 
---------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
 
 ## Features
 
@@ -93,6 +94,16 @@ ClubHub addresses these needs by providing a fast, offline-capable solution that
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
+### Input validation at a glance
+ClubHub validates your inputs before any change is applied. If a value fails validation, the command stops, and you will see a descriptive error message. Common checks include:
+- **Dates** must be in `YYYY-MM-DD`, e.g. `2024-12-01`.
+- **Student numbers** follow the NUS pattern `A1234567X` (one letter, seven digits, one letter).
+- **Event descriptions** must be non-empty.
+- **Event IDs** must be non-empty and unique.
+- **Names** cannot be blank; emails and phone numbers must follow their documented formats.
+- **Budget/expense amounts** must be positive numbers with up to two decimal places (e.g. `123.45`). However, the remaining budget can be negative if expenses exceed the budget.
+- **CSV imports** must include the compulsory columns; malformed rows are rejected with warnings.
+Tip: Most commands mention the exact field that failed validation so you can correct it quickly if you used the command wrongly.
 
 ### Viewing help : `help`
 
@@ -123,8 +134,9 @@ display format of member's contact in ClubHub:
   ![Betsy Crowe](images/BetsyCrowe.png)
 
 
-### Listing all persons : `list`
 
+### Listing all persons : `list`
+ 
 Shows a list of all persons in the ClubHub.
 
   ![list message](images/listMessage.png)
@@ -290,6 +302,12 @@ Format: `unmarkattendance e/EVENTID m/MEMBER[/MEMBER]...`
 Examples:
 * `unmarkattendance e/Orientation2023 m/John Doe` - Marks John Doe as absent for Orientation2023
 * `unmarkattendance e/Meeting2023 m/Jane Smith/Jake Lee` - Marks Jane Smith and Jake Lee as absent for Meeting2023
+
+<box type="tip" seamless>
+
+**Validation reminder:** Every attendance-related command halts at the first invalid value, and no partial changes are applied. For example, `addattendance e/Orientation2025 m/Alice/Unknown` fails because `Unknown` is not a known member; Alice is not added either.
+
+</box>
 
 ### Viewing attendees : `viewattendees`
 
