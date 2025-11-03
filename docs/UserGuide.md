@@ -13,6 +13,32 @@ ClubHub is a powerful desktop application **targets NUS CCA secretaries who need
 
 --------------------------------------------------------------------------------------------------------------------
 
+## Target Users
+
+ClubHub is specifically designed for **NUS CCA secretaries and club administrators** who need to manage the day-to-day operations of their clubs and co-curricular activities. 
+
+### Who is ClubHub for?
+
+**Primary users:**
+* **CCA Secretaries** - Individuals responsible for maintaining member databases, tracking attendance, and organizing club events
+* **Club Administrators** - Officers who need to manage club finances, monitor event budgets, and coordinate member activities
+* **Event Organizers** - Members who plan and execute club events and need to track attendance efficiently
+
+### Why these features?
+
+Our target users frequently need to:
+
+* **Manage large member databases** - CCA secretaries often work with dozens or hundreds of members, requiring efficient contact management (`add`, `edit`, `delete`, `find`, `list`)
+* **Track event attendance** - Regular events require recording who attended and who was absent (`addattendance`, `markattendance`, `unmarkattendance`, `viewattendees`, `showattendance`)
+* **Organize club events** - Planning and managing multiple events throughout the semester (`addevent`, `deleteevent`)
+* **Handle administrative tasks** - Managing club tasks and deadlines (`addtask`, `marktask`, `unmarktask`)
+* **Monitor club finances** - Tracking budgets and expenses for events (`budget`, `setexpense`)
+* **Import/Export member data** - Transferring member information between systems or creating backups (`import`, `export`)
+
+ClubHub addresses these needs by providing a fast, offline-capable solution that allows secretaries to efficiently manage all aspects of club administration without relying on external servers or internet connectivity.
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
