@@ -227,6 +227,11 @@ Examples:
 display format of the event in ClubHub:
   ![Orientation2023](images/Orientation2023.png)
 
+<box type="info" seamless>
+
+**Display format:** When you set an expense for an event using the `setexpense` command, the expense amount will be displayed beside the event title in the event list. Events without expenses set will show $0.00 or no expense indicator.
+</box>
+
 
 ### Adding attendance : `addattendance`
 
@@ -342,10 +347,15 @@ Formats:
 Tracks a global budget in SGD with an inclusive date range, and per-event expenses.
 
 Formats:
-* `budget set a/AMOUNT from/YYYY-MM-DD to/YYYY-MM-DD`
-* `budget reset`
-* `budget report`
+* `budgetset a/AMOUNT from/YYYY-MM-DD to/YYYY-MM-DD`
+* `budgetreset`
+* `budgetreport`
 * `setexpense INDEX a/AMOUNT`
+
+**Expense display:** When you set an expense for an event using `setexpense`, the expense amount will appear beside the event title in the event list panel. This allows you to quickly see the cost of each event at a glance. The expense is displayed in the format `$AMOUNT` (e.g., `$150.00`).
+
+Examples:
+* `setexpense 1 a/150.00` - Sets the expense for the event at index 1 to $150.00. The expense will be displayed beside the event title in the UI.
 
 Notes:
 * Currency is SGD with two decimals; negative amounts are not allowed.
@@ -428,5 +438,5 @@ Action     | Format, Examples
 **Events** | `addevent e/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
 **Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
 **Undo/Redo** | `undo`, `redo`
-**Budget** | `budget set a/AMOUNT from/START to/END`, `budget reset`, `budget report`, `setexpense INDEX a/AMOUNT`
+**Budget** | `budgetset a/AMOUNT from/START to/END`, `budgetreset`, `budgetreport`, `setexpense INDEX a/AMOUNT`
 **Help**   | `help`
