@@ -27,7 +27,13 @@ public class BudgetSetCommandParser implements Parser<BudgetSetCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_AMOUNT, PREFIX_FROM, PREFIX_TO);
 
-        Money amount = Money.parse(argMultimap.getValue(PREFIX_AMOUNT).get());
+        Money amount;
+        try {
+            amount = Money.parse(argMultimap.getValue(PREFIX_AMOUNT).get());
+        } catch (IllegalArgumentException e) {
+            throw new ParseException("Invalid amount format: " + e.getMessage());
+        }
+
         LocalDate from = ParserUtil.parseDate(argMultimap.getValue(PREFIX_FROM).get());
         LocalDate to = ParserUtil.parseDate(argMultimap.getValue(PREFIX_TO).get());
         if (to.isBefore(from)) {

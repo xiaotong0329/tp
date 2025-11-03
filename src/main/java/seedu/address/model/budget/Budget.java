@@ -55,13 +55,12 @@ public final class Budget {
                 && (date.isEqual(endDate) || date.isBefore(endDate));
     }
 
-    /** Returns remaining amount given total spent. Floors at zero. */
-    public Money remaining(Money spent) {
+    /** Returns remaining amount given total spent. Can be negative if overspending. */
+    public String remaining(Money spent) {
         requireNonNull(spent);
-        if (spent.compareTo(amount) >= 0) {
-            return Money.zero();
-        }
-        return amount.minus(spent);
+        java.math.BigDecimal result = amount.toBigDecimal().subtract(spent.toBigDecimal());
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
+        return df.format(result);
     }
 
     @Override
