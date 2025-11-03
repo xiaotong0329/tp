@@ -448,16 +448,16 @@ export /to data/members.csv
 
 ## Command summary
 
-Action     | Format, Examples
+Action     | Format
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME y/YEAR s/STUDENT_NUMBER e/EMAIL p/PHONE d/DIETARY r/ROLE [t/TAG]…​` <br> e.g., `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President`
+**Add**    | `add n/NAME y/YEAR s/STUDENT_NUMBER e/EMAIL p/PHONE d/DIETARY r/ROLE [t/TAG]…​` 
 **Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [y/YEAR] [s/STUDENT_NUMBER] [d/DIETARY] [r/ROLE] [t/TAG]…​`<br> e.g.,`edit 2 n/Betsy Crower t/`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Delete** | `delete INDEX`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [y/YEAR] [s/STUDENT_NUMBER] [d/DIETARY] [r/ROLE] [t/TAG]…​`
+**Find**   | `find KEYWORD [MORE_KEYWORDS]`
 **List**   | `list`
-**Import** | `import /from FILEPATH`<br> e.g., `import /from members.csv`
-**Export** | `export /to FILEPATH`<br> e.g., `export /to members.csv`
+**Import** | `import /from FILEPATH`
+**Export** | `export /to FILEPATH`
 **Attendance** | `addattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `markattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `unmarkattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `removeattendance e/EVENTID m/MEMBER[/MEMBER]...`<br> `viewattendees e/EVENTID`<br> `showattendance e/EVENTID`
 **Events** | `addevent e/EVENTID dt/DATE desc/DESC`<br> `deleteevent e/EVENTID`
 **Tasks**  | `addtask TITLE [dl/DEADLINE]`, `deletetask INDEX`, `marktask INDEX`, `unmarktask INDEX`
