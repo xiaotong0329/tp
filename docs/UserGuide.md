@@ -15,7 +15,7 @@ ClubHub is a powerful desktop application **targets NUS CCA secretaries who need
 
 ## Target Users
 
-ClubHub is specifically designed for **NUS CCA secretaries and club administrators** who need to manage the day-to-day operations of their clubs and co-curricular activities. 
+ClubHub is specifically designed for **NUS CCA secretaries and club administrators** who need to manage the day-to-day operations of their clubs and co-curricular activities.
 
 ### Who is ClubHub for?
 

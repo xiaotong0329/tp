@@ -8,7 +8,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENT_NUMBER_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_YEAR_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
@@ -69,7 +68,7 @@ public class EditCommandNewFieldsTest {
         PersonBuilder personInList = new PersonBuilder(lastPerson);
         Person editedPerson = personInList.withName(VALID_NAME_BOB)
                 .withYear(VALID_YEAR_BOB)
-                .withStudentNumber(VALID_STUDENT_NUMBER_BOB)
+                .withStudentNumber("Z9999999Z")
                 .withEmail(VALID_EMAIL_BOB)
                 .withPhone(VALID_PHONE_BOB)
                 .withDietaryRequirements(VALID_DIETARY_BOB)
@@ -79,7 +78,7 @@ public class EditCommandNewFieldsTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withName(VALID_NAME_BOB)
                 .withYear(VALID_YEAR_BOB)
-                .withStudentNumber(VALID_STUDENT_NUMBER_BOB)
+                .withStudentNumber("Z9999999Z")
                 .withEmail(VALID_EMAIL_BOB)
                 .withPhone(VALID_PHONE_BOB)
                 .withDietaryRequirements(VALID_DIETARY_BOB)
