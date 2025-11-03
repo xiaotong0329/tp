@@ -196,7 +196,7 @@ Format: `exit`
 
 ### Importing members : `import`
 
-Imports member details from a CSV file into the ClubHub.
+Imports member details from a CSV file into the ClubHub. The imported members will be **added to** the existing contact list; this command does not replace existing data.
 
 Format: `import /from FILEPATH`
 
