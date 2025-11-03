@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +40,25 @@ public class AddCommandIntegrationTest {
             model,
             String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
             expectedModel
+        );
+    }
+
+    @Test
+    public void execute_duplicateStudentNumberCaseInsensitive_failure() {
+        // ALICE has student number "A1234567X" in TypicalPersons
+        String aliceStudentNumber = ALICE.getStudentNumber().value;
+        String caseVariation = aliceStudentNumber.toLowerCase(); // "a1234567x"
+
+        // Try to add a person with the same student number but different case
+        Person personWithCaseVariation = new PersonBuilder()
+                .withName("Different Person")
+                .withStudentNumber(caseVariation)
+                .build();
+
+        assertCommandFailure(
+            new AddCommand(personWithCaseVariation),
+            model,
+            "A member with this student number already exists."
         );
     }
 }

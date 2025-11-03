@@ -107,11 +107,14 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Returns true if a member with the same student number exists in this address book.
+     * Comparison is case-insensitive to prevent duplicates like 'a1234567a' and 'A1234567A'.
      */
     public boolean hasStudentNumber(StudentNumber studentNumber) {
         requireNonNull(studentNumber);
+        String studentNumberLower = studentNumber.value.toLowerCase();
         return persons.asUnmodifiableObservableList().stream()
-            .anyMatch(existingPerson -> existingPerson.getStudentNumber().equals(studentNumber));
+            .anyMatch(existingPerson -> existingPerson.getStudentNumber().value
+                    .toLowerCase().equals(studentNumberLower));
     }
 
     /**

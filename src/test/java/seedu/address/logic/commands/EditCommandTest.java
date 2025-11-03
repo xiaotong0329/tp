@@ -131,6 +131,21 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_duplicateStudentNumberCaseInsensitive_failure() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        String originalStudentNumber = firstPerson.getStudentNumber().value;
+
+        // Try to edit second person's student number to match first person's student number
+        // with different case (e.g., 'A1234567X' vs 'a1234567x')
+        String caseVariation = originalStudentNumber.toLowerCase();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withStudentNumber(caseVariation).build();
+        EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
+
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_STUDENT_NUMBER);
+    }
+
+    @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
