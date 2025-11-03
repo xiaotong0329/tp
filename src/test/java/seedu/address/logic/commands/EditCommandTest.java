@@ -119,6 +119,18 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_duplicateStudentNumber_failure() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        
+        // Try to edit second person's student number to match first person's student number
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withStudentNumber(firstPerson.getStudentNumber().value).build();
+        EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
+
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_STUDENT_NUMBER);
+    }
+
+    @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
