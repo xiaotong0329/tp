@@ -19,7 +19,7 @@ public class BudgetReportCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         Budget budget = model.getBudget().orElse(null);
         if (budget == null) {
-            return new CommandResult("No budget set. Use budget set to set one.");
+            return new CommandResult("No budget set. Use budgetset to set one.");
         }
         List<Event> events = model.getEventsWithin(budget.getStartDate(), budget.getEndDate());
         Money spent = model.computeTotalExpensesWithin(budget.getStartDate(), budget.getEndDate());
