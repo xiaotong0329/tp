@@ -318,9 +318,11 @@ public class AddCommandTest {
         @Override
         public boolean hasStudentNumber(StudentNumber studentNumber) {
             requireNonNull(studentNumber);
-            // Return true if a person with the same student number already exists
+            // Return true if a person with the same student number already exists (case-insensitive)
+            String studentNumberLower = studentNumber.value.toLowerCase();
             return personsAdded.stream()
-                .anyMatch(existingPerson -> existingPerson.getStudentNumber().equals(studentNumber));
+                .anyMatch(existingPerson -> existingPerson.getStudentNumber().value
+                        .toLowerCase().equals(studentNumberLower));
         }
 
         @Override
