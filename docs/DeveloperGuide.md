@@ -40,7 +40,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -72,13 +72,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/ui/Ui.java), which defines the interface with the `start(Stage primaryStage)` method. The concrete implementation is provided by [`UiManager.java`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/ui/UiManager.java).
 
 <puml src="diagrams/UiClassDiagram.puml" width="550" alt="Structure of the UI Component"/>
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -89,7 +89,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -121,7 +121,7 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
 
@@ -144,7 +144,7 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S1-CS2103T-T10-3/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
@@ -817,20 +817,234 @@ testers are expected to do more *exploratory* testing.
        Expected: The most recent window size and location is retained.
 
 
-### Deleting a person
+### Adding a member
 
-1. Deleting a person while all persons are being shown
+1. Adding a member with all fields
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   1. Test case: `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President t/leadership`<br>
+      Expected: New member is added to the list. Success message shows the member's details. Member appears in the person list panel.
+
+   1. Test case: `add n/John Doe y/3 s/A1234567X e/johnd@example.com p/98765432 d/Vegetarian r/President` (without tags)<br>
+      Expected: Member is added successfully without tags.
+
+   1. Test case: Missing required fields (e.g., `add n/John Doe`)<br>
+      Expected: Error message shown indicating missing required fields.
+
+   1. Test case: Duplicate student number<br>
+      Expected: Error message indicating that a person with this student number already exists.
+
+### Editing a member
+
+1. Editing a member
+
+   1. Prerequisites: List all members using the `list` command. Multiple members in the list.
+
+   1. Test case: `edit 1 p/91234567 e/johndoe@example.com`<br>
+      Expected: Phone number and email of the first member are updated. Success message shows the updated member's details.
+
+   1. Test case: `edit 1 t/` (clear tags)<br>
+      Expected: All tags of the first member are removed.
+
+   1. Test case: `edit 0`<br>
+      Expected: Error message indicating invalid index.
+
+### Finding members
+
+1. Finding members by keywords
+
+   1. Test case: `find john`<br>
+      Expected: All members with "john" in their name or attributes are listed. Case-insensitive matching.
+
+   1. Test case: `find vegetarian year 2`<br>
+      Expected: Members who are both vegetarian and in year 2 are shown.
+
+   1. Test case: `find xyz123` (no matches)<br>
+      Expected: Message indicating no members found. Empty list displayed.
+
+### Deleting a member
+
+1. Deleting a member while all members are being shown
+
+   1. Prerequisites: List all members using the `list` command. Multiple members in the list.
 
    1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+      Expected: First member is deleted from the list. Details of the deleted member shown in the status message. Timestamp in the status bar is updated.
 
    1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+      Expected: No member is deleted. Error details shown in the status message.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+      Expected: Error message shown.
+
+### Events
+
+1. Adding an event
+
+   1. Test case: `addevent e/Orientation2025 dt/2025-08-15 desc/NUS Freshmen Orientation`<br>
+      Expected: New event is added to the event list. Success message confirms event creation.
+
+   1. Test case: Duplicate event ID<br>
+      Expected: Error message indicating that an event with this ID already exists.
+
+   1. Test case: Invalid date format<br>
+      Expected: Error message indicating invalid date format.
+
+1. Deleting an event
+
+   1. Prerequisites: At least one event exists.
+
+   1. Test case: `deleteevent e/Orientation2025`<br>
+      Expected: Event with ID "Orientation2025" is deleted. Success message confirms deletion.
+
+   1. Test case: `deleteevent e/NonExistentEvent`<br>
+      Expected: Error message indicating event not found.
+
+### Attendance
+
+1. Adding attendance
+
+   1. Prerequisites: At least one event and one member exist.
+
+   1. Test case: `addattendance e/Orientation2025 m/John Doe`<br>
+      Expected: John Doe is added to the attendance list for Orientation2025. Success message confirms addition.
+
+   1. Test case: Adding the same member twice<br>
+      Expected: Duplicate is ignored. Success message indicates which members were added and which were duplicates.
+
+   1. Test case: Adding attendance for non-existent event<br>
+      Expected: Error message indicating event not found.
+
+1. Marking attendance
+
+   1. Prerequisites: Member has been added to attendance list using `addattendance`.
+
+   1. Test case: `markattendance e/Orientation2025 m/John Doe`<br>
+      Expected: John Doe is marked as attended. Success message confirms marking.
+
+   1. Test case: Marking already marked member<br>
+      Expected: Message indicates member was already marked. No error occurs.
+
+1. Viewing attendees
+
+   1. Prerequisites: At least one event with attendees exists.
+
+   1. Test case: `viewattendees e/Orientation2025`<br>
+      Expected: List of all attendees for the event is displayed with their attendance status.
+
+1. Showing attendance summary
+
+   1. Test case: `showattendance e/Orientation2025`<br>
+      Expected: Summary showing counts of attended and absent members is displayed.
+
+### Tasks
+
+1. Adding a task
+
+   1. Test case: `addtask Submit budget report dl/2025-11-01 23:59`<br>
+      Expected: New task is added to the task list. Success message shows task details with deadline.
+
+   1. Test case: `addtask Buy supplies` (without deadline)<br>
+      Expected: Task is added without a deadline.
+
+1. Marking a task
+
+   1. Prerequisites: At least one task exists.
+
+   1. Test case: `marktask 1`<br>
+      Expected: First task is marked as done. Task status updates in the UI.
+
+1. Unmarking a task
+
+   1. Prerequisites: At least one completed task exists.
+
+   1. Test case: `unmarktask 1`<br>
+      Expected: First task is unmarked (marked as not done). Task status updates in the UI.
+
+1. Deleting a task
+
+   1. Test case: `deletetask 1`<br>
+      Expected: First task is deleted from the list. Success message confirms deletion.
+
+### Budget and expenses
+
+1. Setting a budget
+
+   1. Test case: `budgetset a/1000.00 from/2025-01-01 to/2025-12-31`<br>
+      Expected: Budget is set successfully. Success message confirms budget details.
+
+   1. Test case: Negative amount or invalid date range<br>
+      Expected: Error message indicating invalid input.
+
+1. Setting event expense
+
+   1. Prerequisites: At least one event exists.
+
+   1. Test case: `setexpense 1 a/150.00`<br>
+      Expected: Expense for the first event is set to $150.00. Expense appears beside the event title in the event list panel.
+
+   1. Test case: `setexpense 1 a/-50.00` (negative amount)<br>
+      Expected: Error message indicating amount cannot be negative.
+
+   1. Test case: `setexpense 1 a/150.555` (more than 2 decimal places)<br>
+      Expected: Error message indicating amount must have at most 2 decimal places.
+
+1. Budget report
+
+   1. Prerequisites: A budget has been set and at least one event exists.
+
+   1. Test case: `budgetreport`<br>
+      Expected: Report showing total budget, total spent, remaining balance, and expenses per event is displayed.
+
+1. Resetting budget
+
+   1. Test case: `budgetreset`<br>
+      Expected: Budget is cleared. Success message confirms reset.
+
+### Undo and redo
+
+1. Undoing a command
+
+   1. Prerequisites: At least one command that modifies data has been executed (e.g., `add`, `edit`, `delete`).
+
+   1. Test case: `add n/Test Person y/2 s/T1234567A e/test@example.com p/12345678 d/None r/Member` followed by `undo`<br>
+      Expected: The added member is removed. System returns to state before the `add` command.
+
+   1. Test case: `undo` when no commands to undo<br>
+      Expected: Error message indicating no commands to undo.
+
+1. Redoing a command
+
+   1. Prerequisites: At least one `undo` command has been executed.
+
+   1. Test case: `undo` followed by `redo`<br>
+      Expected: The undone command is reapplied. System returns to state after the original command.
+
+   1. Test case: `redo` when no commands to redo<br>
+      Expected: Error message indicating no commands to redo.
+
+1. Undo/Redo with multiple commands
+
+   1. Test case: Execute multiple modifying commands (`add`, `edit`, `delete`), then `undo` multiple times<br>
+      Expected: Each `undo` reverts one command in reverse order.
+
+### Import and export
+
+1. Exporting members
+
+   1. Prerequisites: At least one member exists.
+
+   1. Test case: `export /to members.csv`<br>
+      Expected: CSV file is created with all member data. Success message confirms export.
+
+1. Importing members
+
+   1. Prerequisites: A valid CSV file exists with member data.
+
+   1. Test case: `import /from members.csv`<br>
+      Expected: Members from CSV file are imported. Success message shows import summary.
+
+   1. Test case: Import file with invalid format<br>
+      Expected: Error message indicating file format issues.
 
 
 ### Saving data
