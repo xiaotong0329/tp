@@ -480,9 +480,6 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
     - 3a1. ClubHub displays an error message and usage hint.
     - 3a2. Secretary re-enters data.
     - Use case resumes from step 4.
-- *a. At any time, Secretary cancels.
-    - *a1. ClubHub asks to confirm cancellation.
-    - *a2. Secretary confirms.
     - Use case ends.
 
 ---
