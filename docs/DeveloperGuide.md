@@ -389,7 +389,6 @@ How the attendance feature works:
 10. The updated address book is saved to storage.
 
 Other attendance related features (`markattendance`, `unmarkattendance`, `removeAttendees`) work in a similar way and are also undoable.
---------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
