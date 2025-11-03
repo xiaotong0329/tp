@@ -135,7 +135,7 @@ The `Model` component,
 
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in `ClubHub`, which `Person` references. This allows `ClubHub` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
@@ -388,7 +388,7 @@ How the attendance feature works:
 9. A success message is built showing which members were added and which were duplicates.
 10. The updated address book is saved to storage.
 
-*Other attendance related features (`markattendance`, `unmarkattendance`, `removeAttendees`) work in a similar way and are also undoable.*
+Other attendance related features (`markattendance`, `unmarkattendance`, `removeAttendees`) work in a similar way and are also undoable.
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
