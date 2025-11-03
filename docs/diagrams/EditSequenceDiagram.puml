@@ -105,11 +105,12 @@ else
         CommandResult --> EditCommand
         deactivate CommandResult
 
+        deactivate EditCommand
         EditCommand --> LogicManager : r
     end
 end
 
-deactivate EditCommand
+
 
 LogicManager -> Storage : saveAddressBook(model.getAddressBook())
 activate Storage
