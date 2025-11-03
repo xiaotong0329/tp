@@ -16,7 +16,7 @@ public class BudgetSetCommand extends Command {
     public static final String COMMAND_WORD = "budgetset";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Set global budget. "
             + "Format: " + COMMAND_WORD + " a/AMOUNT from/YYYY-MM-DD to/YYYY-MM-DD\n"
-            + "Example: " + COMMAND_WORD + " a/3000 from/2025-1-1 to/2025-12-31";
+            + "Example: " + COMMAND_WORD + " a/3000 from/2025-01-01 to/2025-12-31";
     public static final String MESSAGE_SUCCESS = "Budget set: %1$s$ from %2$s to %3$s";
 
     private final Money amount;

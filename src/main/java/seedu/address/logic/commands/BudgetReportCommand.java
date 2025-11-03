@@ -19,11 +19,11 @@ public class BudgetReportCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         Budget budget = model.getBudget().orElse(null);
         if (budget == null) {
-            return new CommandResult("No budget set. Use budgetset to set one.");
+            return new CommandResult("No budget set. Use budget set to set one.");
         }
         List<Event> events = model.getEventsWithin(budget.getStartDate(), budget.getEndDate());
         Money spent = model.computeTotalExpensesWithin(budget.getStartDate(), budget.getEndDate());
-        Money remaining = budget.remaining(spent);
+        String remaining = budget.remaining(spent);
 
         StringBuilder sb = new StringBuilder();
         sb.append("Budget Report\n\n");
@@ -33,7 +33,7 @@ public class BudgetReportCommand extends Command {
             sb.append(e.getDescription()).append(": ").append(e.getExpense().toString()).append("$\n");
         }
         sb.append("\nTotal spent: ").append(spent.toString()).append("$\n");
-        sb.append("Budget remaining: ").append(remaining.toString()).append("$");
+        sb.append("Budget remaining: ").append(remaining).append("$");
         return new CommandResult(sb.toString());
     }
 }

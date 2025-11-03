@@ -362,22 +362,27 @@ Formats:
 
 ### Budget tracker : `budget`, `setexpense`
 
-Tracks a global budget in SGD with an inclusive date range, and per-event expenses.
+The Budget Tracker helps you manage club finances by setting a global budget for a specific date range and tracking expenses for individual events. This feature allows you to monitor spending against your allocated budget and see at a glance how much you've spent and how much remains.
 
 Formats:
-* `budgetset a/AMOUNT from/YYYY-MM-DD to/YYYY-MM-DD`
-* `budgetreset`
-* `budgetreport`
-* `setexpense INDEX a/AMOUNT`
+* `budget set a/AMOUNT from/YYYY-MM-DD to/YYYY-MM-DD` - Sets a global budget
+* `budget reset` - Clears the current budget
+* `budget report` - Displays the budget report
+* `setexpense INDEX a/AMOUNT` - Sets the expense for an event (INDEX refers to the event's position in the event list)
 
-**Expense display:** When you set an expense for an event using `setexpense`, the expense amount will appear beside the event title in the event list panel. This allows you to quickly see the cost of each event at a glance. The expense is displayed in the format `$AMOUNT` (e.g., `$150.00`).
+**Expense display:** When you add a new event, it initially shows $0.00 in the event list panel. This indicates that no expense has been set yet for that event. After you set an expense using `setexpense`, the expense amount will appear beside the event title in the event list panel. This allows you to quickly see the cost of each event at a glance. The expense is displayed in the format `$AMOUNT` (e.g., `$150.00`).
 
 Examples:
-* `setexpense 1 a/150.00` - Sets the expense for the event at index 1 to $150.00. The expense will be displayed beside the event title in the UI.
+* `budget set a/3000.00 from/2025-01-01 to/2025-12-31` - Sets a budget of $3000.00 for the year 2025
+* `budget reset` - Clears the current budget
+* `budget report` - Shows the budget report with total budget, expenses, and remaining amount
+* `setexpense 1 a/150.00` - Sets the expense for the event at index 1 (first event in the list) to $150.00. The expense will be displayed beside the event title in the UI.
 
 Notes:
 * Currency is SGD with two decimals; negative amounts are not allowed.
 * The report lists only events whose date is within the budget duration (inclusive).
+* The `INDEX` in `setexpense` refers to the event's position in the displayed event list (starting from 1).
+* The remaining budget can be negative if total expenses exceed the budget amount, indicating overspending.
 * The report format is:
 
 ```
@@ -390,6 +395,7 @@ EventA: 10.00$
 EventB: 25.50$
 EventC: 0.00$
 
+Total spent: 35.50$
 Budget remaining: 87.95$
 ```
 
