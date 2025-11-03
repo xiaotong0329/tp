@@ -12,6 +12,9 @@ import seedu.address.logic.commands.AddAttendanceCommand;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.AddTaskCommand;
+import seedu.address.logic.commands.BudgetReportCommand;
+import seedu.address.logic.commands.BudgetResetCommand;
+import seedu.address.logic.commands.BudgetSetCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
@@ -97,8 +100,14 @@ public class AddressBookParser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
-        case "budget":
-            return new BudgetCommandParser().parse(arguments);
+        case BudgetSetCommand.COMMAND_WORD:
+            return new BudgetSetCommandParser().parse(arguments);
+
+        case BudgetResetCommand.COMMAND_WORD:
+            return new BudgetResetCommand();
+
+        case BudgetReportCommand.COMMAND_WORD:
+            return new BudgetReportCommand();
 
         case SetExpenseCommand.COMMAND_WORD:
             return new SetExpenseCommandParser().parse(arguments);
