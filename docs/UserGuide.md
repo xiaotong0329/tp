@@ -120,6 +120,11 @@ Adds a person to the ClubHub.
 
 Format: `add n/NAME y/YEAR s/STUDENT_NUMBER e/EMAIL p/PHONE d/DIETARY_REQUIREMENTS r/ROLE [t/TAG]…​`
 
+<box type="info" seamless>
+
+**Note:** The NAME field should only contain alphanumeric characters and spaces. Special characters (such as `/`, `-`, `'`) are not allowed in names.
+</box>
+
 <box type="tip" seamless>
 
 **Tip:** A person can have any number of tags (including 0)
