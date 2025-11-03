@@ -94,7 +94,16 @@ ClubHub addresses these needs by providing a fast, offline-capable solution that
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
-
+### Input validation at a glance
+ClubHub validates your inputs before any change is applied. If a value fails validation, the command stops, and you will see a descriptive error message. Common checks include:
+- **Dates** must be in `YYYY-MM-DD`, e.g. `2024-12-01`.
+- **Student numbers** follow the NUS pattern `A1234567X` (one letter, seven digits, one letter).
+- **Event descriptions** must be non-empty.
+- **Event IDs** must be non-empty and unique.
+- **Names** cannot be blank; emails and phone numbers must follow their documented formats.
+- **Budget/expense amounts** must be positive numbers with up to two decimal places (e.g. `123.45`). However, the remaining budget can be negative if expenses exceed the budget.
+- **CSV imports** must include the compulsory columns; malformed rows are rejected with warnings.
+Tip: Most commands mention the exact field that failed validation so you can correct it quickly if you used the command wrongly.
 
 ### Viewing help : `help`
 
