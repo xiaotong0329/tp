@@ -644,9 +644,6 @@ For all use cases below, the **System** is `ClubHub` and the **Actor** is the **
 - 2a. Event not found.
     - 2a1. ClubHub displays an error message.
     - Use case ends.
-- *a. Secretary cancels at confirmation.
-    - *a1. ClubHub cancels deletion.
-    - Use case ends.
 
 ---
 
